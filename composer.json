@@ -22,7 +22,6 @@
     "yiisoft/yii2": "~2.0.13",
     "floor12/yii2-editmodal": "dev-master",
     "floor12/yii2-opengraph": "dev-master",
-    "floor12/yii2-yii2-module-files": "dev-master",
     "bower-asset/summernote": "@dev"
   },
   "require-dev": {
