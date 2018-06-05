@@ -6,7 +6,7 @@ use yii\web\AssetBundle;
 
 class PagesAsset extends AssetBundle
 {
-    public $sourcePath = '@common/modules/pages/assets';
+    public $sourcePath = '@vendor/floor12/yii2-module-pages/src/assets';
 
     public $css = [
 

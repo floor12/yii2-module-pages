@@ -36,7 +36,7 @@
   },
   "autoload-dev": {
     "psr-4": {
-      "floor12\\files\\tests\\": "tests/"
+      "floor12\\pages\\tests\\": "tests/"
     }
   },
   "repositories": [
