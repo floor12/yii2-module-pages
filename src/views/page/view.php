@@ -9,14 +9,15 @@
  * @var $model \common\models\Page
  */
 
-use yii\widgets\Pjax;
-use \Yii;
+use yii\widgets\Pjax; 
+use Yii;
 use yii\helpers\Html;
 use common\components\FontAwesome;
 use floor12\editmodal\ModalWindow;
+use \floor12\editmodal\EditModalHelper;
 
 if (Yii::$app->getModule('pages')->adminMode()):
-    echo Html::a(FontAwesome::icon('pencil'), null, ['class' => 'btn btn-default btn-xs pull-right', 'onclick' => ModalWindow::showForm(['page/form'], $model->id)]);
+    echo Html::a(FontAwesome::icon('pencil'), null, ['class' => 'btn btn-default btn-xs pull-right', 'onclick' => EditModalHelper::showForm(['page/form'], $model->id)]);
 endif;
 
 ?>

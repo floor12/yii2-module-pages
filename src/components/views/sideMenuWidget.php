@@ -13,6 +13,7 @@
 use yii\helpers\Html;
 use common\components\FontAwesome;
 use floor12\editmodal\ModalWindow;
+use floor12\editmodal\EditModalHelper;
 
 ?>
 
@@ -29,11 +30,11 @@ use floor12\editmodal\ModalWindow;
                 </button>
                 <ul class="dropdown-menu">
                     <li>
-                        <?= Html::a(FontAwesome::icon('pencil'), null, ['onclick' => ModalWindow::showForm(['/pages/page/form'], $model->id), 'title' => 'Редактировать']) ?>
+                        <?= Html::a(FontAwesome::icon('pencil'), null, ['onclick' => EditModalHelper::showForm(['/pages/page/form'], $model->id), 'title' => 'Редактировать']) ?>
                         <?= Html::a(FontAwesome::icon('chevron-up'), null, ['onclick' => "pageMove({$model->id},0,'#menuControl')", 'title' => 'Поднять']) ?>
                         <?= Html::a(FontAwesome::icon('chevron-down'), null, ['onclick' => "pageMove({$model->id},1,'#menuControl')", 'title' => 'Опустить']) ?>
-                        <?= Html::a(FontAwesome::icon('plus'), null, ['onclick' => ModalWindow::showForm(['page/form'], ['id' => 0, 'parent_id' => $model->id]), 'title' => 'Создать подраздел']) ?>
-                        <?= Html::a(FontAwesome::icon('trash'), null, ['onclick' => ModalWindow::deleteItem('/pages/page/delete', $model->id, '#menuControl'), 'title' => 'Удалить']) ?>
+                        <?= Html::a(FontAwesome::icon('plus'), null, ['onclick' => EditModalHelper::showForm(['page/form'], ['id' => 0, 'parent_id' => $model->id]), 'title' => 'Создать подраздел']) ?>
+                        <?= Html::a(FontAwesome::icon('trash'), null, ['onclick' => EditModalHelper::deleteItem('/pages/page/delete', $model->id, '#menuControl'), 'title' => 'Удалить']) ?>
                     </li>
 
                 </ul>

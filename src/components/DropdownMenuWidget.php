@@ -9,6 +9,7 @@
 namespace floor12\pages\components;
 
 
+use floor12\editmodal\EditModalHelper;
 use yii\base\Widget;
 use floor12\pages\Page;
 use common\components\FontAwesome;
@@ -51,7 +52,7 @@ class DropdownMenuWidget extends Widget
             }
 
         if ($this->adminMode)
-            $nodes[] = "<li class='new-page'>" . Html::a(FontAwesome::icon('plus'), null, ['onclick' => ModalWindow::showForm(['/pages/page/form'], ['id' => 0, 'parent_id' => $this->parent_id])]) . "</li>";
+            $nodes[] = "<li class='new-page'>" . Html::a(FontAwesome::icon('plus'), null, ['onclick' => EditModalHelper::showForm(['/pages/page/form'], ['id' => 0, 'parent_id' => $this->parent_id])]) . "</li>";
 
         Pjax::begin(['id' => 'dropdownMenuControl']);
         echo Html::tag('ul', implode("\n", $nodes), ['class' => 'dropDownMenu dropDownMenu-control']);

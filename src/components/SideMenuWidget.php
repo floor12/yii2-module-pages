@@ -8,6 +8,7 @@
 
 namespace floor12\pages\components;
 
+use floor12\editmodal\EditModalHelper;
 use common\components\FontAwesome;
 use floor12\pages\Page;
 use floor12\editmodal\ModalWindow;
@@ -81,7 +82,7 @@ class SideMenuWidget extends Widget
             }
 
         if ($this->adminMode)
-            $nodes[] = Html::a(FontAwesome::icon('plus') . 'добавить раздел', null, ['onclick' => ModalWindow::showForm(['page/form'], ['id' => 0, 'parent_id' => $this->model->parent_id]), 'class' => 'btn btn-default btn-xs page-new']);
+            $nodes[] = Html::a(FontAwesome::icon('plus') . 'добавить раздел', null, ['onclick' => EditModalHelper::showForm(['page/form'], ['id' => 0, 'parent_id' => $this->model->parent_id]), 'class' => 'btn btn-default btn-xs page-new']);
 
         Pjax::begin(['id' => 'menuControl']);
         if ($this->_parent)
