@@ -20,9 +20,9 @@
   ],
   "require": {
     "yiisoft/yii2": "~2.0.13",
-    "floor12/yii2-editmodal": "dev-master",
-    "floor12/yii2-opengraph": "dev-master",
-    "bower-asset/summernote": "@dev"
+    "floor12/yii2-editmodal": "~0.1.0",
+    "floor12/yii2-opengraph": "~0.1.0",
+    "bower-asset/summernote": "~0.8.10"
   },
   "require-dev": {
     "phpunit/phpunit": "4.*"
