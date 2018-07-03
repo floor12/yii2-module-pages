@@ -9,11 +9,19 @@
 namespace floor12\pages\components;
 
 use yii\base\Widget;
+use \Yii;
 
 class Breadcrumbs extends Widget
 {
-    public $indexPage = 'Жемчужная река';
+    public $indexPage;
     public $items;
+
+    public function init()
+    {
+        if (!$this->indexPage)
+            $this->indexPage = Yii::$app->name;
+        parent::init();
+    }
 
     public function run()
     {
