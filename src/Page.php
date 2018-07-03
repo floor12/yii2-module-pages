@@ -3,7 +3,7 @@
 namespace floor12\pages;
 
 use yii\db\ActiveRecord;
-use common\models\User;
+use \Yii;
 
 /**
  * This is the model class for table "page".
@@ -69,8 +69,8 @@ class Page extends ActiveRecord
             [['content'], 'string'],
             [['title', 'title_seo', 'title_menu', 'path', 'view_action', 'view_controller', 'index_action', 'index_controller'], 'string', 'max' => 255],
             [['description_seo', 'keywords_seo', 'key'], 'string', 'max' => 400],
-            [['create_user_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['create_user_id' => 'id']],
-            [['update_user_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['update_user_id' => 'id']],
+            [['create_user_id'], 'exist', 'skipOnError' => true, 'targetClass' => Yii::$app->getModule('pages')->userModel, 'targetAttribute' => ['create_user_id' => 'id']],
+            [['update_user_id'], 'exist', 'skipOnError' => true, 'targetClass' => Yii::$app->getModule('pages')->userModel, 'targetAttribute' => ['update_user_id' => 'id']],
             ['key', 'match', 'pattern' => '/^[-a-z0-9]*$/', 'message' => 'Ключ URL может состоять только из латинских букв в нижнем регистре, цифр и дефиса.'],
         ];
     }
@@ -159,7 +159,7 @@ class Page extends ActiveRecord
 
     /**
      * @inheritdoc
-     * @return \common\models\query\PageQuery the active query used by this AR class.
+     * @return PageQuery the active query used by this AR class.
      */
     public static function find()
     {

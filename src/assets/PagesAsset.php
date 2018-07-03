@@ -2,6 +2,7 @@
 
 namespace floor12\pages\assets;
 
+use floor12\editmodal\EditModalAsset;
 use yii\web\AssetBundle;
 
 class PagesAsset extends AssetBundle
@@ -17,7 +18,8 @@ class PagesAsset extends AssetBundle
         'js/summernote.conf.js',
     ];
     public $depends = [
-
+        'rmrevin\yii\fontawesome\AssetBundle',
+        'floor12\editmodal\EditModalAsset'
     ];
 }
 

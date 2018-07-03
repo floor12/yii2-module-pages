@@ -12,7 +12,7 @@ namespace floor12\pages\components;
 use floor12\editmodal\EditModalHelper;
 use yii\base\Widget;
 use floor12\pages\Page;
-use common\components\FontAwesome;
+use rmrevin\yii\fontawesome\FontAwesome;
 use yii\helpers\Html;
 use yii\widgets\Pjax;
 use floor12\editmodal\ModalWindow;

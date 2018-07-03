@@ -23,7 +23,14 @@ use yii\web\NotFoundHttpException;
 class PageController extends \yii\web\Controller
 {
 
-    public $layout = '@frontend/views/layouts/columns';
+    /**
+     * @inheritdoc
+     */
+    public function init()
+    {
+        $this->layout = Yii::$app->getModule('pages')->layout;
+        parent::init();
+    }
 
     /**
      * @inheritdoc

@@ -6,13 +6,13 @@
  * Time: 14:11
  *
  * @var $this \yii\web\View
- * @var $model \common\models\Page
+ * @var $model \floor12\pages\Page
  */
 
 use yii\widgets\Pjax; 
 use Yii;
 use yii\helpers\Html;
-use common\components\FontAwesome;
+use rmrevin\yii\fontawesome\FontAwesome;
 use floor12\editmodal\ModalWindow;
 use \floor12\editmodal\EditModalHelper;
 

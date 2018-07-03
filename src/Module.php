@@ -10,6 +10,10 @@ class Module extends \yii\base\Module
 {
 
     public $currentPageId = 0;
+
+    public $layout = '@app/views/layouts/main';
+
+    public $userModel = 'app\models\User';
     /**
      * @inheritdoc
      */

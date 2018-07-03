@@ -5,7 +5,7 @@
  * Date: 24.10.2016
  * Time: 20:22
  *
- * @var \common\models\Page $model
+ * @var \floor12\pages\Page $model
  *
  */
 
@@ -13,7 +13,6 @@ use yii\widgets\ActiveForm;
 use yii\helpers\Html;
 use floor12\pages\Page;
 use floor12\pages\components\Summernote;
-
 
 $form = ActiveForm::begin([
     'id' => 'news-form',

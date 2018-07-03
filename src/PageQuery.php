@@ -5,9 +5,9 @@ namespace floor12\pages;
 use yii\db\ActiveQuery;
 
 /**
- * This is the ActiveQuery class for [[\common\models\Page]].
+ * This is the ActiveQuery class for Page.
  *
- * @see \common\models\Page
+ * @see Page
  */
 class PageQuery extends ActiveQuery
 {
@@ -18,7 +18,7 @@ class PageQuery extends ActiveQuery
 
     /**
      * @inheritdoc
-     * @return \common\models\Page[]|array
+     * @return Page[]|array
      */
     public function all($db = null)
     {
@@ -27,7 +27,7 @@ class PageQuery extends ActiveQuery
 
     /**
      * @inheritdoc
-     * @return \common\models\Page|array|null
+     * @return Page|array|null
      */
     public function one($db = null)
     {

@@ -25,12 +25,12 @@ $ composer require floor12/yii2-module-pages
 ```
 
 
-#### Выполняем миграцию для созданию необходимых таблиц
+###Выполняем миграцию для созданию необходимых таблиц
 ```bash
-$ ./yii migrate --migrationPath=@vendor/floor12/yii2-module-banner/src/
+$ ./yii migrate --migrationPath=@vendor/floor12/yii2-module-pages/src/migrations
 ```
 
-#### Добавляем модуль в конфиг приложения
+###Добавляем модуль в конфиг приложения
 ```php  
 'modules' => [
         'pages' => [
@@ -44,6 +44,28 @@ $ ./yii migrate --migrationPath=@vendor/floor12/yii2-module-banner/src/
 Параметры:
 
 1. `editRole` - роль пользователей, которым доступно управление. Можно использовать "@".
+
+### Активируем компонент OpenGraph
+
+```
+   'components' => [
+        'opengraph' => [
+            'class' => 'floor12\opengraph\OpenGraph',
+        ],
+```
+
+###Добавляем блок для роутинга
+
+```
+'urlManager' => [
+            'enablePrettyUrl' => true,
+            'showScriptName' => false,
+            'rules' => [
+                '/<path:[\w_\/-]+>.html' => '/pages/page/view',
+                '/sitemap.xml' => '/site/sitemap',
+            ],
+        ],
+```
 
 Использование
 -----
