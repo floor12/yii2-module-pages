@@ -61,11 +61,16 @@ $ ./yii migrate --migrationPath=@vendor/floor12/yii2-module-pages/src/migrations
             'enablePrettyUrl' => true,
             'showScriptName' => false,
             'rules' => [
-                '/<path:[\w_\/-]+>.html' => '/pages/page/view',
+                '/<controller>/<action>' => '/<controller>/<action>',
+                '/<module>/<controller>/<action>' => '<module>/<controller>/<action>',
                 '/sitemap.xml' => '/site/sitemap',
+                '/<path:[\w_\/-]+>' => '/pages/page/view',
             ],
         ],
 ```
+
+Смысл в том, что стандартные роуты тоже необходимо внести в конфиг, иначе они перестанут работать, 
+так как все будет перенаправляться на `/pages/page/view`, а этого нам не надо.
 
 Использование
 -----
