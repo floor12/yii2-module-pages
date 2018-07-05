@@ -129,26 +129,12 @@ class PageController extends \yii\web\Controller
         $this->getView()->params['breadcrumbs'] = Yii::createObject(PageBreadcrumbs::class, [$page])->makeBreadcrumbsItems();
         $this->getView()->params['currentPage'] = $page;
 
-        Yii::$app->view->title = $page->title_seo;
 
-        Yii::$app->view->registerMetaTag([
-            'name' => 'description',
-            'content' => $page->description_seo
-        ]);
-
-        Yii::$app->view->registerMetaTag([
-            'name' => 'keywords',
-            'content' => $page->keywords_seo
-        ]);
-
-        Yii::$app->opengraph->title = $page->title;
-        Yii::$app->opengraph->type = 'article';
-        Yii::$app->opengraph->description = $page->description_seo;
-        Yii::$app->opengraph->twitter->card = "summary";
-        Yii::$app->opengraph->twitter->site = Yii::$app->opengraph->site_name;
-        Yii::$app->opengraph->twitter->title = Yii::$app->opengraph->title;
-        Yii::$app->opengraph->twitter->domain = "https://prtc.travel";
-        Yii::$app->opengraph->twitter->description = Yii::$app->opengraph->description;
+        Yii::$app->metamaster
+            ->setTitle($page->title_seo)
+            ->setDescription($page->description_seo)
+            ->setKeywords($page->keywords_seo)
+            ->register(Yii::$app->getView());
 
         if ($page->index_controller && $page->index_action) {
             $name = strtolower(str_replace('Controller', '', (new \ReflectionClass($page->index_controller))->getShortName()));

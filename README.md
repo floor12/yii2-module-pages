@@ -45,14 +45,18 @@ $ ./yii migrate --migrationPath=@vendor/floor12/yii2-module-pages/src/migrations
 
 1. `editRole` - роль пользователей, которым доступно управление. Можно использовать "@".
 
-### Активируем компонент OpenGraph
+### Активируем компонент MetaMaster
 
 ```
    'components' => [
-        'opengraph' => [
-            'class' => 'floor12\opengraph\OpenGraph',
+        'metamaster' => [
+            'class' => 'floor12\metamaster\MetaMaster',
+            'siteName' => 'Your site name',
+            'defaultImage' => '/design/export_logo.png',
         ],
 ```
+`defaultImage` - путь к дефолтной картинке для Open Graph мета-тегов.
+`siteName` - название сайта для Open Graph мета-тегов.
 
 ###Добавляем блок для роутинга
 
