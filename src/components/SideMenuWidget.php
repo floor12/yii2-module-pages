@@ -8,10 +8,9 @@
 
 namespace floor12\pages\components;
 
+use common\components\FontAwesome;
 use floor12\editmodal\EditModalHelper;
-use rmrevin\yii\fontawesome\FontAwesome;
 use floor12\pages\Page;
-use floor12\editmodal\ModalWindow;
 use Yii;
 use yii\base\Widget;
 use yii\helpers\Html;
@@ -31,7 +30,6 @@ class SideMenuWidget extends Widget
 
     private $_pages = [];
     private $_parent = null;
-    private $_show_subs = false;
 
     public function init()
     {
@@ -43,7 +41,7 @@ class SideMenuWidget extends Widget
                 ->where(['parent_id' => $this->model->id])
                 ->orderBy('norder')
                 ->all();
-        } elseif ($this->model->parent && $this->model->parent->parent && !$this->model->parent->parent->parent_id && $this->_show_subs = true) {
+        } elseif ($this->model->parent && $this->model->parent->parent && !$this->model->parent->parent->parent_id) {
             $this->_parent = Page::findOne($this->model->parent->parent_id);
             $this->_pages = Page::find()
                 ->where(['parent_id' => $this->model->parent->parent_id])
@@ -70,7 +68,7 @@ class SideMenuWidget extends Widget
 
                 $nodes[] = $this->render('sideMenuWidget', ['model' => $page, 'adminMode' => $this->adminMode]);
 
-                if ($this->_show_subs && $page->child && in_array($this->model->id, $page->child_ids)) {
+                if ($page->child && (in_array($this->model->id, $page->child_ids) || $page->active)) {
                     $subs = [];
                     foreach ($page->child as $sub) {
                         if (($sub->id == $this->model->id))
