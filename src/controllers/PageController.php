@@ -9,14 +9,14 @@
 
 namespace floor12\pages\controllers;
 
+use floor12\pages\components\Summernote;
+use floor12\pages\logic\PageBreadcrumbs;
 use floor12\pages\logic\PageOrderChanger;
 use floor12\pages\logic\PageUpdate;
-use floor12\pages\components\Summernote;
 use floor12\pages\Page;
-use \Yii;
+use Yii;
 use yii\filters\AccessControl;
 use yii\filters\VerbFilter;
-use floor12\pages\logic\PageBreadcrumbs;
 use yii\web\NotFoundHttpException;
 
 
@@ -143,7 +143,7 @@ class PageController extends \yii\web\Controller
         }
 
 
-        return $this->render('view', ['model' => $page]);
+        return $this->render(Yii::$app->getModule('pages')->view, ['model' => $page]);
     }
 
 
