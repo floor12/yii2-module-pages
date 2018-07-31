@@ -15,7 +15,7 @@ use floor12\pages\Page;
 use floor12\pages\components\Summernote;
 
 $form = ActiveForm::begin([
-    'id' => 'news-form',
+    'id' => 'page-form',
     'options' => ['class' => 'modaledit-form'],
     'enableClientValidation' => true
 ]);
