@@ -23,6 +23,17 @@ use yii\helpers\Html;
             <?php foreach ($model->child as $child) if ($child->menu) { ?>
                 <li class="<?= $currentPage && $child->id == $currentPage->id ? "active" : NULL ?>">
                     <a href="<?= $child->url ?>" data-pjax="0"><?= $child->title_menu ?></a>
+
+                    <?php if ($child->child): ?>
+                        <ul class="dropDownSubMenu">
+                            <?php foreach ($child->child as $subchild) if ($subchild->menu) { ?>
+                                <li class="<?= $currentPage && $subchild->id == $currentPage->id ? "active" : NULL ?>">
+                                    <a href="<?= $subchild->url ?>" data-pjax="0"><?= $subchild->title_menu ?></a>
+                                </li>
+                            <?php } ?>
+                        </ul>
+                    <?php endif; ?>
+
                 </li>
             <?php } ?>
         </ul>
