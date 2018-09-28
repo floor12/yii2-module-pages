@@ -8,7 +8,7 @@
 
 namespace floor12\pages\components;
 
-use common\components\FontAwesome;
+use rmrevin\yii\fontawesome\FontAwesome;
 use floor12\editmodal\EditModalHelper;
 use floor12\pages\Page;
 use Yii;

@@ -11,7 +11,7 @@
  */
 
 use yii\helpers\Html;
-use common\components\FontAwesome;
+use rmrevin\yii\fontawesome\FontAwesome;
 use floor12\editmodal\ModalWindow;
 use floor12\editmodal\EditModalHelper;
 
