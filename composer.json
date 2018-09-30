@@ -23,7 +23,7 @@
     "floor12/yii2-editmodal": "~1.0.0",
     "floor12/yii2-metamaster": "~1.0.0",
     "bower-asset/summernote": "~0.8.10",
-    "rmrevin/yii2-fontawesome": "~3.2"
+    "rmrevin/yii2-fontawesome": "~2.15"
   },
   "require-dev": {
     "phpunit/phpunit": "4.*"
