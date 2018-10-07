@@ -57,7 +57,7 @@ class MobileMenuWidget extends Widget
 //        if ($this->adminMode)
 //            $nodes[] = "<li class='new-page'>" . Html::a(FontAwesome::icon('plus'), null, ['onclick' => ModalWindow::showForm(['page/form'], ['id' => 0, 'parent_id' => $this->parent_id])]) . "</li>";
 
-        Pjax::begin(['id' => 'dropdownMenuControl']);
+        Pjax::begin(['id' => 'mobileMenuControl']);
         echo Html::tag('ul', implode("\n", $nodes), ['class' => 'mobileMenu']);
         Pjax::end();
     }

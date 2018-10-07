@@ -16,7 +16,7 @@ use yii\helpers\Html;
 
 
 <li class="<?php if ($model->active) echo "active"; ?>">
-    <?= Html::a($model->title_menu, $model->url) ?>
+    <?= Html::a($model->title_menu, $model->url, ['data-pjax' => '0']) ?>
 
     <?php if ($model->child): ?>
         <ul class="dropDownSubMenu">
