@@ -139,7 +139,20 @@ class PageController extends \yii\web\Controller
         if ($page->index_controller && $page->index_action) {
             $name = strtolower(str_replace('Controller', '', (new \ReflectionClass($page->index_controller))->getShortName()));
             $controller = new $page->index_controller($name, Yii::$app);
-            return $controller->{$page->index_action}($page);
+
+            if (substr($page->index_action, 0, 6) == 'action')
+                $page->index_action = substr($page->index_action, 6);
+
+
+            $indexParams = [];
+            if ($page->index_params) {
+                foreach (explode(';', $page->index_params) as $paramRow) {
+                    $explodedRow = explode('=', $paramRow);
+                    $indexParams[$explodedRow[0]] = $explodedRow[1];
+                };
+            }
+
+            return $controller->runAction(strtolower($page->index_action), array_merge(['page' => $page], $indexParams));
         }
 
 

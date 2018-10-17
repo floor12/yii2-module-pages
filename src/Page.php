@@ -2,8 +2,8 @@
 
 namespace floor12\pages;
 
+use Yii;
 use yii\db\ActiveRecord;
-use \Yii;
 
 /**
  * This is the model class for table "page".
@@ -29,6 +29,7 @@ use \Yii;
  * @property boolean $active Активна ли данная страницы
  * @property string $index_controller Контроллер индекса
  * @property string $index_action Экшн индекса
+ * @property string $index_params Параметры экшена индекса
  * @property string $view_controller Контроллер просмотра объекта
  * @property string $view_action Экшн для просмотра объекта
  *
@@ -67,7 +68,7 @@ class Page extends ActiveRecord
             [['status', 'created', 'updated', 'create_user_id', 'update_user_id', 'parent_id', 'norder', 'menu'], 'integer'],
             [['created', 'updated', 'title_seo', 'key', 'title_menu'], 'required'],
             [['content'], 'string'],
-            [['title', 'title_seo', 'title_menu', 'path', 'view_action', 'view_controller', 'index_action', 'index_controller'], 'string', 'max' => 255],
+            [['title', 'title_seo', 'title_menu', 'path', 'index_params', 'view_action', 'view_controller', 'index_action', 'index_controller'], 'string', 'max' => 255],
             [['description_seo', 'keywords_seo', 'key'], 'string', 'max' => 400],
             [['create_user_id'], 'exist', 'skipOnError' => true, 'targetClass' => Yii::$app->getModule('pages')->userModel, 'targetAttribute' => ['create_user_id' => 'id']],
             [['update_user_id'], 'exist', 'skipOnError' => true, 'targetClass' => Yii::$app->getModule('pages')->userModel, 'targetAttribute' => ['update_user_id' => 'id']],
@@ -101,6 +102,7 @@ class Page extends ActiveRecord
             'view_action' => 'View Action',
             'view_controller' => 'View Controller',
             'index_action' => 'Index Action',
+            'index_params' => 'Index Params',
             'index_controller' => 'Index Controller'
         ];
     }

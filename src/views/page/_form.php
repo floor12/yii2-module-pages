@@ -62,15 +62,18 @@ if (Yii::$app->request->get('parent_id'))
 
 
     <div class="row">
-        <div class="col-md-7">
+        <div class="col-md-6">
             <?= $form->field($model, 'index_controller')->textInput() ?>
         </div>
         <div class="col-md-3">
             <?= $form->field($model, 'index_action')->textInput() ?>
         </div>
+        <div class="col-md-3">
+            <?= $form->field($model, 'index_params')->textInput() ?>
+        </div>
     </div>
     <div class="row">
-        <div class="col-md-7">
+        <div class="col-md-6">
             <?= $form->field($model, 'view_controller')->textInput() ?>
         </div>
         <div class="col-md-3">
