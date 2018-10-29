@@ -9,14 +9,12 @@
 namespace floor12\pages\components;
 
 
-use yii\base\Widget;
+use floor12\pages\assets\PagesAsset;
 use floor12\pages\Page;
-use rmrevin\yii\fontawesome\FontAwesome;
+use Yii;
+use yii\base\Widget;
 use yii\helpers\Html;
 use yii\widgets\Pjax;
-use floor12\editmodal\ModalWindow;
-use floor12\pages\assets\PagesAsset;
-use \Yii;
 
 class MobileMenuWidget extends Widget
 {
@@ -36,6 +34,8 @@ class MobileMenuWidget extends Widget
         $this->_pages = Page::find()
             ->where(['parent_id' => $this->parent_id, 'menu' => Page::SHOW_IN_MENU])
             ->orderBy('norder')
+            ->with('child')
+            ->with('child.child')
             ->all();
         parent::init();
     }
