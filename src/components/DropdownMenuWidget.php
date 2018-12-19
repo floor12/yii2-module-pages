@@ -20,7 +20,7 @@ use yii\widgets\Pjax;
 
 class DropdownMenuWidget extends Widget
 {
-    public $parent_id;
+    public $parent_id = 0;
     public $adminMode = false;
 
     private $_pages = [];
