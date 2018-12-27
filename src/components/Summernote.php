@@ -17,8 +17,9 @@ use yii\web\UploadedFile;
 use yii\widgets\InputWidget;
 use floor12\pages\assets\SummernoteAsset;
 use yii\validators\FileValidator;
+use marqu3s\summernote\CodemirrorAsset;
 
-class Summernote extends InputWidget
+class Summernote extends \marqu3s\summernote\Summernote
 {
     const IMAGE_FOLDER = '/summerfiles/';
 
@@ -113,10 +114,23 @@ class Summernote extends InputWidget
 
     }
 
-    protected function registerAssets()
+    private function registerAssets()
     {
         $view = $this->getView();
+
+        if (ArrayHelper::getValue($this->clientOptions, 'codemirror')) {
+            CodemirrorAsset::register($view);
+        }
+
         SummernoteAsset::register($view);
+
+        if ($this->uploadToS3) {
+            SummernoteS3Asset::register($view);
+        }
+
+        if ($language = ArrayHelper::getValue($this->clientOptions, 'lang', null)) {
+            SummernoteLanguageAsset::register($view)->language = $language;
+        }
     }
 
     private function getExtendsParams($param)
