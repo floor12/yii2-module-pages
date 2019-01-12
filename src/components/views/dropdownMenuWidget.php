@@ -10,10 +10,9 @@
  *
  */
 
-use yii\helpers\Html;
-use rmrevin\yii\fontawesome\FontAwesome;
-use floor12\editmodal\ModalWindow;
 use floor12\editmodal\EditModalHelper;
+use rmrevin\yii\fontawesome\FontAwesome;
+use yii\helpers\Html;
 
 ?>
 
@@ -32,11 +31,11 @@ use floor12\editmodal\EditModalHelper;
             </button>
             <ul class="dropdown-menu">
                 <li>
-                    <?= Html::a(FontAwesome::icon('pencil'), null, ['onclick' => EditModalHelper::showForm(['/pages/page/form'], $model->id, '#dropdownMenuControl'), 'title' => 'Редактировать']) ?>
+                    <?= Html::a(FontAwesome::icon('pencil'), null, ['onclick' => EditModalHelper::showForm(['/pages/page/form'], $model->id), 'title' => 'Редактировать']) ?>
                     <?= Html::a(FontAwesome::icon('chevron-up'), null, ['onclick' => "pageMove({$model->id},0,'#dropdownMenuControl')", 'title' => 'Поднять']) ?>
                     <?= Html::a(FontAwesome::icon('chevron-down'), null, ['onclick' => "pageMove({$model->id},1,'#dropdownMenuControl')", 'title' => 'Опустить']) ?>
                     <?= Html::a(FontAwesome::icon('plus'), null, ['onclick' => EditModalHelper::showForm(['page/form'], ['id' => 0, 'parent_id' => $model->id]), 'title' => 'Создать подраздел']) ?>
-                    <?= Html::a(FontAwesome::icon('trash'), null, ['onclick' => EditModalHelper::deleteItem('/pages/page/delete', $model->id, '#dropdownMenuControl'), 'title' => 'Удалить']) ?>
+                    <?= Html::a(FontAwesome::icon('trash'), null, ['onclick' => EditModalHelper::deleteItem('/pages/page/delete', $model->id), 'title' => 'Удалить']) ?>
                 </li>
 
             </ul>
@@ -60,7 +59,7 @@ use floor12\editmodal\EditModalHelper;
                                     <?= Html::a(FontAwesome::icon('chevron-up'), null, ['onclick' => "pageMove({$child->id},0,'#dropdownMenuControl')", 'title' => 'Поднять']) ?>
                                     <?= Html::a(FontAwesome::icon('chevron-down'), null, ['onclick' => "pageMove({$child->id},1,'#dropdownMenuControl')", 'title' => 'Опустить']) ?>
                                     <?= Html::a(FontAwesome::icon('plus'), null, ['onclick' => EditModalHelper::showForm(['page/form'], ['id' => 0, 'parent_id' => $child->id]), 'title' => 'Создать подраздел']) ?>
-                                    <?= Html::a(FontAwesome::icon('trash'), null, ['onclick' => EditModalHelper::deleteItem('/pages/page/delete', $child->id, '#dropdownMenuControl'), 'title' => 'Удалить']) ?>
+                                    <?= Html::a(FontAwesome::icon('trash'), null, ['onclick' => EditModalHelper::deleteItem('/pages/page/delete', $child->id), 'title' => 'Удалить']) ?>
                                 </li>
 
                             </ul>
