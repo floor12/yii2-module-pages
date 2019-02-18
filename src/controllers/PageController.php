@@ -9,7 +9,7 @@
 
 namespace floor12\pages\controllers;
 
-use floor12\pages\components\Summernote;
+use floor12\summernote\Summernote;
 use floor12\pages\logic\PageBreadcrumbs;
 use floor12\pages\logic\PageOrderChanger;
 use floor12\pages\logic\PageUpdate;

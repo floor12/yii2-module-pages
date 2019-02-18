@@ -22,7 +22,7 @@
     "yiisoft/yii2": "~2.0.13",
     "floor12/yii2-editmodal": "dev-master",
     "floor12/yii2-metamaster": "dev-master",
-    "marqu3s/yii2-summernote": "dev-master",
+    "floor12/yii2-summernote": "dev-master",
     "rmrevin/yii2-fontawesome": "~2.15"
   },
   "require-dev": {
@@ -48,6 +48,10 @@
     {
       "type": "git",
       "url": "https://github.com/floor12/yii2-opengraph"
+    },
+    {
+      "type": "git",
+      "url": "https://github.com/floor12/yii2-summernote"
     },
     {
       "type": "git",

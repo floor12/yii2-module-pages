@@ -15,7 +15,6 @@ class PagesAsset extends AssetBundle
 
     public $js = [
         'js/pages.js',
-        'js/summernote.conf.js',
     ];
     public $depends = [
         'rmrevin\yii\fontawesome\AssetBundle',

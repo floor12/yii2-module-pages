@@ -12,7 +12,7 @@
 use yii\widgets\ActiveForm;
 use yii\helpers\Html;
 use floor12\pages\Page;
-use floor12\pages\components\Summernote;
+use floor12\summernote\Summernote;
 
 $form = ActiveForm::begin([
     'id' => 'page-form',
