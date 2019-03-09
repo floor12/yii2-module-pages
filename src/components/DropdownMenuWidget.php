@@ -28,9 +28,10 @@ class DropdownMenuWidget extends Widget
     public function init()
     {
 
-        PagesAsset::register($this->getView());
-
         $this->adminMode = Yii::$app->getModule('pages')->adminMode();
+
+        if ($this->adminMode)
+            PagesAsset::register($this->getView());
 
         $this->_pages = Page::find()
             ->where(['parent_id' => $this->parent_id])
@@ -55,8 +56,12 @@ class DropdownMenuWidget extends Widget
         if ($this->adminMode)
             $nodes[] = "<li class='new-page'>" . Html::a(FontAwesome::icon('plus'), null, ['onclick' => EditModalHelper::showForm(['/pages/page/form'], ['id' => 0, 'parent_id' => $this->parent_id])]) . "</li>";
 
-        Pjax::begin(['id' => 'dropdownMenuControl']);
+        if ($this->adminMode)
+            Pjax::begin(['id' => 'dropdownMenuControl']);
+
         echo Html::tag('ul', implode("\n", $nodes), ['class' => 'dropDownMenu dropDownMenu-control']);
-        Pjax::end();
+
+        if ($this->adminMode)
+            Pjax::end();
     }
 }

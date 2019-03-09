@@ -26,10 +26,10 @@ class MobileMenuWidget extends Widget
 
     public function init()
     {
-
-        PagesAsset::register($this->getView());
-
         $this->adminMode = Yii::$app->getModule('pages')->adminMode();
+
+        if ($this->adminMode)
+            PagesAsset::register($this->getView());
 
         $this->_pages = Page::find()
             ->where(['parent_id' => $this->parent_id, 'menu' => Page::SHOW_IN_MENU])
@@ -57,8 +57,12 @@ class MobileMenuWidget extends Widget
 //        if ($this->adminMode)
 //            $nodes[] = "<li class='new-page'>" . Html::a(FontAwesome::icon('plus'), null, ['onclick' => ModalWindow::showForm(['page/form'], ['id' => 0, 'parent_id' => $this->parent_id])]) . "</li>";
 
-        Pjax::begin(['id' => 'mobileMenuControl']);
+        if ($this->adminMode = Yii::$app->getModule('pages')->adminMode())
+            Pjax::begin(['id' => 'mobileMenuControl']);
+
         echo Html::tag('ul', implode("\n", $nodes), ['class' => 'mobileMenu']);
-        Pjax::end();
+
+        if ($this->adminMode = Yii::$app->getModule('pages')->adminMode())
+            Pjax::end();
     }
 }

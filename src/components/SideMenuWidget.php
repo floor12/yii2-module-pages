@@ -8,9 +8,9 @@
 
 namespace floor12\pages\components;
 
-use rmrevin\yii\fontawesome\FontAwesome;
 use floor12\editmodal\EditModalHelper;
 use floor12\pages\Page;
+use rmrevin\yii\fontawesome\FontAwesome;
 use Yii;
 use yii\base\Widget;
 use yii\helpers\Html;
@@ -82,10 +82,15 @@ class SideMenuWidget extends Widget
         if ($this->adminMode)
             $nodes[] = Html::a(FontAwesome::icon('plus') . 'добавить раздел', null, ['onclick' => EditModalHelper::showForm(['page/form'], ['id' => 0, 'parent_id' => $this->model->parent_id]), 'class' => 'btn btn-default btn-xs page-new']);
 
-        Pjax::begin(['id' => 'menuControl']);
+        if ($this->adminMode = Yii::$app->getModule('pages')->adminMode())
+            Pjax::begin(['id' => 'menuControl']);
+
         if ($this->_parent)
             echo Html::tag('div', $this->_parent->title, ['class' => 'sideMenuTitle']);
+
         echo Html::tag('ul', implode("\n", $nodes), ['class' => 'sideMenu menu-control ']);
-        Pjax::end();
+
+        if ($this->adminMode = Yii::$app->getModule('pages')->adminMode())
+            Pjax::end();
     }
 }
