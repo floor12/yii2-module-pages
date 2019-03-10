@@ -1,6 +1,6 @@
 <?php
 
-namespace floor12\pages;
+namespace floor12\pages\models;
 
 use Yii;
 use yii\db\ActiveRecord;
@@ -37,17 +37,11 @@ use yii\db\ActiveRecord;
  * @property User $updator
  * @property Page $parent
  * @property Page[] $child
+ * @property Page[] $childVisible
  * @property array $child_ids
  */
 class Page extends ActiveRecord
 {
-
-    const STATUS_ACTIVE = 0;
-    const STATUS_DISABLE = 1;
-
-    const SHOW_IN_MENU = 1;
-    const HIDE_IN_MENU = 0;
-
     public $active = false;
 
     /**
@@ -70,6 +64,8 @@ class Page extends ActiveRecord
             [['content'], 'string'],
             [['title', 'title_seo', 'title_menu', 'path', 'index_params', 'view_action', 'view_controller', 'index_action', 'index_controller'], 'string', 'max' => 255],
             [['description_seo', 'keywords_seo', 'key'], 'string', 'max' => 400],
+            ['status', 'in', 'range' => [PageStatus::ACTIVE, PageStatus::DISABLED]],
+            ['menu', 'in', 'range' => [PageMenuVisibility::VISIBLE, PageMenuVisibility::HIDDEN]],
             [['create_user_id'], 'exist', 'skipOnError' => true, 'targetClass' => Yii::$app->getModule('pages')->userModel, 'targetAttribute' => ['create_user_id' => 'id']],
             [['update_user_id'], 'exist', 'skipOnError' => true, 'targetClass' => Yii::$app->getModule('pages')->userModel, 'targetAttribute' => ['update_user_id' => 'id']],
             ['key', 'match', 'pattern' => '/^[-a-z0-9]*$/', 'message' => 'Ключ URL может состоять только из латинских букв в нижнем регистре, цифр и дефиса.'],
@@ -107,17 +103,19 @@ class Page extends ActiveRecord
         ];
     }
 
+    /**
+     * @return string Full uri of current page.
+     */
     public function getUrl()
     {
-        $cleanedContent = str_replace("<p><br></p>", "", $this->content);
-        if (!$cleanedContent && $this->child && !$this->index_controller)
+        if (!strip_tags($this->content) && $this->child && !$this->index_controller)
             return $this->child[0]->url;
         else
             return "/{$this->path}.html";
     }
 
     /**
-     * @return \yii\db\ActiveQuery
+     * @return PageQuery
      */
     public function getParent()
     {
@@ -126,11 +124,20 @@ class Page extends ActiveRecord
 
 
     /**
-     * @return \yii\db\ActiveQuery
+     * @return PageQuery
      */
     public function getChild()
     {
-        return $this->hasMany(self::className(), ['parent_id' => 'id'])->orderBy('norder');
+        return $this->hasMany(self::className(), ['parent_id' => 'id'])
+            ->orderBy('norder');
+    }
+
+    /**
+     * @return PageQuery
+     */
+    public function getChildVisible()
+    {
+        return $this->getChild()->andWhere(['menu' => PageMenuVisibility::VISIBLE]);
     }
 
 
@@ -148,7 +155,7 @@ class Page extends ActiveRecord
      */
     public function getCreator()
     {
-        return $this->hasOne(User::className(), ['id' => 'create_user_id']);
+        return $this->hasOne(Yii::$app->getModule('pages')->userModel, ['id' => 'create_user_id']);
     }
 
     /**
@@ -156,7 +163,7 @@ class Page extends ActiveRecord
      */
     public function getUpdator()
     {
-        return $this->hasOne(User::className(), ['id' => 'update_user_id']);
+        return $this->hasOne(Yii::$app->getModule('pages')->userModel, ['id' => 'update_user_id']);
     }
 
     /**

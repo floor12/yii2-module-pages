@@ -1,6 +1,6 @@
 <?php
 
-namespace floor12\pages;
+namespace floor12\pages\models;
 
 use yii\db\ActiveQuery;
 
@@ -11,10 +11,19 @@ use yii\db\ActiveQuery;
  */
 class PageQuery extends ActiveQuery
 {
-    /*public function active()
-    {
-        return $this->andWhere('[[status]]=1');
-    }*/
+    /**
+     * return PageQuery
+     */
+    public function active(){
+        $this->andWhere(['status'=>PageStatus::ACTIVE]);
+    }
+
+    /**
+     * return PageQuery
+     */
+    public function visible(){
+        $this->andWhere(['menu' => 1]);
+    }
 
     /**
      * @inheritdoc

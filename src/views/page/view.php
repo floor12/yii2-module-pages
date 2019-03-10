@@ -6,27 +6,27 @@
  * Time: 14:11
  *
  * @var $this \yii\web\View
- * @var $model \floor12\pages\Page
+ * @var $model \floor12\pages\models\Page
  */
 
 use floor12\editmodal\EditModalHelper;
-use rmrevin\yii\fontawesome\FontAwesome;
+use floor12\pages\assets\IconHelper;
 use yii\helpers\Html;
 use yii\widgets\Pjax;
 
-
-if (Yii::$app->getModule('pages')->adminMode()):
-    echo Html::a(FontAwesome::icon('pencil'), null, ['class' => 'btn btn-default btn-xs pull-right', 'onclick' => EditModalHelper::showForm(['page/form'], $model->id)]);
+if (Yii::$app->getModule('pages')->adminMode()) {
+    echo Html::a(IconHelper::PENCIL, null, [
+        'class' => 'btn btn-default btn-xs pull-right',
+        'onclick' => EditModalHelper::showForm(['page/form'], $model->id)]);
     Pjax::begin(['id' => 'items']);
-endif;
+}
 
 echo Html::tag('h1', $model->title);
 
 echo $model->content;
 
-
-if (Yii::$app->getModule('pages')->adminMode()):
+if (Yii::$app->getModule('pages')->adminMode())
     Pjax::end();
-endif;
+
 
 

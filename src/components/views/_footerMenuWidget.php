@@ -6,7 +6,7 @@
  * Time: 11:31
  *
  * @var $this \yii\web\View
- * @var $model \floor12\pages\Page
+ * @var $model \floor12\pages\models\Page
  *
  */
 ?>

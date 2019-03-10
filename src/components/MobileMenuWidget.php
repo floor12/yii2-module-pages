@@ -10,7 +10,8 @@ namespace floor12\pages\components;
 
 
 use floor12\pages\assets\PagesAsset;
-use floor12\pages\Page;
+use floor12\pages\models\Page;
+use floor12\pages\models\PageMenuVisibility;
 use Yii;
 use yii\base\Widget;
 use yii\helpers\Html;
@@ -32,7 +33,7 @@ class MobileMenuWidget extends Widget
             PagesAsset::register($this->getView());
 
         $this->_pages = Page::find()
-            ->where(['parent_id' => $this->parent_id, 'menu' => Page::SHOW_IN_MENU])
+            ->where(['parent_id' => $this->parent_id, 'menu' => PageMenuVisibility::VISIBLE])
             ->orderBy('norder')
             ->with('child')
             ->with('child.child')

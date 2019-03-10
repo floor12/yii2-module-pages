@@ -5,8 +5,8 @@
  * Date: 26.11.2016
  * Time: 18:11
  *
- * @var floor12\pages\Page $model
- * @var floor12\pages\Page $currentPage
+ * @var floor12\pages\models\Page $model
+ * @var floor12\pages\models\Page $currentPage
  *
  */
 

@@ -9,11 +9,14 @@
 
 namespace floor12\pages\controllers;
 
-use floor12\summernote\Summernote;
+use floor12\editmodal\DeleteAction;
+use floor12\editmodal\EditModalAction;
 use floor12\pages\logic\PageBreadcrumbs;
 use floor12\pages\logic\PageOrderChanger;
 use floor12\pages\logic\PageUpdate;
-use floor12\pages\Page;
+use floor12\pages\models\Page;
+use floor12\pages\models\PageStatus;
+use floor12\summernote\Summernote;
 use Yii;
 use yii\filters\AccessControl;
 use yii\filters\VerbFilter;
@@ -82,7 +85,7 @@ class PageController extends \yii\web\Controller
     public function actionView($path)
     {
         if (!preg_match('/^[\/a-z0-9-]+$/', $path, $matches)) {
-            $model = Page::find()->where(['path' => $path, 'status' => Page::STATUS_ACTIVE])->one();
+            $model = Page::find()->where(['path' => $path, 'status' => PageStatus::ACTIVE])->one();
             if ($model)
                 return $this->redirect('/' . $model->path . '.html', 301);
             else
@@ -104,7 +107,7 @@ class PageController extends \yii\web\Controller
             $page = Page::findOne(['path' => $pathWithoutLastPart]);
 
 
-            if (!$page || ($page->status == Page::STATUS_DISABLE && !Yii::$app->getModule('pages')->adminMode()))
+            if (!$page || ($page->status == PageStatus::DISABLED && !Yii::$app->getModule('pages')->adminMode()))
                 throw new NotFoundHttpException();
 
             if (!$page || !$page->view_action || $page->status)
@@ -120,7 +123,7 @@ class PageController extends \yii\web\Controller
         }
 
 
-        if (!$page || ($page->status == Page::STATUS_DISABLE && !Yii::$app->getModule('pages')->adminMode()))
+        if (!$page || ($page->status == PageStatus::DISABLED && !Yii::$app->getModule('pages')->adminMode()))
             throw new NotFoundHttpException();
 
 
@@ -133,7 +136,6 @@ class PageController extends \yii\web\Controller
         Yii::$app->metamaster
             ->setTitle($page->title_seo)
             ->setDescription($page->description_seo)
-            ->setKeywords($page->keywords_seo)
             ->register(Yii::$app->getView());
 
         if ($page->index_controller && $page->index_action) {
@@ -164,13 +166,13 @@ class PageController extends \yii\web\Controller
     {
         return [
             'form' => [
-                'class' => \floor12\editmodal\EditModalAction::className(),
+                'class' => EditModalAction::className(),
                 'model' => Page::className(),
                 'logic' => PageUpdate::class,
                 'message' => 'Страница сохранена'
             ],
             'delete' => [
-                'class' => \floor12\editmodal\DeleteAction::className(),
+                'class' => DeleteAction::className(),
                 'model' => Page::className(),
                 'message' => 'Страница удалена'
             ],

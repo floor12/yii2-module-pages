@@ -6,7 +6,7 @@
  * Time: 11:13
  */
 
-namespace floor12\pages;
+namespace floor12\pages\interfaces;
 
 /**
  * Interface PageObjectInterface

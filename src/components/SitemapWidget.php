@@ -8,7 +8,7 @@
 
 namespace floor12\pages\components;
 
-use floor12\pages\Page;
+use floor12\pages\models\Page;
 use \Yii;
 use yii\base\Widget;
 

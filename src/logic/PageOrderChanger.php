@@ -8,7 +8,7 @@
 
 namespace floor12\pages\logic;
 
-use floor12\pages\Page;
+use floor12\pages\models\Page;
 
 class PageOrderChanger
 {
