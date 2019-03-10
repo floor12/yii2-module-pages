@@ -103,9 +103,9 @@ class SideMenuWidget extends Widget
             }
 
         if ($this->adminMode)
-            $nodes[] = Html::a(IconHelper::PLUS . 'добавить раздел', null, [
+            $nodes[] = Html::a(IconHelper::PLUS . ' добавить раздел', null, [
                 'onclick' => EditModalHelper::showForm(['page/form'], ['id' => 0, 'parent_id' => $this->model ? $this->model->parent_id : 0]),
-                'class' => 'btn btn-default btn-xs page-new']);
+                'class' => 'btn btn-default btn-xs page-new btn-block']);
 
         if ($this->adminMode = Yii::$app->getModule('pages')->adminMode())
             Pjax::begin(['id' => 'sideMenuControl']);
