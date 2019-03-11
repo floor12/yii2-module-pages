@@ -20,7 +20,7 @@
   ],
   "require": {
     "yiisoft/yii2": "~2.0.13",
-    "yii2mod/yii2-enum": "*"
+    "yii2mod/yii2-enum": "*",
     "floor12/yii2-editmodal": "dev-master",
     "floor12/yii2-metamaster": "dev-master",
     "floor12/yii2-summernote": "dev-master"
