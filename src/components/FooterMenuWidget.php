@@ -10,6 +10,7 @@ namespace floor12\pages\components;
 
 
 use floor12\pages\models\Page;
+use floor12\pages\models\PageMenuVisibility;
 use yii\base\Widget;
 
 class FooterMenuWidget extends Widget
@@ -22,7 +23,7 @@ class FooterMenuWidget extends Widget
     {
 
         $this->_pages = Page::find()
-            ->where(['parent_id' => $this->parent_id, 'menu' => Page::SHOW_IN_MENU])
+            ->where(['parent_id' => $this->parent_id, 'menu' => PageMenuVisibility::VISIBLE])
             ->orderBy('norder')
             ->all();
         parent::init();
