@@ -19,7 +19,7 @@ use yii\widgets\Pjax;
 
 class MobileMenuWidget extends Widget
 {
-    public $parent_id;
+    public $parent_id = 0;
     public $adminMode = false;
     public $model;
 
@@ -46,17 +46,11 @@ class MobileMenuWidget extends Widget
         $nodes = [];
         if ($this->_pages)
             foreach ($this->_pages as $page) {
-                if (!$page->menu)
+                if ($page->menu != PageMenuVisibility::VISIBLE)
                     continue;
 
-                if ($this->model && $page->id == $this->model->id)
-                    $page->active = true;
-
-                $nodes[] = $this->render('mobileMenuWidget', ['model' => $page, 'currentPage' => $this->model]);
+                $nodes[] = $this->render('mobileMenuWidget', ['model' => $page, 'currentPage' => Yii::$app->getView()->params['currentPage']]);
             }
-
-//        if ($this->adminMode)
-//            $nodes[] = "<li class='new-page'>" . Html::a(FontAwesome::icon('plus'), null, ['onclick' => ModalWindow::showForm(['page/form'], ['id' => 0, 'parent_id' => $this->parent_id])]) . "</li>";
 
         if ($this->adminMode = Yii::$app->getModule('pages')->adminMode())
             Pjax::begin(['id' => 'mobileMenuControl']);
