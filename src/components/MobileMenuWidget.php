@@ -48,8 +48,8 @@ class MobileMenuWidget extends Widget
             foreach ($this->_pages as $page) {
                 if ($page->menu != PageMenuVisibility::VISIBLE)
                     continue;
-
-                $nodes[] = $this->render('mobileMenuWidget', ['model' => $page, 'currentPage' => Yii::$app->getView()->params['currentPage']]);
+                $currentPage = !empty(Yii::$app->getView()->params['currentPage']) ? Yii::$app->getView()->params['currentPage'] : null;
+                $nodes[] = $this->render('mobileMenuWidget', ['model' => $page, 'currentPage' => $currentPage]);
             }
 
         if ($this->adminMode = Yii::$app->getModule('pages')->adminMode())
