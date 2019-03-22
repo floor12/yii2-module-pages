@@ -15,8 +15,8 @@ use yii\helpers\Html;
 use yii\widgets\Pjax;
 
 if (Yii::$app->getModule('pages')->adminMode()) {
-    echo Html::a(IconHelper::PENCIL, null, [
-        'class' => 'btn btn-default btn-xs pull-right',
+    echo Html::button(IconHelper::PENCIL, [
+        'class' => 'btn btn-default btn-xs pull-right modal-edit-page',
         'onclick' => EditModalHelper::showForm(['page/form'], $model->id)]);
     Pjax::begin(['id' => 'items']);
 }

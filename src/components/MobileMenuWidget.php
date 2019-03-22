@@ -15,7 +15,6 @@ use floor12\pages\models\PageMenuVisibility;
 use Yii;
 use yii\base\Widget;
 use yii\helpers\Html;
-use yii\widgets\Pjax;
 
 class MobileMenuWidget extends Widget
 {
@@ -52,12 +51,7 @@ class MobileMenuWidget extends Widget
                 $nodes[] = $this->render('mobileMenuWidget', ['model' => $page, 'currentPage' => $currentPage]);
             }
 
-        if ($this->adminMode = Yii::$app->getModule('pages')->adminMode())
-            Pjax::begin(['id' => 'mobileMenuControl']);
-
         echo Html::tag('ul', implode("\n", $nodes), ['class' => 'mobileMenu']);
-
-        if ($this->adminMode = Yii::$app->getModule('pages')->adminMode())
-            Pjax::end();
+            
     }
 }
