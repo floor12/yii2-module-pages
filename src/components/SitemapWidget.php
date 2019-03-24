@@ -9,7 +9,8 @@
 namespace floor12\pages\components;
 
 use floor12\pages\models\Page;
-use \Yii;
+use floor12\pages\models\PageStatus;
+use Yii;
 use yii\base\Widget;
 
 class SitemapWidget extends Widget
@@ -31,9 +32,9 @@ class SitemapWidget extends Widget
 
             $this->_cachedData[] = ['url' => '/', 'priority' => 1];
 
-            $pages = Page::find()->where(['status' => Page::STATUS_ACTIVE])->orderBy('path')->all();
+            $pages = Page::find()->where(['status' => PageStatus::ACTIVE])->orderBy('path')->all();
             if ($pages) foreach ($pages as $page) {
-                $this->_cachedData[$page->url] = ['url' =>  $page->url, 'priority' => 0.5, 'lastmod' => date("c", $page->updated)];
+                $this->_cachedData[$page->url] = ['url' => $page->url, 'priority' => 0.5, 'lastmod' => date("c", $page->updated)];
             }
 
             $this->_cachedData = array_merge($this->_cachedData, $this->links);
