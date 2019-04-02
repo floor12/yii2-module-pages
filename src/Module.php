@@ -13,9 +13,12 @@ class Module extends \yii\base\Module
 
     public $layout = '@app/views/layouts/main';
 
+    public $layoutAdmin = '@app/views/layouts/main';
+
     public $view = 'view';
 
     public $userModel = 'app\models\User';
+
     /**
      * @inheritdoc
      */
