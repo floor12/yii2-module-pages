@@ -11,6 +11,7 @@ namespace floor12\pages\controllers;
 
 use floor12\editmodal\DeleteAction;
 use floor12\editmodal\EditModalAction;
+use floor12\pages\components\MapYandexWidget;
 use floor12\pages\logic\PageBreadcrumbs;
 use floor12\pages\logic\PageOrderChanger;
 use floor12\pages\logic\PageUpdate;
@@ -66,6 +67,10 @@ class PageController extends \yii\web\Controller
         ];
     }
 
+    /**
+     * @throws NotFoundHttpException
+     * @throws \yii\base\InvalidConfigException
+     */
     public function actionMove()
     {
         $model = Page::findOne(\Yii::$app->request->post('id'));
@@ -77,11 +82,23 @@ class PageController extends \yii\web\Controller
         Yii::createObject(PageOrderChanger::class, [$model, $mode])->execute();
     }
 
+
+    /**
+     * @throws \yii\web\BadRequestHttpException
+     */
     public function actionImageupload()
     {
         Summernote::summerUpload();
     }
 
+
+    /**
+     * @param $path
+     * @return string|\yii\web\Response
+     * @throws NotFoundHttpException
+     * @throws \ReflectionException
+     * @throws \yii\base\InvalidConfigException
+     */
     public function actionView($path)
     {
         if (!preg_match('/^[\/a-z0-9-]+$/', $path, $matches)) {
@@ -157,11 +174,28 @@ class PageController extends \yii\web\Controller
             return $controller->runAction(strtolower($page->index_action), array_merge(['page' => $page], $indexParams));
         }
 
+        $this->parseWidgets($page);
 
         return $this->render(Yii::$app->getModule('pages')->view, ['model' => $page]);
     }
 
 
+    /**
+     * @param Page $page
+     */
+    protected function parseWidgets(Page $page)
+    {
+        if (preg_match_all('/{{map:([\w\%]*)}}/', $page->content, $mapMatches)) {
+            foreach ($mapMatches[1] as $key => $mapKey) {
+                $page->content = str_replace($mapMatches[0][$key], MapYandexWidget::widget(['key' => $mapKey]), $page->content);
+            }
+        }
+
+    }
+
+    /**
+     * @return array
+     */
     public function actions()
     {
         return [
