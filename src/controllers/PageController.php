@@ -88,7 +88,7 @@ class PageController extends \yii\web\Controller
      */
     public function actionImageupload()
     {
-        Summernote::summerUpload();
+        return Summernote::summerUpload();
     }
 
 
