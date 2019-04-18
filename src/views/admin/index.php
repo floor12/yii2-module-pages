@@ -15,20 +15,16 @@ use yii\widgets\Pjax;
 $this->title = "Страницы";
 
 
+echo Html::a(IconHelper::PLUS . "  Добавить страницу", null, [
+        'onclick' => EditModalHelper::showForm(['/pages/page/form'], 0),
+        'class' => 'btn btn-primary btn-sm pull-right'
+    ]) . " ";
+
 echo Html::tag('h1', $this->title);
 
 
 ?>
 
-    <div class="pull-right">
-        <?php
-
-        echo Html::a(IconHelper::PLUS . " " . Yii::t('app.f12.mailing', 'Add recipient'), null, [
-                'onclick' => EditModalHelper::showForm(['/pages/page/form'], 0),
-                'class' => 'btn btn-sm btn-default'
-            ]) . " ";
-        ?>
-    </div>
 
 <?php
 
