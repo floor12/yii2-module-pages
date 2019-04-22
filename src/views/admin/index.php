@@ -39,7 +39,7 @@ $form = ActiveForm::begin([
     <div class="filter-block">
         <div class="row">
             <div class="col-md-6">
-                <?= $form->field($model, 'filter')->label(false)->textInput(['placeholder' => Yii::t('app.f12.mailing', 'Filter...')]) ?>
+                <?= $form->field($model, 'filter')->label(false)->textInput(['placeholder' => 'Поиск...']) ?>
             </div>
         </div>
 
