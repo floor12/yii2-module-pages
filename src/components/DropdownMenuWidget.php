@@ -25,6 +25,7 @@ class DropdownMenuWidget extends Widget
 
     public $parent_id = 0;
     public $adminMode = false;
+    public $lang = 'ru';
 
     private $pages = [];
     private $nodes = [];
@@ -40,7 +41,7 @@ class DropdownMenuWidget extends Widget
         }
 
         $this->pages = Page::find()
-            ->where(['parent_id' => $this->parent_id])
+            ->where(['parent_id' => $this->parent_id, 'lang' => $this->lang])
             ->orderBy('norder')
             ->with('child')
             ->with('child.child')

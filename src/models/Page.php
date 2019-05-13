@@ -4,6 +4,7 @@ namespace floor12\pages\models;
 
 use Yii;
 use yii\db\ActiveRecord;
+use yii\helpers\Url;
 
 /**
  * This is the model class for table "page".
@@ -32,6 +33,7 @@ use yii\db\ActiveRecord;
  * @property string $index_params Параметры экшена индекса
  * @property string $view_controller Контроллер просмотра объекта
  * @property string $view_action Экшн для просмотра объекта
+ * @property string $lang Язык страницы
  *
  * @property User $creator
  * @property User $updator
@@ -54,6 +56,15 @@ class Page extends ActiveRecord
 
     /**
      * @inheritdoc
+     * @return PageQuery the active query used by this AR class.
+     */
+    public static function find()
+    {
+        return new PageQuery(get_called_class());
+    }
+
+    /**
+     * @inheritdoc
      */
     public function rules()
     {
@@ -62,6 +73,7 @@ class Page extends ActiveRecord
             [['status', 'created', 'updated', 'create_user_id', 'update_user_id', 'parent_id', 'norder', 'menu'], 'integer'],
             [['created', 'updated', 'title_seo', 'key', 'title_menu'], 'required'],
             [['content'], 'string'],
+            ['lang', 'string', 'max' => 3],
             [['title', 'title_seo', 'title_menu', 'path', 'index_params', 'view_action', 'view_controller', 'index_action', 'index_controller'], 'string', 'max' => 255],
             [['description_seo', 'keywords_seo', 'key'], 'string', 'max' => 400],
             ['status', 'in', 'range' => [PageStatus::ACTIVE, PageStatus::DISABLED]],
@@ -99,7 +111,8 @@ class Page extends ActiveRecord
             'view_controller' => 'View Controller',
             'index_action' => 'Index Action',
             'index_params' => 'Index Params',
-            'index_controller' => 'Index Controller'
+            'index_controller' => 'Index Controller',
+            'lang' => 'Язык страницы'
         ];
     }
 
@@ -111,7 +124,7 @@ class Page extends ActiveRecord
         if (!strip_tags($this->content) && $this->child && !$this->index_controller)
             return $this->child[0]->url;
         else
-            return "/{$this->path}.html";
+            return urldecode(Url::toRoute(['/pages/page/view', 'path' => $this->path]));
     }
 
     /**
@@ -122,6 +135,13 @@ class Page extends ActiveRecord
         return $this->hasOne(self::className(), ['id' => 'parent_id']);
     }
 
+    /**
+     * @return PageQuery
+     */
+    public function getChildVisible()
+    {
+        return $this->getChild()->andWhere(['menu' => PageMenuVisibility::VISIBLE]);
+    }
 
     /**
      * @return PageQuery
@@ -133,22 +153,12 @@ class Page extends ActiveRecord
     }
 
     /**
-     * @return PageQuery
-     */
-    public function getChildVisible()
-    {
-        return $this->getChild()->andWhere(['menu' => PageMenuVisibility::VISIBLE]);
-    }
-
-
-    /**
      * @return array
      */
     public function getChild_ids()
     {
         return $this->getChild()->select('id')->column();
     }
-
 
     /**
      * @return \yii\db\ActiveQuery
@@ -164,14 +174,5 @@ class Page extends ActiveRecord
     public function getUpdator()
     {
         return $this->hasOne(Yii::$app->getModule('pages')->userModel, ['id' => 'update_user_id']);
-    }
-
-    /**
-     * @inheritdoc
-     * @return PageQuery the active query used by this AR class.
-     */
-    public static function find()
-    {
-        return new PageQuery(get_called_class());
     }
 }

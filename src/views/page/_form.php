@@ -81,6 +81,9 @@ if (Yii::$app->request->get('parent_id'))
         <div class="col-md-3">
             <?= $form->field($model, 'view_action')->textInput() ?>
         </div>
+        <div class="col-md-3">
+            <?= $form->field($model, 'lang')->textInput() ?>
+        </div>
     </div>
 
     <?= $form->field($model, 'content')->widget(Summernote::className(), []) ?>

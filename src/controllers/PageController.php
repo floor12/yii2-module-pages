@@ -102,7 +102,7 @@ class PageController extends \yii\web\Controller
     public function actionView($path)
     {
         if (!preg_match('/^[\/a-z0-9-]+$/', $path, $matches)) {
-            $model = Page::find()->where(['path' => $path, 'status' => PageStatus::ACTIVE])->one();
+            $model = Page::find()->where(['lang' => Yii::$app->language, 'path' => $path, 'status' => PageStatus::ACTIVE])->one();
             if ($model)
                 return $this->redirect('/' . $model->path . '.html', 301);
             else
@@ -111,7 +111,7 @@ class PageController extends \yii\web\Controller
 
 
         // этот интересный кусок кода нужен чтобы сначала обеспечить проверку может ли быть последняя часть урла ключом для подключаемого экшена
-        $page = Page::findOne(['path' => $path]);
+        $page = Page::findOne(['path' => $path, 'lang' => Yii::$app->language,]);
 
 
         if (!$page) {
@@ -121,7 +121,7 @@ class PageController extends \yii\web\Controller
             $key = $pathExploded[sizeof($pathExploded) - 1];
             $pathWithoutLastPart = str_replace("/" . $pathExploded[sizeof($pathExploded) - 1], '', $path);
 
-            $page = Page::findOne(['path' => $pathWithoutLastPart]);
+            $page = Page::findOne(['path' => $pathWithoutLastPart, 'lang' => Yii::$app->language]);
 
 
             if (!$page || ($page->status == PageStatus::DISABLED && !Yii::$app->getModule('pages')->adminMode()))
