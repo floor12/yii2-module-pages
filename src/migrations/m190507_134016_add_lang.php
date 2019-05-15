@@ -17,7 +17,7 @@ class m190507_134016_add_lang extends Migration
             ->string(3)
             ->notNull()
             ->defaultValue('ru')
-            ->defaultValue('Язык страницы')
+            ->comment('Язык страницы')
         );
 
         $this->createIndex('idx-page-lang', Page::tableName(), 'lang');
