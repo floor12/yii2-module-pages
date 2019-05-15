@@ -38,7 +38,7 @@ class PageOrderChanger
         } else {
             $this->_model->norder++;
         }
-        $obj = Page::find()->where(['norder' => $this->_model->norder, 'parent_id' => (int)$this->_model->parent_id])->one();
+        $obj = Page::find()->where(['norder' => $this->_model->norder, 'lang' => $this->_model->lang, parent_id => (int)$this->_model->parent_id])->one();
 
         if ($obj) {
             $obj->norder = $oldOrder;
@@ -50,7 +50,12 @@ class PageOrderChanger
 
     public function reorder()
     {
-        $rows = Page::find()->where('parent_id=:id', ['id' => $this->_model->parent_id])->orderBy('norder')->all();
+        $rows = Page::find()
+            ->where([
+                'parent_id' => $this->_model->parent_id,
+                'lang' => $this->_model->lang
+            ])
+            ->orderBy('norder')->all();
         if ($rows)
             foreach ($rows as $key => $row) {
                 $row->norder = ++$key;

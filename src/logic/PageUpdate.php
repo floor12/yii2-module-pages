@@ -8,8 +8,8 @@
 
 namespace floor12\pages\logic;
 
-use yii\web\IdentityInterface;
 use floor12\pages\models\Page;
+use yii\web\IdentityInterface;
 
 class PageUpdate
 {
@@ -39,6 +39,9 @@ class PageUpdate
     {
         $this->_model->load($this->_data);
         $this->_model->path = $this->_model->key;
+
+        if (!$this->_model->lang)
+            $this->_model->lang = 'ru';
 
         if ($this->_model->isNewRecord)
             $this->_model->norder = Page::find()->where(['parent_id' => $this->_model->parent_id])->count() + 1;
