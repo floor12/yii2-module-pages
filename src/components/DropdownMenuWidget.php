@@ -24,7 +24,7 @@ class DropdownMenuWidget extends Widget
     const VIEW_ADMIN = 'dropdownMenuWidgetAdmin';
 
     public $parent_id = 0;
-    public $adminMode = false;
+    public $adminMode;
     public $lang = 'ru';
 
     private $pages = [];
@@ -33,7 +33,8 @@ class DropdownMenuWidget extends Widget
 
     public function init()
     {
-        $this->adminMode = Yii::$app->getModule('pages')->adminMode();
+        if ($this->adminMode === null)
+            $this->adminMode = Yii::$app->getModule('pages')->adminMode();
 
         if ($this->adminMode) {
             PagesAsset::register($this->getView());
