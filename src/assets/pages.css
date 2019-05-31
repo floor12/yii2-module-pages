@@ -26,4 +26,12 @@ div.f12-page-control-dropdown.opened div {
   display: block;
 }
 
+.treegrid-expander {
+  margin: 0px 3px -3px 3px;
+  background-size: 20px;
+  width: 26px !important;
+  height: 16px !important;
+  background-repeat: no-repeat;
+}
+
 /*# sourceMappingURL=pages.css.map */

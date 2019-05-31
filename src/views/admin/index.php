@@ -1,19 +1,39 @@
 <?php
 /**
  * @var $this \yii\web\View
- * @var $model \floor12\pages\models\PageFilter
+ * @var $model PageFilter
  */
 
-
+use common\src\enum\StatusEnum;
 use floor12\editmodal\EditModalHelper;
 use floor12\pages\assets\IconHelper;
-use yii\grid\GridView;
+use floor12\pages\assets\PagesAsset;
+use floor12\pages\models\Page;
+use floor12\pages\models\PageFilter;
+use floor12\pages\models\PageStatus;
+use leandrogehlen\treegrid\TreeGrid;
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 use yii\widgets\Pjax;
 
+PagesAsset::register($this);
+
 $this->title = "Страницы";
 
+$columns = [
+    [
+        'attribute' => 'title',
+        'content' => function (Page $model) {
+            if (!$model->parent_id)
+                return Html::tag('b', $model->title);
+            return $model->title;
+        }
+    ],
+    [
+        'contentOptions' => ['style' => 'text-align:right'],
+        'class' => \floor12\editmodal\EditModalColumn::class,
+    ]
+];
 
 echo Html::a(IconHelper::PLUS . "  Добавить страницу", null, [
         'onclick' => EditModalHelper::showForm(['/pages/page/form'], 0),
@@ -32,13 +52,13 @@ $form = ActiveForm::begin([
     'enableClientValidation' => false,
     'method' => "GET",
     'options' => [
-        'class' => 'table-mailing-autosubmit',
+        'class' => 'autosubmit',
         'data-container' => '#items'
     ]]) ?>
 
     <div class="filter-block">
         <div class="row">
-            <div class="col-md-6">
+            <div class="col-md-12">
                 <?= $form->field($model, 'filter')->label(false)->textInput(['placeholder' => 'Поиск...']) ?>
             </div>
         </div>
@@ -47,22 +67,36 @@ $form = ActiveForm::begin([
 
 <?php ActiveForm::end();
 
-Pjax::begin(['id' => 'items']);
 
-echo GridView::widget([
-    'dataProvider' => $model->dataProvider(),
-    'tableOptions' => ['class' => 'table table-striped table-banners'],
-    'layout' => "{items}\n{pager}\n{summary}",
-    'columns' => [
-        'id',
-        'title',
-        [
-            'contentOptions' => ['style' => 'text-align:right'],
-            'class' => \floor12\editmodal\EditModalColumn::class,
-        ]
-    ]
-]);
+Pjax::begin(['id' => 'items',
+    'scrollTo' => true,]);
 
-Pjax::end();
+if ($model->filter)
+    echo \yii\grid\GridView::widget([
+        'dataProvider' => $model->dataProvider(),
+        'tableOptions' => ['class' => 'table'],
+        'layout' => "{items}\n{pager}\n{summary}",
+        'columns' => $columns
+    ]);
 
+else
+    echo TreeGrid::widget(['dataProvider' => $model->dataProvider(),
+        'options' => ['class' => 'table'],
+        'rowOptions' => function (Page $model) {
+            $class = '';
+            $color = PageFilter::makeColor($model);
+            if ($model->status == PageStatus::DISABLED)
+                $class = 'disabled';
+
+            return ['class' => $class, 'style' => "background-color: {$color}"];
+        },
+        'keyColumnName' => 'id',
+        'parentColumnName' => 'parent_id',
+        'pluginOptions' => [
+            'initialState' => 'collapsed',
+            'saveState' => true],
+        'columns' => $columns
+    ]);
+
+Pjax::end(); 
 

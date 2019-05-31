@@ -2,7 +2,7 @@ div.f12-page-control-dropdown {
   float: right;
   margin: 0 0 0 8px;
 
-  button{
+  button {
     width: 22px;
     height: 20px;
     border: 1px #ccc solid;
@@ -29,4 +29,13 @@ div.f12-page-control-dropdown.opened {
   div {
     display: block;
   }
+}
+
+
+.treegrid-expander {
+  margin: 0px 3px -3px 3px;
+  background-size: 20px;
+  width: 26px !important;
+  height: 16px !important;
+  background-repeat: no-repeat;
 }

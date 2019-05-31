@@ -16,6 +16,24 @@ class PageFilter extends Model
 {
     public $filter;
 
+    /**
+     * @param int $number
+     * @return string
+     */
+    public static function makeColor(Page $page)
+    {
+        $colors = [
+            'white',
+            'white',
+            '#ebf1ff',
+            '#f4ffeb',
+            '#fdebff',
+            '#e3f2fb',
+        ];
+
+        return $colors[mb_substr_count($page->url, '/')];
+    }
+
     /**@inheritdoc
      * @return array
      */
@@ -36,7 +54,8 @@ class PageFilter extends Model
             throw new BadRequestHttpException('Model validation error');
 
         return new ActiveDataProvider([
-            'query' => Page::find()->andFilterWhere(['LIKE', 'title', $this->filter])
+            'query' => Page::find()->andFilterWhere(['LIKE', 'title', $this->filter]),
+            'pagination' => false
         ]);
     }
 }

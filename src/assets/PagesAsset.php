@@ -13,6 +13,7 @@ class PagesAsset extends AssetBundle
     ];
 
     public $js = [
+        'autosubmit.js',
         'pages.js',
     ];
     public $depends = [
