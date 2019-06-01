@@ -124,7 +124,7 @@ class Page extends ActiveRecord
         if (!strip_tags($this->content) && $this->child && !$this->index_controller)
             return $this->child[0]->url;
         else
-            return urldecode(Url::toRoute(['/pages/page/view', 'path' => $this->path]));
+            return urldecode(Url::toRoute(['/pages/page/view', 'path' => $this->path, 'language' => $this->lang]));
     }
 
     /**

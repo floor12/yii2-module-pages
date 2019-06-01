@@ -28,8 +28,8 @@ class PageOrderChanger
 
     public function execute()
     {
-        if ($this->_model->norder < 2)
-            return true;
+//        if ($this->_model->norder < 2)
+//            return true;
 
         $oldOrder = $this->_model->norder;
 
@@ -38,7 +38,8 @@ class PageOrderChanger
         } else {
             $this->_model->norder++;
         }
-        $obj = Page::find()->where(['norder' => $this->_model->norder, 'lang' => $this->_model->lang, parent_id => (int)$this->_model->parent_id])->one();
+        
+        $obj = Page::find()->where(['norder' => $this->_model->norder, 'lang' => $this->_model->lang, 'parent_id' => (int)$this->_model->parent_id])->one();
 
         if ($obj) {
             $obj->norder = $oldOrder;

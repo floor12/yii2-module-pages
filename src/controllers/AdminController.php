@@ -7,6 +7,7 @@ namespace floor12\pages\controllers;
 use floor12\editmodal\DeleteAction;
 use floor12\editmodal\EditModalAction;
 use floor12\editmodal\IndexAction;
+use floor12\pages\logic\PageUpdate;
 use floor12\pages\models\Page;
 use floor12\pages\models\PageFilter;
 use Yii;
@@ -37,11 +38,14 @@ class AdminController extends Controller
             'form' => [
                 'class' => EditModalAction::class,
                 'model' => Page::class,
-                'view'=> '@vendor/floor12/yii2-module-pages/src/views/page/_form.php'
+                'logic' => PageUpdate::class,
+                'container' => '#pages',
+                'view' => '@vendor/floor12/yii2-module-pages/src/views/page/_form.php'
             ],
             'delete' => [
                 'class' => DeleteAction::class,
                 'model' => Page::class,
+                'container' => '#pages',
                 'message' => 'Страница удалена',
             ]
         ];

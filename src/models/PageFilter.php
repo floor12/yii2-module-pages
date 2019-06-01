@@ -15,6 +15,7 @@ use yii\web\BadRequestHttpException;
 class PageFilter extends Model
 {
     public $filter;
+    public $lang = 'ru';
 
     /**
      * @param int $number
@@ -24,14 +25,13 @@ class PageFilter extends Model
     {
         $colors = [
             'white',
-            'white',
+            '#e3f2fb',
             '#ebf1ff',
             '#f4ffeb',
             '#fdebff',
             '#e3f2fb',
         ];
-
-        return $colors[mb_substr_count($page->url, '/')];
+        return $colors[mb_substr_count($page->path, '/')];
     }
 
     /**@inheritdoc
@@ -40,7 +40,7 @@ class PageFilter extends Model
     public function rules(): array
     {
         return [
-            ['filter', 'string', 'max' => 255]
+            [['filter', 'lang'], 'string', 'max' => 255]
         ];
     }
 
@@ -54,8 +54,23 @@ class PageFilter extends Model
             throw new BadRequestHttpException('Model validation error');
 
         return new ActiveDataProvider([
-            'query' => Page::find()->andFilterWhere(['LIKE', 'title', $this->filter]),
+            'query' => Page::find()
+                ->andWhere(['lang' => $this->lang])
+                ->andFilterWhere(['LIKE', 'title', $this->filter])
+                ->orderBy('norder'),
+            'sort' => false,
             'pagination' => false
         ]);
+    }
+
+    /**
+     * @return array
+     */
+    public function getLangs()
+    {
+        return Page::find()
+            ->select('lang')
+            ->indexBy('lang')
+            ->distinct()->column();
     }
 }

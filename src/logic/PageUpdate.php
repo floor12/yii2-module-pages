@@ -30,7 +30,6 @@ class PageUpdate
         if ($this->_model->isNewRecord) {
             $this->_model->created = time();
             $this->_model->create_user_id = $this->_identity->getId();
-
         }
 
     }
@@ -44,14 +43,33 @@ class PageUpdate
             $this->_model->lang = 'ru';
 
         if ($this->_model->isNewRecord)
-            $this->_model->norder = Page::find()->where(['parent_id' => $this->_model->parent_id])->count() + 1;
+            $this->_model->norder = Page::find()->where(['parent_id' => $this->_model->parent_id])->count();
 
-        if ($this->_model->parent_id) {
-            $parentPath = Page::find()->where(['id' => $this->_model->parent_id])->select('path')->scalar();
-            $this->_model->path = $parentPath . "/" . $this->_model->key;
+
+        if ($this->_model->save()) {
+            $this->updatePath($this->_model);
+            return true;
         }
 
+        return false;
+    }
 
-        return $this->_model->save();
+    protected function updatePath(Page $model)
+    {
+        if ($model->parent_id) {
+            $parentPath = Page::find()->where(['id' => $model->parent_id])->select('path')->scalar();
+            $model->path = $parentPath . "/" . $this->_model->key;
+        } else
+            $model->path = $model->key;
+
+        $model->save(false, ['path']);
+
+        if (!$model->child)
+            return;
+
+        foreach ($model->child as $child)
+            $this->updatePath($child);
+
+        return;
     }
 }

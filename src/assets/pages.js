@@ -7,6 +7,10 @@ f12pages = {
             method: 'POST',
             success: function () {
                 f12pages.updateMenus();
+
+                if ($(container).length > 0)
+                    $.pjax.reload({container: container});
+                
             },
             error: function (response) {
                 processError(response);
