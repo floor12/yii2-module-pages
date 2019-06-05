@@ -51,7 +51,7 @@ $columns = [
         }
     ],
     [
-        'contentOptions' => ['style' => 'text-align:right'],
+        'contentOptions' => ['style' => 'text-align:right; min-width: 210px;'],
         'content' => function (Page $model) {
             $html = '';
 

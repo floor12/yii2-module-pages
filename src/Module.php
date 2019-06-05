@@ -2,6 +2,8 @@
 
 namespace floor12\pages;
 
+use Yii;
+
 /**
  * pages module definition class
  * @property  string $editRole
@@ -35,10 +37,19 @@ class Module extends \yii\base\Module
      */
     public function init()
     {
-        parent::init();
+        Yii::$container->set('leandrogehlen\treegrid\TreeGridAsset', [
+            'js' => [
+                'js/jquery.cookie.js',
+                'js/jquery.treegrid.min.js',
+            ]
+        ]);
 
+        parent::init();
     }
 
+    /**
+     * @return bool
+     */
     public function adminMode()
     {
         if ($this->editRole == '@')

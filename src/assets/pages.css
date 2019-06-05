@@ -48,6 +48,7 @@ div.f12-page-control-dropdown.opened div {
 }
 
 .treegrid-indent {
+  flex: none;
   width: 32px !important;
 }
 
