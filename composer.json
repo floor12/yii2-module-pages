@@ -23,7 +23,8 @@
     "yii2mod/yii2-enum": "*",
     "floor12/yii2-editmodal": "dev-master",
     "floor12/yii2-metamaster": "dev-master",
-    "floor12/yii2-summernote": "dev-master"
+    "floor12/yii2-summernote": "dev-master",
+    "leandrogehlen/yii2-treegrid": "*"
   },
   "require-dev": {
     "phpunit/phpunit": "4.*"
