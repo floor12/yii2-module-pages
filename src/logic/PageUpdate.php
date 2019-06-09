@@ -58,7 +58,7 @@ class PageUpdate
     {
         if ($model->parent_id) {
             $parentPath = Page::find()->where(['id' => $model->parent_id])->select('path')->scalar();
-            $model->path = $parentPath . "/" . $this->_model->key;
+            $model->path = $parentPath . "/" . $model->key;
         } else
             $model->path = $model->key;
 
