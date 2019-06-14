@@ -101,14 +101,6 @@ class PageController extends \yii\web\Controller
      */
     public function actionView($path)
     {
-        if (!preg_match('/^[\/a-z0-9-]+$/', $path, $matches)) {
-            $model = Page::find()->where(['lang' => Yii::$app->language, 'path' => $path, 'status' => PageStatus::ACTIVE])->one();
-            if ($model)
-                return $this->redirect('/' . $model->path . '.html', 301);
-            else
-                throw new \yii\web\NotFoundHttpException('Запрашиваемый материал не найден на сайте.');
-        }
-
 
         // этот интересный кусок кода нужен чтобы сначала обеспечить проверку может ли быть последняя часть урла ключом для подключаемого экшена
         $page = Page::findOne(['path' => $path, 'lang' => Yii::$app->language,]);

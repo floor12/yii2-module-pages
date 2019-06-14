@@ -11,10 +11,38 @@ use floor12\pages\logic\PageUpdate;
 use floor12\pages\models\Page;
 use floor12\pages\models\PageFilter;
 use Yii;
+use yii\filters\AccessControl;
+use yii\filters\VerbFilter;
 use yii\web\Controller;
 
 class AdminController extends Controller
 {
+
+    /**
+     * @inheritdoc
+     */
+    public function behaviors()
+    {
+        return [
+            'access' => [
+                'class' => AccessControl::class,
+                'rules' => [
+                    [
+                        'allow' => true,
+                        'roles' => [Yii::$app->getModule('pages')->editRole],
+                    ],
+                ],
+            ],
+            'verbs' => [
+                'class' => VerbFilter::class,
+                'actions' => [
+                    'delete' => ['delete'],
+                    'form' => ['get', 'post'],
+                    'index' => ['get'],
+                ],
+            ],
+        ];
+    }
 
     /**
      * @inheritdoc
