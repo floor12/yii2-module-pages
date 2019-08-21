@@ -81,7 +81,7 @@ class Page extends ActiveRecord
             ['menu', 'in', 'range' => [PageMenuVisibility::VISIBLE, PageMenuVisibility::HIDDEN]],
             [['create_user_id'], 'exist', 'skipOnError' => true, 'targetClass' => Yii::$app->getModule('pages')->userModel, 'targetAttribute' => ['create_user_id' => 'id']],
             [['update_user_id'], 'exist', 'skipOnError' => true, 'targetClass' => Yii::$app->getModule('pages')->userModel, 'targetAttribute' => ['update_user_id' => 'id']],
-            ['key', 'match', 'pattern' => '/^[-a-z0-9]*$/', 'message' => 'Ключ URL может состоять только из латинских букв в нижнем регистре, цифр и дефиса.'],
+            ['key', 'match', 'pattern' => '/^[-a-z0-9\/]*$/', 'message' => 'Ключ URL может состоять только из латинских букв в нижнем регистре, цифр и дефиса.'],
         ];
     }
 
@@ -122,6 +122,9 @@ class Page extends ActiveRecord
      */
     public function getUrl()
     {
+        if ($this->path == '/')
+            return '/';
+        
         if (!strip_tags($this->content) && $this->child && !$this->index_controller)
             return $this->child[0]->url;
         else
