@@ -103,9 +103,8 @@ class PageController extends \yii\web\Controller
     {
 
         // этот интересный кусок кода нужен чтобы сначала обеспечить проверку может ли быть последняя часть урла ключом для подключаемого экшена
-        $page = Page::findOne(['path' => $path, 'lang' => Yii::$app->language,]);
-
-
+        $page = Page::findOne(['path' => $path, 'lang' => Yii::$app->language]);
+        
         if (!$page) {
             $pathExploded = explode('/', $path);
 

@@ -5,6 +5,7 @@ namespace floor12\pages\models;
 use Yii;
 use yii\db\ActiveRecord;
 use yii\helpers\Url;
+use yii\web\UrlManager;
 
 /**
  * This is the model class for table "page".
@@ -124,7 +125,10 @@ class Page extends ActiveRecord
         if (!strip_tags($this->content) && $this->child && !$this->index_controller)
             return $this->child[0]->url;
         else
-            return urldecode(Url::toRoute(['/pages/page/view', 'path' => $this->path, 'language' => $this->lang]));
+            if (Yii::$app->urlManager::className() == UrlManager::class)
+                return urldecode(Url::toRoute(['/pages/page/view', 'path' => $this->path]));
+            else
+                return urldecode(Url::toRoute(['/pages/page/view', 'path' => $this->path, 'language' => $this->lang]));
     }
 
     /**
