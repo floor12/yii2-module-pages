@@ -17,8 +17,8 @@ class PageStatus extends BaseEnum
     const DISABLED = 1;
 
     public static $list = [
-        self::STATUS_ACTIVE => 'Активна',
-        self::STATUS_DISABLED => 'Выключена',
+        self::ACTIVE => 'Активна',
+        self::DISABLED => 'Выключена',
     ];
 
 }
