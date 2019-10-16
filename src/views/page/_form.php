@@ -10,6 +10,7 @@
  */
 
 use floor12\editmodal\ModalWindow;
+use floor12\files\components\FileInputWidget;
 use floor12\pages\models\Page;
 use floor12\summernote\Summernote;
 use yii\helpers\Html;
@@ -87,6 +88,8 @@ if (Yii::$app->request->get('parent_id'))
     </div>
 
     <?= $form->field($model, 'content')->widget(Summernote::className(), []) ?>
+
+    <?= $form->field($model, 'images')->widget(FileInputWidget::className(), []) ?>
 
 </div>
 

@@ -2,6 +2,8 @@
 
 namespace floor12\pages\models;
 
+use floor12\files\components\FileBehaviour;
+use floor12\files\models\File;
 use Yii;
 use yii\db\ActiveRecord;
 use yii\helpers\Url;
@@ -42,6 +44,7 @@ use yii\web\UrlManager;
  * @property Page[] $child
  * @property Page[] $childVisible
  * @property array $child_ids
+ * @property File[] $images
  */
 class Page extends ActiveRecord
 {
@@ -82,6 +85,20 @@ class Page extends ActiveRecord
             [['create_user_id'], 'exist', 'skipOnError' => true, 'targetClass' => Yii::$app->getModule('pages')->userModel, 'targetAttribute' => ['create_user_id' => 'id']],
             [['update_user_id'], 'exist', 'skipOnError' => true, 'targetClass' => Yii::$app->getModule('pages')->userModel, 'targetAttribute' => ['update_user_id' => 'id']],
             ['key', 'match', 'pattern' => '/^[-a-z0-9\/]*$/', 'message' => 'Ключ URL может состоять только из латинских букв в нижнем регистре, цифр и дефиса.'],
+            ['images', 'file', 'maxFiles' => 10, 'extensions' => ['jpeg', 'png', 'jpg', 'svg']]
+        ];
+    }
+
+    /**
+     * @return array
+     */
+    public function behaviors()
+    {
+        return [
+            'files' => [
+                'class' => FileBehaviour::class,
+                'attributes' => ['images']
+            ]
         ];
     }
 
@@ -124,7 +141,7 @@ class Page extends ActiveRecord
     {
         if ($this->path == '/')
             return '/';
-        
+
         if (!strip_tags($this->content) && $this->child && !$this->index_controller)
             return $this->child[0]->url;
         else
