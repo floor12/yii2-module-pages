@@ -15,16 +15,31 @@ use yii\base\Widget;
 
 class FooterMenuWidget extends Widget
 {
+    /**
+     * @var integer
+     */
     public $parent_id;
+    /**
+     * @var string
+     */
+    public $lang = 'ru';
 
+    /**
+     * @var Page[]
+     */
     private $_pages = [];
 
     public function init()
     {
 
         $this->_pages = Page::find()
-            ->where(['parent_id' => $this->parent_id, 'menu' => PageMenuVisibility::VISIBLE])
+            ->where([
+                'lang' => $this->lang,
+                'parent_id' => $this->parent_id,
+                'menu' => PageMenuVisibility::VISIBLE
+            ])
             ->orderBy('norder')
+            ->with('child')
             ->all();
         parent::init();
     }
