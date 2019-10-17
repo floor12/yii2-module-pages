@@ -31,6 +31,7 @@ class SideMenuWidget extends Widget
     public $model;
     public $showCurrentPageheader = false;
     public $adminMode = false;
+    public $lang = 'ru';
 
     private $_pages = [];
     private $viewTemplate = self::VIEW;
@@ -47,7 +48,7 @@ class SideMenuWidget extends Widget
 
         if (!(isset(Yii::$app->getView()->params['currentPage']) && is_object(Yii::$app->getView()->params['currentPage']))) {
             $this->_pages = Page::find()
-                ->where(['parent_id' => 0])
+                ->where(['parent_id' => 0, 'lang' => $this->lang])
                 ->orderBy('norder')
                 ->all();
             return;
@@ -58,7 +59,7 @@ class SideMenuWidget extends Widget
         if (isset($this->model) && $this->model->parent_id == 0) {
             $this->_parent = $this->model;
             $this->_pages = Page::find()
-                ->where(['parent_id' => 0])
+                ->where(['parent_id' => 0, 'lang' => $this->lang])
                 ->orderBy('norder')
                 ->all();
             return;
@@ -67,7 +68,7 @@ class SideMenuWidget extends Widget
         if (isset($this->model) && $this->model->parent && $this->model->parent->parent && !$this->model->parent->parent->parent_id) {
             $this->_parent = Page::findOne($this->model->parent->parent_id);
             $this->_pages = Page::find()
-                ->where(['parent_id' => $this->model->parent->parent_id])
+                ->where(['parent_id' => $this->model->parent->parent_id, 'lang' => $this->lang])
                 ->orderBy('norder')
                 ->all();
             return;
@@ -75,7 +76,7 @@ class SideMenuWidget extends Widget
 
         $this->_parent = Page::findOne($this->model->parent_id);
         $this->_pages = Page::find()
-            ->where(['parent_id' => $this->model->parent_id])
+            ->where(['parent_id' => $this->model->parent_id, 'lang' => $this->lang])
             ->orderBy('norder')
             ->all();
 
