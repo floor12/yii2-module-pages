@@ -19,6 +19,7 @@ use yii\helpers\Html;
 class MobileMenuWidget extends Widget
 {
     public $parent_id = 0;
+    public $lang = 'ru';
     public $adminMode = false;
     public $model;
 
@@ -32,7 +33,7 @@ class MobileMenuWidget extends Widget
             PagesAsset::register($this->getView());
 
         $this->_pages = Page::find()
-            ->where(['parent_id' => $this->parent_id, 'menu' => PageMenuVisibility::VISIBLE])
+            ->where(['parent_id' => $this->parent_id, 'menu' => PageMenuVisibility::VISIBLE, 'lang' => $this->lang])
             ->orderBy('norder')
             ->with('child')
             ->with('child.child')
@@ -52,6 +53,6 @@ class MobileMenuWidget extends Widget
             }
 
         echo Html::tag('ul', implode("\n", $nodes), ['class' => 'mobileMenu']);
-            
+
     }
 }
