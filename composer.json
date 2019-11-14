@@ -31,9 +31,7 @@
   },
   "autoload": {
     "psr-4": {
-      "floor12\\pages\\": [
-        "src/"
-      ]
+      "floor12\\pages\\": "src"
     }
   },
   "autoload-dev": {
