@@ -58,12 +58,12 @@ class PageUpdate
     {
         if ($model->parent_id) {
             $parentPath = Page::find()->where(['id' => $model->parent_id])->select('path')->scalar();
-            $this->_model->lang = Page::find()->where(['id' => $model->parent_id])->select('lang')->scalar();
+            $model->lang = Page::find()->where(['id' => $model->parent_id])->select('lang')->scalar();
             $model->path = $parentPath . "/" . $model->key;
         } else
             $model->path = $model->key;
 
-        $model->save(false, ['path']);
+        $model->save(false, ['path', 'lang']);
 
         if (!$model->child)
             return;
