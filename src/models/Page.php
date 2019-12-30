@@ -139,19 +139,22 @@ class Page extends ActiveRecord
      */
     public function getUrl()
     {
-        if ($this->path == '/' && Yii::$app->urlManager::className() == UrlManager::class)
-            return '/';
+        if ($this->path == '/') {
+            if (Yii::$app->urlManager::className() == UrlManager::class)
+                return '/';
+            if ($this->lang == 'ru')
+                return '/';
 
-        if ($this->path == '/')
             return '/' . $this->lang;
+        }
 
         if (!strip_tags($this->content) && $this->child && !$this->index_controller)
             return $this->child[0]->url;
+
+        if (Yii::$app->urlManager::className() == UrlManager::class || $this->lang == 'ru')
+            return urldecode(Url::toRoute(['/pages/page/view', 'path' => $this->path]));
         else
-            if (Yii::$app->urlManager::className() == UrlManager::class)
-                return urldecode(Url::toRoute(['/pages/page/view', 'path' => $this->path]));
-            else
-                return urldecode(Url::toRoute(['/pages/page/view', 'path' => $this->path, 'language' => $this->lang]));
+            return urldecode(Url::toRoute(['/pages/page/view', 'path' => $this->path, 'language' => $this->lang]));
     }
 
     /**

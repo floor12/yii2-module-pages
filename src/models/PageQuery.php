@@ -14,14 +14,16 @@ class PageQuery extends ActiveQuery
     /**
      * return PageQuery
      */
-    public function active(){
-        $this->andWhere(['status'=>PageStatus::ACTIVE]);
+    public function active()
+    {
+        return $this->andWhere(['status' => PageStatus::ACTIVE]);
     }
 
     /**
      * return PageQuery
      */
-    public function visible(){
+    public function visible()
+    {
         $this->andWhere(['menu' => 1]);
     }
 
