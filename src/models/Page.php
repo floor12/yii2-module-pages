@@ -139,8 +139,11 @@ class Page extends ActiveRecord
      */
     public function getUrl()
     {
-        if ($this->path == '/')
+        if ($this->path == '/' && Yii::$app->urlManager::className() == UrlManager::class)
             return '/';
+
+        if ($this->path == '/')
+            return '/' . $this->lang;
 
         if (!strip_tags($this->content) && $this->child && !$this->index_controller)
             return $this->child[0]->url;

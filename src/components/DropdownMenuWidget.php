@@ -54,8 +54,13 @@ class DropdownMenuWidget extends Widget
     {
         if ($this->pages)
             foreach ($this->pages as $page) {
+
+                if ($page->path == '/' && empty(\Yii::$app->request->pathInfo))
+                    $page->active = true;
+
                 if (strpos('/' . \Yii::$app->request->pathInfo, '/' . $page->path) === 0)
                     $page->active = true;
+
                 $this->nodes[] = $this->render($this->viewTemplate, ['model' => $page, 'adminMode' => $this->adminMode]);
             }
 
