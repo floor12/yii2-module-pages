@@ -36,7 +36,10 @@ class m181017_114040_pages extends Migration
             'key' => $this->string(400)->notNull()->comment('Ключевое слово для URL'),
             'norder' => $this->integer(11)->defaultValue(0)->notNull()->comment('Порядок'),
             'path' => $this->string(255)->null()->comment('Полный путь'),
-            'content' => $this->getDb()->getSchema()->createColumnSchemaBuilder('longtext')->null()->comment('Тело страницы'),
+            'content' =>
+                ($this->db->driverName === 'mysql') ?
+                    $this->getDb()->getSchema()->createColumnSchemaBuilder('longtext')->null()->comment('Тело страницы') :
+                    $this->text()->null()->comment('Тело страницы'),
             'index_controller' => $this->string(255)->null()->comment('Index Controller'),
             'index_action' => $this->string(255)->null()->comment('Index Action'),
             'view_controller' => $this->string(255)->null()->comment('View Controller'),
