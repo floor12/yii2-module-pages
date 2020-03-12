@@ -25,6 +25,7 @@ class DropdownMenuWidget extends Widget
 
     public $parent_id = 0;
     public $adminMode;
+    public $onlyRoot = false;
     public $lang = 'ru';
 
     private $pages = [];
@@ -61,7 +62,10 @@ class DropdownMenuWidget extends Widget
                 if (strpos('/' . \Yii::$app->request->pathInfo, '/' . $page->path) === 0)
                     $page->active = true;
 
-                $this->nodes[] = $this->render($this->viewTemplate, ['model' => $page, 'adminMode' => $this->adminMode]);
+                $this->nodes[] = $this->render($this->viewTemplate, [
+                    'model' => $page,
+                    'adminMode' => $this->adminMode,
+                    'onlyRoot' => $this->onlyRoot]);
             }
 
         if ($this->adminMode)

@@ -12,6 +12,24 @@ use yii\db\ActiveQuery;
 class PageQuery extends ActiveQuery
 {
     /**
+     * @param string $lang
+     * @return PageQuery
+     */
+    public function byLang(string $lang)
+    {
+        return $this->andWhere(['lang' => $lang]);
+    }
+
+
+    /**
+     * @return PageQuery
+     */
+    public function root()
+    {
+        return $this->andWhere(['parent_id' => 0]);
+    }
+
+    /**
      * return PageQuery
      */
     public function active()
@@ -24,7 +42,7 @@ class PageQuery extends ActiveQuery
      */
     public function visible()
     {
-        $this->andWhere(['menu' => 1]);
+        return $this->andWhere(['menu' => 1]);
     }
 
     /**

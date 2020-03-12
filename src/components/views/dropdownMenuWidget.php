@@ -7,6 +7,7 @@
  *
  * @var floor12\pages\models\Page $model
  * @var boolean $adminMode
+ * @var boolean $onlyRoot
  *
  */
 
@@ -20,7 +21,7 @@ use yii\helpers\Html;
 
         <?= Html::a($model->title_menu, $model->url, ['data-pjax' => '0']) ?>
 
-        <?php if ($model->childVisible): ?>
+        <?php if ($model->childVisible && !$onlyRoot): ?>
             <ul class="dropDownSubMenu">
                 <?php foreach ($model->childVisible as $child) { ?>
                     <li>
