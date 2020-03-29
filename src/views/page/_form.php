@@ -34,62 +34,82 @@ if (Yii::$app->request->get('parent_id'))
     <h2><?= $model->isNewRecord ? "Добавление страницы" : "Редактирование страницы"; ?></h2>
 </div>
 <div class="modal-body">
+
     <?= $form->errorSummary($model); ?>
 
 
-    <div class="row">
-        <div class="col-md-4">
-            <?= $form->field($model, 'title')->textInput(['maxlength' => true]) ?>
-        </div>
-        <div class="col-md-4">
-            <?= $form->field($model, 'title_menu')->textInput(['maxlength' => true]) ?>
-        </div>
-        <div class="col-md-4">
-            <?= $form->field($model, 'title_seo')->textInput(['maxlength' => true]) ?>
-        </div>
-    </div>
+    <!-- Nav tabs -->
+    <ul class="nav nav-tabs" role="tablist">
+        <li role="presentation" class="active">
+            <a href="#page-main" aria-controls="home" role="tab" data-toggle="tab">Основное</a>
+        </li>
+        <li role="presentation">
+            <a href="#page-params" aria-controls="profile" role="tab" data-toggle="tab">Дополнительно</a>
+        </li>
+    </ul>
 
-    <div class="row">
-        <div class="col-md-6">
-            <?= $form->field($model, 'description_seo')->textarea(['rows' => 3]) ?>
+    <!-- Tab panes -->
+    <div class="tab-content">
+        <div role="tabpanel" class="tab-pane active" id="page-main">
+            <br>
+            <div class="row">
+                <div class="col-md-4">
+                    <?= $form->field($model, 'title')->textInput(['maxlength' => true]) ?>
+                </div>
+                <div class="col-md-4">
+                    <?= $form->field($model, 'title_menu')->textInput(['maxlength' => true]) ?>
+                </div>
+                <div class="col-md-4">
+                    <?= $form->field($model, 'title_seo')->textInput(['maxlength' => true]) ?>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <?= $form->field($model, 'description_seo')->textarea(['style' => 'height: 108px;']) ?>
+                </div>
+                <div class="col-md-3">
+                    <?= $form->field($model, 'key')->textInput() ?>
+                    <?= $form->field($model, 'status')->checkbox() ?>
+                </div>
+                <div class="col-md-3">
+                    <?= $form->field($model, 'parent_id')->dropDownList(Page::find()->select('title')->indexBy('id')->orderBy("parent_id, norder")->column(), ['prompt' => ['options' => ['value' => '0'], 'text' => 'Корень']]) ?>
+                    <?= $form->field($model, 'menu')->checkbox() ?>
+                </div>
+            </div>
         </div>
-        <div class="col-md-3">
-            <?= $form->field($model, 'key')->textInput() ?>
-            <?= $form->field($model, 'status')->checkbox() ?>
-        </div>
-        <div class="col-md-3">
-            <?= $form->field($model, 'parent_id')->dropDownList(Page::find()->select('title')->indexBy('id')->orderBy("parent_id, norder")->column(), ['prompt' => ['options' => ['value' => '0'], 'text' => 'Корень']]) ?>
-            <?= $form->field($model, 'menu')->checkbox() ?>
-        </div>
-    </div>
-
-
-    <div class="row">
-        <div class="col-md-6">
-            <?= $form->field($model, 'index_controller')->textInput() ?>
-        </div>
-        <div class="col-md-3">
-            <?= $form->field($model, 'index_action')->textInput() ?>
-        </div>
-        <div class="col-md-3">
-            <?= $form->field($model, 'index_params')->textInput() ?>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-md-6">
-            <?= $form->field($model, 'view_controller')->textInput() ?>
-        </div>
-        <div class="col-md-3">
-            <?= $form->field($model, 'view_action')->textInput() ?>
-        </div>
-        <div class="col-md-3">
-            <?= $form->field($model, 'lang')->textInput() ?>
+        <div role="tabpanel" class="tab-pane" id="page-params">
+            <br>
+            <div class="row">
+                <div class="col-md-6">
+                    <?= $form->field($model, 'index_controller')->textInput() ?>
+                </div>
+                <div class="col-md-3">
+                    <?= $form->field($model, 'index_action')->textInput() ?>
+                </div>
+                <div class="col-md-3">
+                    <?= $form->field($model, 'index_params')->textInput() ?>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <?= $form->field($model, 'view_controller')->textInput() ?>
+                </div>
+                <div class="col-md-3">
+                    <?= $form->field($model, 'view_action')->textInput() ?>
+                </div>
+                <div class="col-md-3">
+                    <?= $form->field($model, 'lang')->textInput() ?>
+                </div>
+            </div>
+            <?= $form->field($model, 'layout') ?>
         </div>
     </div>
 
     <?= $form->field($model, 'content')->widget(Summernote::className(), []) ?>
 
     <?= $form->field($model, 'images')->widget(FileInputWidget::className(), []) ?>
+    
+    <?= $form->field($model, 'files')->widget(FileInputWidget::className(), []) ?>
 
 </div>
 

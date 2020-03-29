@@ -25,9 +25,8 @@ $columns = [
     [
         'attribute' => 'title',
         'content' => function (Page $model) {
-            $html = $model->title;
-            if (!$model->parent_id)
-                $html = Html::tag('b', $model->title);
+
+            $html = Html::tag('span', $model->title_menu, ['class' => $model->parent_id ? '' : 'bold']);
 
             $html .= Html::a($model->url, $model->url, ['class' => 'small', 'target' => '_blank', 'data-pjax' => '0']);
 

@@ -30,6 +30,7 @@ use yii\web\UrlManager;
  * @property string $path Полный путь
  * @property string $content Тело страницы
  * @property string $url Url страницы
+ * @property string $layout Шаблон
  * @property boolean $active Активна ли данная страницы
  * @property string $index_controller Контроллер индекса
  * @property string $index_action Экшн индекса
@@ -80,12 +81,14 @@ class Page extends ActiveRecord
             ['lang', 'string', 'max' => 3],
             [['title', 'title_seo', 'title_menu', 'path', 'index_params', 'view_action', 'view_controller', 'index_action', 'index_controller'], 'string', 'max' => 255],
             [['description_seo', 'keywords_seo', 'key'], 'string', 'max' => 400],
+            [['layout'], 'string', 'max' => 255],
             ['status', 'in', 'range' => [PageStatus::ACTIVE, PageStatus::DISABLED]],
             ['menu', 'in', 'range' => [PageMenuVisibility::VISIBLE, PageMenuVisibility::HIDDEN]],
             [['create_user_id'], 'exist', 'skipOnError' => true, 'targetClass' => Yii::$app->getModule('pages')->userModel, 'targetAttribute' => ['create_user_id' => 'id']],
             [['update_user_id'], 'exist', 'skipOnError' => true, 'targetClass' => Yii::$app->getModule('pages')->userModel, 'targetAttribute' => ['update_user_id' => 'id']],
             ['key', 'match', 'pattern' => '/^[-a-z0-9\/]*$/', 'message' => 'Ключ URL может состоять только из латинских букв в нижнем регистре, цифр и дефиса.'],
-            ['images', 'file', 'maxFiles' => 10, 'extensions' => ['jpeg', 'png', 'jpg', 'svg']]
+            ['images', 'file', 'maxFiles' => 10, 'extensions' => ['jpeg', 'png', 'jpg', 'svg']],
+            ['files', 'file', 'maxFiles' => 10]
         ];
     }
 
@@ -97,7 +100,13 @@ class Page extends ActiveRecord
         return [
             'files' => [
                 'class' => FileBehaviour::class,
-                'attributes' => ['images']
+                'attributes' => [
+                    'images' => [
+                        'maxWidth' => 3800,
+                        'maxHeight' => 3800,
+                    ],
+                    'files'
+                ]
             ]
         ];
     }
@@ -124,13 +133,16 @@ class Page extends ActiveRecord
             'norder' => 'Порядок',
             'path' => 'Полный путь',
             'content' => 'Тело страницы',
+            'layout' => 'Layout',
             'menu' => 'Показывать в меню',
             'view_action' => 'View Action',
             'view_controller' => 'View Controller',
             'index_action' => 'Index Action',
             'index_params' => 'Index Params',
             'index_controller' => 'Index Controller',
-            'lang' => 'Язык страницы'
+            'lang' => 'Язык страницы',
+            'files' => 'Файлы',
+            'images' => 'Галерея',
         ];
     }
 

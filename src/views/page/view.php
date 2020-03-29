@@ -18,12 +18,15 @@ if (Yii::$app->getModule('pages')->adminMode()) {
     echo Html::button(IconHelper::PENCIL, [
         'class' => 'btn btn-default btn-xs pull-right modal-edit-page',
         'onclick' => EditModalHelper::showForm(['page/form'], $model->id)]);
-    Pjax::begin(['id' => 'items']);
+    Pjax::begin(['id' => 'pages']);
 }
 
 echo Html::tag('h1', $model->title);
 
 echo $model->content;
+
+if ($model->images)
+    echo $this->render('images', ['models' => $model->images]);
 
 if (Yii::$app->getModule('pages')->adminMode())
     Pjax::end();

@@ -121,6 +121,9 @@ class PageController extends \yii\web\Controller
             if (!$page || !$page->view_action || $page->status)
                 throw new \yii\web\NotFoundHttpException('Запрашиваемый материал не найден на сайте.');
 
+            if ($page->layout)
+                $this->layout = $page->layout;
+
             if ($page->view_controller && $page->view_action) {
                 $name = strtolower(str_replace('Controller', '', (new \ReflectionClass($page->index_controller))->getShortName()));
                 $controller = new $page->index_controller($name, Yii::$app);
@@ -134,6 +137,8 @@ class PageController extends \yii\web\Controller
         if (!$page || ($page->status == PageStatus::DISABLED && !Yii::$app->getModule('pages')->adminMode()))
             throw new NotFoundHttpException();
 
+        if ($page->layout)
+            $this->layout = $page->layout;
 
         Yii::$app->getModule('pages')->currentPageId = $page->id;
 
@@ -194,7 +199,6 @@ class PageController extends \yii\web\Controller
                 'class' => EditModalAction::className(),
                 'model' => Page::className(),
                 'logic' => PageUpdate::class,
-                'container' => '#pages',
                 'message' => 'Страница сохранена'
             ],
             'delete' => [

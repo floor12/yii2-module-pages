@@ -30,7 +30,7 @@ class SideMenuWidget extends Widget
 
     public $model;
     public $showCurrentPageheader = false;
-    public $adminMode = false;
+    public $adminMode;
     public $lang = 'ru';
 
     private $_pages = [];
@@ -39,7 +39,8 @@ class SideMenuWidget extends Widget
 
     public function init()
     {
-        $this->adminMode = Yii::$app->getModule('pages')->adminMode();
+        if ($this->adminMode === null)
+            $this->adminMode = Yii::$app->getModule('pages')->adminMode();
 
         if ($this->adminMode) {
             PagesAsset::register($this->getView());
