@@ -199,6 +199,7 @@ class PageController extends \yii\web\Controller
                 'class' => EditModalAction::className(),
                 'model' => Page::className(),
                 'logic' => PageUpdate::class,
+                'container' => '#pages',
                 'message' => 'Страница сохранена'
             ],
             'delete' => [
