@@ -108,13 +108,13 @@ if (Yii::$app->request->get('parent_id'))
     <?= $form->field($model, 'content')->widget(Summernote::className(), []) ?>
 
     <?= $form->field($model, 'images')->widget(FileInputWidget::className(), []) ?>
-    
+
     <?= $form->field($model, 'files')->widget(FileInputWidget::className(), []) ?>
 
 </div>
 
 <div class="modal-footer">
-    <?= Html::a('Отмена', '', ['class' => 'btn btn-default modaledit-disable']) ?>
+    <?= Html::button('Отмена', ['class' => 'btn btn-default modaledit-disable']) ?>
     <?= Html::submitButton($model->isNewRecord ? 'Создать' : 'Сохранить', ['class' => 'btn btn-primary']) ?>
 </div>
 
