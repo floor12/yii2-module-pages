@@ -91,14 +91,14 @@ class SideMenuWidget extends Widget
                 if (($this->model && $page->id == $this->model->id))
                     $page->active = true;
 
-                $nodes[] = $this->render($this->viewTemplate, ['model' => $page, 'adminMode' => $this->adminMode]);
+                $nodes[] = $this->render($this->viewTemplate, ['model' => $page]);
 
                 if ($this->model && $page->child && (in_array($this->model->id, $page->child_ids) || $page->active)) {
                     $subs = [];
                     foreach ($page->child as $sub) {
                         if (($sub->id == $this->model->id))
                             $sub->active = true;
-                        $subs[] = $this->render($this->viewTemplate, ['model' => $sub, 'adminMode' => $this->adminMode]);
+                        $subs[] = $this->render($this->viewTemplate, ['model' => $sub]);
                     }
                     $nodes[] = Html::tag('ul', implode("\n", $subs), ['class' => 'sideSubMenu']);
                 }

@@ -25,11 +25,9 @@ $columns = [
     [
         'attribute' => 'title',
         'content' => function (Page $model) {
-
-            $html = Html::tag('span', $model->title_menu, ['class' => $model->parent_id ? '' : 'bold']);
-
+            $html = Html::tag('span', $model->id.'.', ['class' => 'page-id']);
+            $html .= Html::tag('span', $model->title_menu, ['class' => $model->parent_id ? '' : 'bold']);
             $html .= Html::a($model->url, $model->url, ['class' => 'small', 'target' => '_blank', 'data-pjax' => '0']);
-
             return Html::tag('div', $html, []);
         }
     ],
