@@ -44,10 +44,8 @@ class PageNavigationRecursiveWidget extends Widget
     protected function loadPages(): void
     {
 
-        $cacheKey = "cache1";
-
+        $cacheKey = "pagesByParent{$this->parentId}";
         $this->pages = Yii::$app->cache->get($cacheKey);
-
         if ($this->pages === false) {
             $this->pages = Page::find()
                 ->byLang($this->lang)
@@ -67,10 +65,13 @@ class PageNavigationRecursiveWidget extends Widget
                 'class' => in_array($page->id, $this->activePath) ? $this->activeElementCssClass : NULl
             ]);
 
-            $cacheKey = "pcc{$this->parentId}";
-            $children = Yii::$app->cache->getOrSet($cacheKey, function () {
-                return $page->child;
-            }, 0, new TagDependency(['tags' => [Page::CACHE_TAG_NAME]]));
+            $cacheKey = "pageChild{$page->id}";
+            $children = Yii::$app->cache->get($cacheKey);
+
+            if ($children === false) {
+                $children = $page->child;
+                Yii::$app->cache->set($cacheKey, $children, 0, new TagDependency(['tags' => [Page::CACHE_TAG_NAME]]));
+            }
 
             if ($children)
                 $htmlLink .= self::widget([
