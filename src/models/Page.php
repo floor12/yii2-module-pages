@@ -49,6 +49,8 @@ use yii\web\UrlManager;
  */
 class Page extends ActiveRecord
 {
+    const CACHE_TAG_NAME = "pages";
+
     public $active = false;
 
     /**

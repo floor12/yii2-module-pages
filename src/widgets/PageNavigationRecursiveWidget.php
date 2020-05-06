@@ -3,9 +3,10 @@
 
 namespace floor12\pages\widgets;
 
-use app\models\enum\Lang;
 use floor12\pages\models\Page;
+use Yii;
 use yii\base\Widget;
+use yii\caching\TagDependency;
 use yii\helpers\Html;
 
 class PageNavigationRecursiveWidget extends Widget
@@ -28,21 +29,34 @@ class PageNavigationRecursiveWidget extends Widget
     protected $pages = [];
     /** @var array */
     protected $htmlListElements = [];
+    /** @var TagDependency */
+    protected $tagDependency;
+
 
     public function init(): void
     {
         $this->loadPages();
         $this->createHtmlElements();
+        $this->tagDependency = new TagDependency(['tags' => [Page::CACHE_TAG_NAME]]);
+
     }
 
     protected function loadPages(): void
     {
-        $this->pages = Page::find()
-            ->byLang($this->lang)
-            ->active()
-            ->orderBy('norder')
-            ->andWhere(['parent_id' => $this->parentId])
-            ->all();
+
+        $cacheKey = "cache1";
+
+        $this->pages = Yii::$app->cache->get($cacheKey);
+
+        if ($this->pages === false) {
+            $this->pages = Page::find()
+                ->byLang($this->lang)
+                ->active()
+                ->orderBy('norder')
+                ->andWhere(['parent_id' => $this->parentId])
+                ->all();
+            Yii::$app->cache->set($cacheKey, $this->pages, 0, new TagDependency(['tags' => [Page::CACHE_TAG_NAME]]));
+        }
     }
 
     protected function createHtmlElements(): void
@@ -53,7 +67,12 @@ class PageNavigationRecursiveWidget extends Widget
                 'class' => in_array($page->id, $this->activePath) ? $this->activeElementCssClass : NULl
             ]);
 
-            if ($page->child)
+            $cacheKey = "pcc{$this->parentId}";
+            $children = Yii::$app->cache->getOrSet($cacheKey, function () {
+                return $page->child;
+            }, 0, new TagDependency(['tags' => [Page::CACHE_TAG_NAME]]));
+
+            if ($children)
                 $htmlLink .= self::widget([
                     'lang' => $this->lang,
                     'parentId' => $page->id,
@@ -70,7 +89,8 @@ class PageNavigationRecursiveWidget extends Widget
         }
     }
 
-    public function run(): string
+    public
+    function run(): string
     {
         $finalUlCssClass = $this->ulCssClass;
         if ($this->ulIsActive)

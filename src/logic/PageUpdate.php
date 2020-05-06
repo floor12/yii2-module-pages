@@ -10,6 +10,8 @@ namespace floor12\pages\logic;
 
 use floor12\pages\models\Page;
 use yii\web\IdentityInterface;
+use yii\caching\TagDependency;
+use Yii;
 
 class PageUpdate
 {
@@ -48,6 +50,7 @@ class PageUpdate
 
         if ($this->_model->save()) {
             $this->updatePath($this->_model);
+            TagDependency::invalidate(Yii::$app->cache, Page::CACHE_TAG_NAME);
             return true;
         }
 
