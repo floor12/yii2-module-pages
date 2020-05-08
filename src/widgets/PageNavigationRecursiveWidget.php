@@ -43,8 +43,7 @@ class PageNavigationRecursiveWidget extends Widget
 
     protected function loadPages(): void
     {
-
-        $cacheKey = "pagesByParent{$this->parentId}";
+        $cacheKey = "pagesByParent{$this->parentId}{$this->lang}";
         $this->pages = Yii::$app->cache->get($cacheKey);
         if ($this->pages === false) {
             $this->pages = Page::find()
