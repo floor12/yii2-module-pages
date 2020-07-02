@@ -148,7 +148,7 @@ class PageController extends \yii\web\Controller
 
         Yii::$app->metamaster
             ->setTitle($page->title_seo)
-            ->setDescription($page->description_seo)
+            ->setDescription(strval($page->description_seo))
             ->register(Yii::$app->getView());
 
         if ($page->index_controller && $page->index_action) {
