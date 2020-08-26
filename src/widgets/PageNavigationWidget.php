@@ -4,32 +4,41 @@
 namespace floor12\pages\widgets;
 
 
-use floor12\pages\models\Page;
-use yii\base\Widget;
 use floor12\pages\components\CurrentPagePath;
+use floor12\pages\models\Page;
 use Yii;
+use yii\base\Widget;
+use yii\caching\TagDependency;
 
 class PageNavigationWidget extends Widget
 {
-    public $activeElementCssClass;
+    public $activeElementCssClass = 'active';
     /** @var string */
-    public $ulCssClass;
+    public $ulCssClass = 'menu';
     /** @var string */
-    public $childUlCssClass;
+    public $childUlCssClass = 'dropdown';
     /** @var string */
     public $lang;
     /** @var int */
     public $parentId = 0;
+    /** @var string|null */
+    public $dropDownIcon = null;
     /** @var string */
     protected $activePath = [];
+    /** @var integer */
+    protected $currentPageId;
+    /** @var TagDependency */
+    protected $tagDependency;
 
     /**
      * @inheritDoc
      */
     public function init(): void
     {
-        $pathGenerator = new CurrentPagePath();
-        $this->activePath = $pathGenerator->getAsArray(Yii::$app->getModule('pages')->currentPageId);
+        if (empty($this->lang))
+            $this->lang = Yii::$app->language;
+        $this->currentPageId = Yii::$app->getModule('pages')->currentPageId;
+        $this->tagDependency = new TagDependency(['tags' => [Page::CACHE_TAG_NAME]]);
     }
 
     /**
@@ -38,14 +47,30 @@ class PageNavigationWidget extends Widget
      */
     public function run(): string
     {
-        return PageNavigationRecursiveWidget::widget([
-            'lang' => $this->lang,
-            'parentId' => $this->parentId,
-            'activeElementCssClass' => $this->activeElementCssClass,
-            'childUlCssClass' => $this->childUlCssClass,
-            'ulCssClass' => $this->ulCssClass,
-            'activePath' => $this->activePath,
-            'ulIsActive' => false,
-        ]);
+        $key = [
+            $this->lang,
+            $this->currentPageId,
+            $this->parentId,
+            $this->activeElementCssClass,
+            $this->dropDownIcon,
+            $this->ulCssClass,
+            $this->childUlCssClass,
+        ];
+
+        return Yii::$app->cache->getOrSet($key, function () {
+            $pathGenerator = new CurrentPagePath();
+            $this->activePath = $pathGenerator->getAsArray($this->currentPageId);
+            return PageNavigationRecursiveWidget::widget([
+                'lang' => $this->lang,
+                'parentId' => $this->parentId,
+                'activeElementCssClass' => $this->activeElementCssClass,
+                'childUlCssClass' => $this->childUlCssClass,
+                'ulCssClass' => $this->ulCssClass,
+                'activePath' => $this->activePath,
+                'dropDownIcon' => $this->dropDownIcon,
+                'ulIsActive' => false,
+            ]);
+        }, 60 * 60, $this->tagDependency);
+
     }
 }

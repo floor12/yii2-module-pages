@@ -19,6 +19,7 @@ use floor12\pages\models\Page;
 use floor12\pages\models\PageStatus;
 use floor12\summernote\Summernote;
 use Yii;
+use yii\caching\TagDependency;
 use yii\filters\AccessControl;
 use yii\filters\VerbFilter;
 use yii\web\NotFoundHttpException;
@@ -103,7 +104,10 @@ class PageController extends \yii\web\Controller
     {
 
         // этот интересный кусок кода нужен чтобы сначала обеспечить проверку может ли быть последняя часть урла ключом для подключаемого экшена
-        $page = Page::findOne(['path' => $path, 'lang' => Yii::$app->language]);
+        $page = Page::find()
+            ->cache(60 * 60, new TagDependency(['tags' => Page::CACHE_TAG_NAME]))
+            ->where(['path' => $path, 'lang' => Yii::$app->language])
+            ->one();
 
         if (!$page) {
             $pathExploded = explode('/', $path);
