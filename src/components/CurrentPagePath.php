@@ -35,7 +35,7 @@ class CurrentPagePath
     {
         $this->pageIds[] = $pageId;
         $page = Page::findOne($pageId);
-        if ($page->parent_id)
+        if (!empty($page) && $page->parent_id)
             $this->addParent($page->parent_id);
     }
 
