@@ -47,17 +47,7 @@ class PageNavigationWidget extends Widget
      */
     public function run(): string
     {
-        $key = [
-            $this->lang,
-            $this->currentPageId,
-            $this->parentId,
-            $this->activeElementCssClass,
-            $this->dropDownIcon,
-            $this->ulCssClass,
-            $this->childUlCssClass,
-        ];
-
-        return Yii::$app->cache->getOrSet($key, function () {
+        return Yii::$app->cache->getOrSet($this->generateCacheKey(), function () {
             $pathGenerator = new CurrentPagePath();
             $this->activePath = $pathGenerator->getAsArray($this->currentPageId);
             return PageNavigationRecursiveWidget::widget([
@@ -72,5 +62,18 @@ class PageNavigationWidget extends Widget
             ]);
         }, 60 * 60, $this->tagDependency);
 
+    }
+
+    protected function generateCacheKey(): array
+    {
+        return [
+            $this->lang,
+            $this->currentPageId,
+            $this->parentId,
+            $this->activeElementCssClass,
+            $this->dropDownIcon,
+            $this->ulCssClass,
+            $this->childUlCssClass,
+        ];
     }
 }

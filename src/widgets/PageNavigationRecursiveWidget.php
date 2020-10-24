@@ -42,6 +42,7 @@ class PageNavigationRecursiveWidget extends Widget
         $this->pages = Page::find()
             ->byLang($this->lang)
             ->active()
+            ->visible()
             ->orderBy('norder')
             ->andWhere(['parent_id' => $this->parentId])
             ->all();
@@ -55,7 +56,7 @@ class PageNavigationRecursiveWidget extends Widget
             $htmlLink = Html::a($page->title_menu, $page->getUrl(), [
                 'class' => in_array($page->id, $this->activePath) ? $this->activeElementCssClass : NULl
             ]);
-            
+
             if ($page->child) {
                 $htmlLink .= ' ';
                 $htmlLink .= $this->dropDownIcon;

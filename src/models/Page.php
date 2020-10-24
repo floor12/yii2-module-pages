@@ -46,6 +46,7 @@ use yii\web\UrlManager;
  * @property Page[] $childVisible
  * @property array $child_ids
  * @property File[] $images
+ * @property File[] $files
  */
 class Page extends ActiveRecord
 {
