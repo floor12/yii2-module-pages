@@ -57,7 +57,7 @@ class PageNavigationRecursiveWidget extends Widget
                 'class' => in_array($page->id, $this->activePath) ? $this->activeElementCssClass : NULl
             ]);
 
-            if ($page->child) {
+            if ($page->childVisible) {
                 $htmlLink .= ' ';
                 $htmlLink .= $this->dropDownIcon;
                 $htmlLink .= self::widget([
@@ -71,8 +71,15 @@ class PageNavigationRecursiveWidget extends Widget
                 ]);
             }
 
+            $cssClass = $page->childVisible ? $this->childUlCssClass : '';
+
+            if (in_array($page->id, $this->activePath)) {
+                $cssClass .= ' ';
+                $cssClass .= $this->activeElementCssClass;
+            }
+
             $this->htmlListElements[] = Html::tag('li', $htmlLink, [
-                'class' => in_array($page->id, $this->activePath) ? $this->activeElementCssClass : NULl
+                'class' => trim($cssClass)
             ]);
         }
     }
