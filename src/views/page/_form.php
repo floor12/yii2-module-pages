@@ -107,6 +107,7 @@ if (Yii::$app->request->get('parent_id'))
 
     <?= $form->field($model, 'content')->widget(Summernote::className(), []) ?>
 
+    <?= $form->field($model, 'banner')->widget(FileInputWidget::className(), []) ?>
     <?= $form->field($model, 'images')->widget(FileInputWidget::className(), []) ?>
 
     <?= $form->field($model, 'files')->widget(FileInputWidget::className(), []) ?>

@@ -72,6 +72,7 @@ class PageNavigationRecursiveWidget extends Widget
             }
 
             $cssClass = $page->childVisible ? $this->childUlCssClass : '';
+            $cssClass .= ' menu-link';
 
             if (in_array($page->id, $this->activePath)) {
                 $cssClass .= ' ';
@@ -79,7 +80,8 @@ class PageNavigationRecursiveWidget extends Widget
             }
 
             $this->htmlListElements[] = Html::tag('li', $htmlLink, [
-                'class' => trim($cssClass)
+                'class' => trim($cssClass),
+                'data-id' => $page->id,
             ]);
         }
     }

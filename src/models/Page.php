@@ -45,6 +45,7 @@ use yii\web\UrlManager;
  * @property Page[] $child
  * @property Page[] $childVisible
  * @property array $child_ids
+ * @property File $banner
  * @property File[] $images
  * @property File[] $files
  */
@@ -91,7 +92,8 @@ class Page extends ActiveRecord
             [['update_user_id'], 'exist', 'skipOnError' => true, 'targetClass' => Yii::$app->getModule('pages')->userModel, 'targetAttribute' => ['update_user_id' => 'id']],
             ['key', 'match', 'pattern' => '/^[-a-z0-9\/]*$/', 'message' => 'Ключ URL может состоять только из латинских букв в нижнем регистре, цифр и дефиса.'],
             ['images', 'file', 'maxFiles' => 10, 'extensions' => ['jpeg', 'png', 'jpg', 'svg']],
-            ['files', 'file', 'maxFiles' => 10]
+            ['files', 'file', 'maxFiles' => 10],
+            ['banner', 'file', 'maxFiles' => 1],
         ];
     }
 
@@ -104,11 +106,12 @@ class Page extends ActiveRecord
             'files' => [
                 'class' => FileBehaviour::class,
                 'attributes' => [
+                    'banner',
                     'images' => [
                         'maxWidth' => 3800,
                         'maxHeight' => 3800,
                     ],
-                    'files'
+                    'files',
                 ]
             ]
         ];
@@ -146,6 +149,7 @@ class Page extends ActiveRecord
             'lang' => 'Язык страницы',
             'files' => 'Файлы',
             'images' => 'Галерея',
+            'banner' => 'Баннер',
         ];
     }
 
