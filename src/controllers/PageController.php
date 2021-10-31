@@ -11,6 +11,8 @@ namespace floor12\pages\controllers;
 
 use floor12\editmodal\DeleteAction;
 use floor12\editmodal\EditModalAction;
+use floor12\files\components\PictureWidget;
+use floor12\files\models\File;
 use floor12\pages\components\MapYandexWidget;
 use floor12\pages\logic\PageBreadcrumbs;
 use floor12\pages\logic\PageOrderChanger;
@@ -188,6 +190,17 @@ class PageController extends \yii\web\Controller
         if (preg_match_all('/{{map:([\w\%]*)}}/', $page->content, $mapMatches)) {
             foreach ($mapMatches[1] as $key => $mapKey) {
                 $page->content = str_replace($mapMatches[0][$key], MapYandexWidget::widget(['key' => $mapKey]), $page->content);
+            }
+        }
+
+        if (preg_match_all('/{{image: ([\w\%]*), width: ([\d\%]*), alt: ([\d\w ]*)}}/', $page->content, $mapMatches)) {
+            foreach ($mapMatches[1] as $resultKey => $hash) {
+                $widget = PictureWidget::widget([
+                    'model' => File::findOne(['hash' => $hash]),
+                    'alt' => $mapMatches[3][$resultKey],
+                    'width' => $mapMatches[2][$resultKey],
+                ]);
+                 $page->content = str_replace($mapMatches[0][$resultKey], $widget, $page->content);
             }
         }
 
