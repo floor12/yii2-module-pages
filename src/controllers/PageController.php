@@ -139,6 +139,7 @@ class PageController extends \yii\web\Controller
                 $controller = new $page->index_controller($name, Yii::$app);
                 $this->getView()->params['breadcrumbs'] = Yii::createObject(PageBreadcrumbs::class, [$page])->makeBreadcrumbsItems();
                 $this->getView()->params['currentPage'] = $page;
+                Yii::$app->getModule('pages')->currentPageId = $page->id;
                 return $controller->runAction(strtolower($page->view_action), ['key' => $key, 'page' => $page]);
             }
         }
