@@ -131,11 +131,15 @@ class PageController extends \yii\web\Controller
                 $this->layout = $page->layout;
 
             if ($page->view_controller && $page->view_action) {
+
+                if (substr($page->view_action, 0, 6) == 'action')
+                    $page->view_action = substr($page->view_action, 6);
+
                 $name = strtolower(str_replace('Controller', '', (new \ReflectionClass($page->index_controller))->getShortName()));
                 $controller = new $page->index_controller($name, Yii::$app);
                 $this->getView()->params['breadcrumbs'] = Yii::createObject(PageBreadcrumbs::class, [$page])->makeBreadcrumbsItems();
                 $this->getView()->params['currentPage'] = $page;
-                return $controller->{$page->view_action}($key, $page->id);
+                return $controller->runAction(strtolower($page->view_action), ['key' => $key, 'page' => $page]);
             }
         }
 
@@ -163,7 +167,6 @@ class PageController extends \yii\web\Controller
 
             if (substr($page->index_action, 0, 6) == 'action')
                 $page->index_action = substr($page->index_action, 6);
-
 
             $indexParams = [];
             if ($page->index_params) {
@@ -200,7 +203,7 @@ class PageController extends \yii\web\Controller
                     'alt' => $mapMatches[3][$resultKey],
                     'width' => $mapMatches[2][$resultKey],
                 ]);
-                 $page->content = str_replace($mapMatches[0][$resultKey], $widget, $page->content);
+                $page->content = str_replace($mapMatches[0][$resultKey], $widget, $page->content);
             }
         }
 
