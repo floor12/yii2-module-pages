@@ -4,6 +4,7 @@ namespace floor12\pages\models;
 
 use floor12\files\components\FileBehaviour;
 use floor12\files\models\File;
+use floor12\pages\components\PurifyBehavior;
 use Yii;
 use yii\db\ActiveRecord;
 use yii\helpers\Url;
@@ -103,6 +104,10 @@ class Page extends ActiveRecord
     public function behaviors()
     {
         return [
+            'purify' => [
+                'class' => PurifyBehavior::class,
+                'attributes' => ['content'],
+            ],
             'files' => [
                 'class' => FileBehaviour::class,
                 'attributes' => [
