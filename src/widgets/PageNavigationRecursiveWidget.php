@@ -66,6 +66,7 @@ class PageNavigationRecursiveWidget extends Widget
                     'activePath' => $this->activePath,
                     'ulCssClass' => $this->childUlCssClass,
                     'childUlCssClass' => $this->childUlCssClass,
+                    'dropDownIcon' => $this->dropDownIcon,
                     'activeElementCssClass' => $this->activeElementCssClass,
                     'ulIsActive' => in_array($page->id, $this->activePath)
                 ]);
