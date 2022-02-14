@@ -74,6 +74,7 @@ if (Yii::$app->request->get('parent_id'))
                 <div class="col-md-3">
                     <?= $form->field($model, 'parent_id')->dropDownList(Page::find()->select('title')->indexBy('id')->orderBy("parent_id, norder")->column(), ['prompt' => ['options' => ['value' => '0'], 'text' => 'Корень']]) ?>
                     <?= $form->field($model, 'menu')->checkbox() ?>
+                    <?= $form->field($model, 'use_purifier')->checkbox() ?>
                 </div>
             </div>
         </div>

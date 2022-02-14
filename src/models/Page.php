@@ -39,6 +39,7 @@ use yii\web\UrlManager;
  * @property string $view_controller Контроллер просмотра объекта
  * @property string $view_action Экшн для просмотра объекта
  * @property string $lang Язык страницы
+ * @property boolean $use_purifier Очищать html
  *
  * @property User $creator
  * @property User $updator
@@ -83,6 +84,7 @@ class Page extends ActiveRecord
             [['status', 'created', 'updated', 'create_user_id', 'update_user_id', 'parent_id', 'norder', 'menu'], 'integer'],
             [['created', 'updated', 'title_seo', 'key', 'title_menu'], 'required'],
             [['content'], 'string'],
+            [['use_purifier'], 'boolean'],
             ['lang', 'string', 'max' => 3],
             [['title', 'title_seo', 'title_menu', 'path', 'index_params', 'view_action', 'view_controller', 'index_action', 'index_controller'], 'string', 'max' => 255],
             [['description_seo', 'keywords_seo', 'key'], 'string', 'max' => 400],
@@ -129,7 +131,7 @@ class Page extends ActiveRecord
     {
         return [
             'id' => 'ID',
-            'status' => 'Скрыть',
+            'status' => 'Выключить',
             'created' => 'Время создания',
             'updated' => 'Время обновления',
             'create_user_id' => 'Создал',
@@ -140,7 +142,7 @@ class Page extends ActiveRecord
             'title_menu' => 'Название меню',
             'description_seo' => 'Meta Description',
             'keywords_seo' => 'Meta keywords',
-            'key' => 'Ключевое слово для URL',
+            'key' => 'Slug для URL',
             'norder' => 'Порядок',
             'path' => 'Полный путь',
             'content' => 'Тело страницы',
@@ -155,6 +157,7 @@ class Page extends ActiveRecord
             'files' => 'Файлы',
             'images' => 'Галерея',
             'banner' => 'Баннер',
+            'use_purifier' => 'Очищать HTML',
         ];
     }
 

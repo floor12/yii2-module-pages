@@ -17,14 +17,12 @@ class PurifyBehavior extends Behavior
     {
         parent::init();
         $this->config = function ($conf) {
-            $conf->set('CSS.Trusted', false);
             $conf->set('HTML.AllowedElements', ['p', 'div', 'a', 'br', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6',
                 'table', 'thead', 'tbody', 'tr', 'th', 'td', 'ul', 'ol', 'li', 'b', 'i', 'strike', 'img', 'hr']);
             $conf->set('HTML.AllowedAttributes', ['id', 'class', 'target']);
             $def = $conf->getHTMLDefinition(true);
             $def->addElement('mark', 'Inline', 'Inline', 'Common');
             $def->addAttribute('p', 'class', 'Text');
-            $def->addAttribute('p', 'style', 'Text');
             $def->addAttribute('p', 'justify', 'Text');
             $def->addAttribute('a', 'id', 'Text');
             $def->addAttribute('img', 'class', 'Text');
@@ -43,8 +41,9 @@ class PurifyBehavior extends Behavior
 
     public function beforeValidate()
     {
-        foreach ($this->attributes as $attribute) {
-            $this->owner->$attribute = HtmlPurifier::process($this->owner->$attribute, $this->config);
-        }
+        if (!isset($this->owner->use_purifier) || $this->owner->use_purifier == true)
+            foreach ($this->attributes as $attribute) {
+                $this->owner->$attribute = HtmlPurifier::process($this->owner->$attribute, $this->config);
+            }
     }
 }
