@@ -21,7 +21,7 @@ if (Yii::$app->getModule('pages')->adminMode()) {
     Pjax::begin(['id' => 'pages']);
 }
 
-echo Html::tag('h1', $model->title);
+echo $model->title ? Html::tag('h1', $model->title) : null;
 
 echo $model->content;
 
