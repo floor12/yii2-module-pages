@@ -13,6 +13,8 @@ use floor12\editmodal\DeleteAction;
 use floor12\editmodal\EditModalAction;
 use floor12\files\components\PictureWidget;
 use floor12\files\models\File;
+use floor12\maps\models\Map;
+use floor12\maps\widgets\MapWidget;
 use floor12\pages\components\MapYandexWidget;
 use floor12\pages\logic\PageBreadcrumbs;
 use floor12\pages\logic\PageOrderChanger;
@@ -194,6 +196,14 @@ class PageController extends \yii\web\Controller
         if (preg_match_all('/{{map:([\w\%]*)}}/', $page->content, $mapMatches)) {
             foreach ($mapMatches[1] as $key => $mapKey) {
                 $page->content = str_replace($mapMatches[0][$key], MapYandexWidget::widget(['key' => $mapKey]), $page->content);
+            }
+        }
+
+        if (preg_match_all('/{{openmap:([\w\%]*)}}/', $page->content, $mapMatches)) {
+            foreach ($mapMatches[1] as $key => $mapId) {
+                $map = Map::findOne($mapId);
+                if ($map)
+                    $page->content = str_replace($mapMatches[0][$key], MapWidget::widget(['map' => $map]), $page->content);
             }
         }
 
