@@ -1,6 +1,6 @@
 <?php
 /**
- * @var $this \yii\web\View
+ * @var $this View
  * @var $model PageFilter
  */
 
@@ -12,8 +12,10 @@ use floor12\pages\models\Page;
 use floor12\pages\models\PageFilter;
 use floor12\pages\models\PageStatus;
 use leandrogehlen\treegrid\TreeGrid;
+use yii\grid\GridView;
 use yii\helpers\Html;
 use yii\helpers\StringHelper;
+use yii\web\View;
 use yii\widgets\ActiveForm;
 use yii\widgets\Pjax;
 
@@ -25,7 +27,7 @@ $columns = [
     [
         'attribute' => 'title',
         'content' => function (Page $model) {
-            $html = Html::tag('span', $model->id.'.', ['class' => 'page-id']);
+            $html = Html::tag('span', $model->id . '.', ['class' => 'page-id']);
             $html .= Html::tag('span', $model->title_menu, ['class' => $model->parent_id ? '' : 'bold']);
             $html .= Html::a($model->url, $model->url, ['class' => 'small', 'target' => '_blank', 'data-pjax' => '0']);
             return Html::tag('div', $html, []);
@@ -124,7 +126,7 @@ Pjax::begin(['id' => 'pages',
     'scrollTo' => true,]);
 
 if ($model->filter)
-    echo \yii\grid\GridView::widget([
+    echo GridView::widget([
         'dataProvider' => $model->dataProvider(),
         'tableOptions' => ['class' => 'table'],
         'layout' => "{items}\n{pager}\n{summary}",
@@ -136,11 +138,10 @@ else
         'options' => ['class' => 'table'],
         'rowOptions' => function (Page $model) {
             $class = $model->index_controller ? "page-controller" : NULL;
-            $color = PageFilter::makeColor($model);
             if ($model->status == PageStatus::DISABLED)
                 $class .= ' disabled';
 
-            return ['class' => $class, 'style' => "background-color: {$color}"];
+            return ['class' => $class];
         },
         'keyColumnName' => 'id',
         'parentColumnName' => 'parent_id',
