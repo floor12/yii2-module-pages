@@ -9,6 +9,8 @@
 namespace floor12\pages\logic;
 
 use floor12\pages\models\Page;
+use floor12\pages\models\PageMenuVisibility;
+use floor12\pages\models\PageStatus;
 use yii\web\IdentityInterface;
 use yii\caching\TagDependency;
 use Yii;
@@ -43,6 +45,10 @@ class PageUpdate
 
         if (!$this->_model->lang)
             $this->_model->lang = 'ru';
+
+        if ($this->_model->status == PageStatus::DISABLED) {
+            $this->_model->menu = PageMenuVisibility::HIDDEN;
+        }
 
         if ($this->_model->isNewRecord)
             $this->_model->norder = Page::find()->where(['parent_id' => $this->_model->parent_id])->count();

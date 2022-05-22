@@ -27,24 +27,26 @@ $columns = [
     [
         'attribute' => 'title',
         'content' => function (Page $model) {
-            $html = Html::tag('span', $model->id . '.', ['class' => 'page-id']);
-            $html .= Html::tag('span', $model->title_menu, ['class' => $model->parent_id ? '' : 'bold']);
-            $html .= Html::a($model->url, $model->url, ['class' => 'small', 'target' => '_blank', 'data-pjax' => '0']);
+            $html = Html::tag('span', $model->id, ['class' => 'page-id']);
+            $html .= Html::tag('span', $model->title_menu, ['class' => 'page-menu-title']);
+            $html .= Html::a($model->url, $model->url, ['class' => 'page-menu-url small', 'target' => '_blank', 'data-pjax' => '0']);
             return Html::tag('div', $html, []);
         }
     ],
     [
         'header' => 'Содрежание',
-        'contentOptions' => ['style' => 'width: 50%;'],
         'content' => function (Page $model) {
+            $html = '';
+
+            if ($model->content)
+                $html .= Html::tag('div', StringHelper::truncateWords(strip_tags($model->content), 10), ['class' => 'small']);
+
             if ($model->index_controller)
-                $html = Html::tag('div', "<b>{$model->index_controller}</b>::$model->index_action", ['class' => 'small']);
+                $html .= Html::tag('div', "<b>{$model->index_controller}</b>::$model->index_action", ['class' => 'small']);
 
             if ($model->view_controller)
                 $html .= Html::tag('div', "<b>{$model->view_controller}</b>::$model->view_action", ['class' => 'small']);
 
-            if (empty($html))
-                $html = Html::tag('div', StringHelper::truncateWords(strip_tags($model->content), 10), ['class' => 'small']);
 
             return $html;
         }
@@ -137,10 +139,13 @@ else
     echo TreeGrid::widget(['dataProvider' => $model->dataProvider(),
         'options' => ['class' => 'table'],
         'rowOptions' => function (Page $model) {
-            $class = $model->index_controller ? "page-controller" : NULL;
-            if ($model->status == PageStatus::DISABLED)
-                $class .= ' disabled';
-
+            if ($model->menu == \floor12\pages\models\PageMenuVisibility::VISIBLE) {
+                $class = 'page-green';
+            } elseif ($model->status == \floor12\pages\models\PageStatus::ACTIVE) {
+                $class = 'page-yellow';
+            } else {
+                $class = 'page-disabled';
+            }
             return ['class' => $class];
         },
         'keyColumnName' => 'id',
