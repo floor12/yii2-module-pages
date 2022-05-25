@@ -130,14 +130,14 @@ Pjax::begin(['id' => 'pages',
 if ($model->filter)
     echo GridView::widget([
         'dataProvider' => $model->dataProvider(),
-        'tableOptions' => ['class' => 'table'],
+        'tableOptions' => ['class' => 'table table-striped'],
         'layout' => "{items}\n{pager}\n{summary}",
         'columns' => $columns
     ]);
 
 else
     echo TreeGrid::widget(['dataProvider' => $model->dataProvider(),
-        'options' => ['class' => 'table'],
+        'options' => ['class' => 'table table-striped'],
         'rowOptions' => function (Page $model) {
             if ($model->menu == \floor12\pages\models\PageMenuVisibility::VISIBLE) {
                 $class = 'page-green';

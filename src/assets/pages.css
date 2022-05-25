@@ -52,7 +52,7 @@ div.f12-page-control-dropdown.opened div {
 
 span.page-id {
   color: #9c9c9c;
-  width: 30px;
+  width: 20px;
   display: inline-block;
   font-size: 80%;
   margin: 0px 5px 0px 0; }
@@ -61,13 +61,14 @@ span.page-id {
   font-weight: bold; }
 
 .page-green {
-  background: #daecdf; }
+  border-left: #77d7a1 solid 5px; }
 
 .page-yellow {
-  background: #ece8da; }
+  border-left: #e6d975 solid 5px; }
 
-page-disabled {
-  opacity: 0.8; }
+.page-disabled {
+  opacity: 0.8;
+  border-left: #c65e5e solid 5px; }
 
 .page-menu-url {
   margin-bottom: -8px; }
