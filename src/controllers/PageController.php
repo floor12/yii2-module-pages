@@ -21,6 +21,7 @@ use floor12\pages\logic\PageOrderChanger;
 use floor12\pages\logic\PageUpdate;
 use floor12\pages\models\Page;
 use floor12\pages\models\PageStatus;
+use floor12\pages\models\PageUrl;
 use floor12\summernote\Summernote;
 use Yii;
 use yii\caching\TagDependency;
@@ -113,21 +114,21 @@ class PageController extends \yii\web\Controller
             ->where(['path' => $path, 'lang' => Yii::$app->language])
             ->one();
 
+        $pathExploded = explode('/', $path);
+        $key = $pathExploded[sizeof($pathExploded) - 1];
+        $pathWithoutLastPart = str_replace("/" . $pathExploded[sizeof($pathExploded) - 1], '', $path);
+
         if (!$page) {
-            $pathExploded = explode('/', $path);
 
-
-            $key = $pathExploded[sizeof($pathExploded) - 1];
-            $pathWithoutLastPart = str_replace("/" . $pathExploded[sizeof($pathExploded) - 1], '', $path);
 
             $page = Page::findOne(['path' => $pathWithoutLastPart, 'lang' => Yii::$app->language]);
 
 
             if (!$page || ($page->status == PageStatus::DISABLED && !Yii::$app->getModule('pages')->adminMode()))
-                throw new NotFoundHttpException();
+                return $this->checkUrlLogOrThrow($path, $pathWithoutLastPart, $key);
 
             if (!$page || !$page->view_action || $page->status)
-                throw new \yii\web\NotFoundHttpException('Запрашиваемый материал не найден на сайте.');
+                return $this->checkUrlLogOrThrow($path, $pathWithoutLastPart, $key, 'Запрашиваемый материал не найден на сайте.');
 
             if ($page->layout)
                 $this->layout = $page->layout;
@@ -148,7 +149,7 @@ class PageController extends \yii\web\Controller
 
 
         if (!$page || ($page->status == PageStatus::DISABLED && !Yii::$app->getModule('pages')->adminMode()))
-            throw new NotFoundHttpException();
+            return $this->checkUrlLogOrThrow($path, $pathWithoutLastPart, $key);
 
         if ($page->layout)
             $this->layout = $page->layout;
@@ -187,6 +188,25 @@ class PageController extends \yii\web\Controller
         return $this->render(Yii::$app->getModule('pages')->view, ['model' => $page]);
     }
 
+    private function checkUrlLogOrThrow($path, $pathWithoutLastPart, $key, $error = null)
+    {
+        if ($oldFullPathUrl = PageUrl::find()
+            ->where(['url' => $path])
+            ->orderBy('created_at DESC')
+            ->one()) {
+            return $this->redirect('/' . $oldFullPathUrl->page->path, 301);
+        }
+
+
+        if ($oldFullPathUrl = PageUrl::find()
+            ->where(['url' => $pathWithoutLastPart])
+            ->orderBy('created_at DESC')
+            ->one()) {
+            return $this->redirect('/' . $oldFullPathUrl->page->path . '/' . $key, 301);
+        }
+
+        throw new NotFoundHttpException($error);
+    }
 
     /**
      * @param Page $page

@@ -6,6 +6,7 @@ use floor12\files\components\FileBehaviour;
 use floor12\files\models\File;
 use floor12\pages\components\PurifyBehavior;
 use Yii;
+use yii\base\ErrorException;
 use yii\db\ActiveRecord;
 use yii\helpers\Url;
 use yii\web\UrlManager;
@@ -182,6 +183,21 @@ class Page extends ActiveRecord
             return urldecode(Url::toRoute(['/pages/page/view', 'path' => $this->path]));
         else
             return urldecode(Url::toRoute(['/pages/page/view', 'path' => $this->path, 'language' => $this->lang]));
+    }
+
+    public function afterSave($insert, $changedAttributes)
+    {
+        $this->updateUrlLog();
+        parent::afterSave($insert, $changedAttributes);
+    }
+
+    private function updateUrlLog()
+    {
+        PageUrl::deleteAll(['page_id' => $this->id, 'url' => $this->path]);
+        $pageUrl = new PageUrl(['page_id' => $this->id, 'url' => $this->path, 'created_at' => time()]);
+        if (!$pageUrl->save()) {
+            throw new ErrorException('Unable to save page url entity: ' . print_r($pageUrl->errors, true));
+        }
     }
 
     /**
