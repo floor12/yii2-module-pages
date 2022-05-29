@@ -19,7 +19,7 @@ use yii\widgets\ActiveForm;
 $form = ActiveForm::begin([
     'id' => 'page-form',
     'options' => ['class' => 'modaledit-form'],
-    'enableClientValidation' => true
+    'enableClientValidation' => false
 ]);
 
 if (Yii::$app->request->get('parent_id'))
@@ -36,7 +36,6 @@ if (Yii::$app->request->get('parent_id'))
 <div class="modal-body">
 
     <?= $form->errorSummary($model); ?>
-
 
     <!-- Nav tabs -->
     <ul class="nav nav-tabs" role="tablist">
@@ -69,10 +68,11 @@ if (Yii::$app->request->get('parent_id'))
                 </div>
                 <div class="col-md-3">
                     <?= $form->field($model, 'key')->textInput() ?>
-                    <?= $form->field($model, 'status')->checkbox() ?>
+                    <?= $form->field($model, 'link')->label('...или внешняя ссылка')->textInput() ?>
+
                 </div>
                 <div class="col-md-3">
-                    <?= $form->field($model, 'parent_id')->dropDownList(Page::find()->select('title')->indexBy('id')->orderBy("parent_id, norder")->column(), ['prompt' => ['options' => ['value' => '0'], 'text' => 'Корень']]) ?>
+                    <?= $form->field($model, 'status')->checkbox() ?>
                     <?= $form->field($model, 'menu')->checkbox() ?>
                     <?= $form->field($model, 'use_purifier')->checkbox() ?>
                 </div>
@@ -102,22 +102,38 @@ if (Yii::$app->request->get('parent_id'))
                     <?= $form->field($model, 'lang')->textInput() ?>
                 </div>
             </div>
-            <?= $form->field($model, 'layout') ?>
+
+            <div class="row">
+                <div class="col-md-6">
+                    <?= $form->field($model, 'layout') ?>
+                </div>
+                <div class="col-md-6">
+                    <?= $form->field($model, 'parent_id')->dropDownList(Page::find()->select('title')->indexBy('id')->orderBy("parent_id, norder")->column(), ['prompt' => ['options' => ['value' => '0'], 'text' => 'Корень']]) ?>
+                </div>
+            </div>
         </div>
+
+        <?= $form->field($model, 'content')->widget(Summernote::className(), []) ?>
+
+
+        <div class="row">
+
+            <div class="col-md-9">
+                <?= $form->field($model, 'files')->widget(FileInputWidget::className(), []) ?>
+                <?= $form->field($model, 'images')->widget(FileInputWidget::className(), []) ?>
+            </div>
+            <div class="col-md-3">
+                <?= $form->field($model, 'banner')->widget(FileInputWidget::className(), []) ?>
+            </div>
+        </div>
+
+
     </div>
 
-    <?= $form->field($model, 'content')->widget(Summernote::className(), []) ?>
+    <div class=" modal-footer
+    ">
+        <?= Html::button('Отмена', ['class' => 'btn btn-default modaledit-disable']) ?>
+        <?= Html::submitButton($model->isNewRecord ? 'Создать' : 'Сохранить', ['class' => 'btn btn-primary']) ?>
+    </div>
 
-    <?= $form->field($model, 'banner')->widget(FileInputWidget::className(), []) ?>
-    <?= $form->field($model, 'images')->widget(FileInputWidget::className(), []) ?>
-
-    <?= $form->field($model, 'files')->widget(FileInputWidget::className(), []) ?>
-
-</div>
-
-<div class="modal-footer">
-    <?= Html::button('Отмена', ['class' => 'btn btn-default modaledit-disable']) ?>
-    <?= Html::submitButton($model->isNewRecord ? 'Создать' : 'Сохранить', ['class' => 'btn btn-primary']) ?>
-</div>
-
-<?php ActiveForm::end(); ?>
+    <?php ActiveForm::end(); ?>

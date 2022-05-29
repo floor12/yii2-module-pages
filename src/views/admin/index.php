@@ -29,7 +29,10 @@ $columns = [
         'content' => function (Page $model) {
             $html = Html::tag('span', $model->id, ['class' => 'page-id']);
             $html .= Html::tag('span', $model->title_menu, ['class' => 'page-menu-title']);
-            $html .= Html::a($model->url, $model->url, ['class' => 'page-menu-url small', 'target' => '_blank', 'data-pjax' => '0']);
+            if ($model->isLink())
+                $html .= Html::tag('div', '→ ' . $model->link, ['class' => 'page-menu-url small', 'target' => '_blank', 'data-pjax' => '0']);
+            else
+                $html .= Html::a($model->url, $model->url, ['class' => 'page-menu-url small', 'target' => '_blank', 'data-pjax' => '0']);
             return Html::tag('div', $html, []);
         }
     ],
@@ -139,7 +142,9 @@ else
     echo TreeGrid::widget(['dataProvider' => $model->dataProvider(),
         'options' => ['class' => 'table table-striped'],
         'rowOptions' => function (Page $model) {
-            if ($model->menu == \floor12\pages\models\PageMenuVisibility::VISIBLE) {
+            if ($model->isLink() && $model->status == \floor12\pages\models\PageStatus::ACTIVE) {
+                $class = 'page-blue';
+            } elseif ($model->menu == \floor12\pages\models\PageMenuVisibility::VISIBLE) {
                 $class = 'page-green';
             } elseif ($model->status == \floor12\pages\models\PageStatus::ACTIVE) {
                 $class = 'page-yellow';

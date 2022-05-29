@@ -2,12 +2,10 @@
 
 namespace floor12\pages;
 
+use floor12\pages\models\Page;
 use Yii;
 
-/**
- * pages module definition class
- * @property  string $editRole
- */
+
 class Module extends \yii\base\Module
 {
 
@@ -17,9 +15,13 @@ class Module extends \yii\base\Module
 
     public $layoutAdmin = '@app/views/layouts/main';
 
-    public $view = 'view';
+    public $viewForm = '@vendor/floor12/yii2-module-pages/src/views/page/_form';
+
+    public $view = '@vendor/floor12/yii2-module-pages/src/views/page/view';
 
     public $userModel = 'app\models\User';
+
+    public $pageModel = Page::class;
 
     /**
      * @inheritdoc

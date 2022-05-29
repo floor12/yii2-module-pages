@@ -40,6 +40,7 @@ use yii\web\UrlManager;
  * @property string $view_controller Контроллер просмотра объекта
  * @property string $view_action Экшн для просмотра объекта
  * @property string $lang Язык страницы
+ * @property string $link
  * @property boolean $use_purifier Очищать html
  *
  * @property User $creator
@@ -83,8 +84,11 @@ class Page extends ActiveRecord
         return [
             ['key', 'trim'],
             [['status', 'created', 'updated', 'create_user_id', 'update_user_id', 'parent_id', 'norder', 'menu'], 'integer'],
-            [['created', 'updated', 'title_seo', 'key', 'title_menu'], 'required'],
-            [['content'], 'string'],
+            [['created', 'updated', 'title_menu'], 'required'],
+            [['title_seo', 'key', 'title_menu'], 'required', 'when' => function ($model) {
+                return $this->isLink() === false;
+            }],
+            [['content', 'link'], 'string'],
             [['use_purifier'], 'boolean'],
             ['lang', 'string', 'max' => 3],
             [['title', 'title_seo', 'title_menu', 'path', 'index_params', 'view_action', 'view_controller', 'index_action', 'index_controller'], 'string', 'max' => 255],
@@ -167,6 +171,9 @@ class Page extends ActiveRecord
      */
     public function getUrl()
     {
+        if ($this->isLink()) {
+            return $this->link;
+        }
         if ($this->path == '/') {
             if (Yii::$app->urlManager::className() == UrlManager::class)
                 return '/';
@@ -247,5 +254,10 @@ class Page extends ActiveRecord
     public function getUpdator()
     {
         return $this->hasOne(Yii::$app->getModule('pages')->userModel, ['id' => 'update_user_id']);
+    }
+
+    public function isLink()
+    {
+        return strlen($this->link) > 0;
     }
 }

@@ -32,6 +32,8 @@ use yii\web\NotFoundHttpException;
 
 class PageController extends \yii\web\Controller
 {
+    private $pageModel;
+    private $formView;
 
     /**
      * @inheritdoc
@@ -39,6 +41,8 @@ class PageController extends \yii\web\Controller
     public function init()
     {
         $this->layout = Yii::$app->getModule('pages')->layout;
+        $this->formView = Yii::$app->getModule('pages')->viewForm;
+        $this->pageModel = Yii::$app->getModule('pages')->pageModel;
         parent::init();
     }
 
@@ -79,7 +83,7 @@ class PageController extends \yii\web\Controller
      */
     public function actionMove()
     {
-        $model = Page::findOne(\Yii::$app->request->post('id'));
+        $model = $this->pageModel::findOne(\Yii::$app->request->post('id'));
         if (!$model)
             throw new NotFoundHttpException();
 
@@ -109,8 +113,8 @@ class PageController extends \yii\web\Controller
     {
 
         // этот интересный кусок кода нужен чтобы сначала обеспечить проверку может ли быть последняя часть урла ключом для подключаемого экшена
-        $page = Page::find()
-            ->cache(60 * 60, new TagDependency(['tags' => Page::CACHE_TAG_NAME]))
+        $page = $this->pageModel::find()
+            ->cache(60 * 60, new TagDependency(['tags' => $this->pageModel::CACHE_TAG_NAME]))
             ->where(['path' => $path, 'lang' => Yii::$app->language])
             ->one();
 
@@ -121,7 +125,7 @@ class PageController extends \yii\web\Controller
         if (!$page) {
 
 
-            $page = Page::findOne(['path' => $pathWithoutLastPart, 'lang' => Yii::$app->language]);
+            $page = $this->pageModel::findOne(['path' => $pathWithoutLastPart, 'lang' => Yii::$app->language]);
 
 
             if (!$page || ($page->status == PageStatus::DISABLED && !Yii::$app->getModule('pages')->adminMode()))
@@ -248,14 +252,15 @@ class PageController extends \yii\web\Controller
         return [
             'form' => [
                 'class' => EditModalAction::className(),
-                'model' => Page::className(),
+                'model' => $this->pageModel::className(),
                 'logic' => PageUpdate::class,
+                'view' => $this->formView,
                 'container' => '#pages',
                 'message' => 'Страница сохранена'
             ],
             'delete' => [
                 'class' => DeleteAction::className(),
-                'model' => Page::className(),
+                'model' => $this->pageModel::className(),
                 'message' => 'Страница удалена'
             ],
         ];

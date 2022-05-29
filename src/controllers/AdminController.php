@@ -17,6 +17,8 @@ use yii\web\Controller;
 
 class AdminController extends Controller
 {
+    public $formView;
+    public $pageModel;
 
     /**
      * @inheritdoc
@@ -50,6 +52,8 @@ class AdminController extends Controller
     public function init()
     {
         $this->layout = Yii::$app->getModule('pages')->layoutAdmin;
+        $this->formView = Yii::$app->getModule('pages')->viewForm;
+        $this->pageModel = Yii::$app->getModule('pages')->pageModel;
         parent::init();
     }
 
@@ -68,7 +72,7 @@ class AdminController extends Controller
                 'model' => Page::class,
                 'logic' => PageUpdate::class,
                 'container' => '#pages',
-                'view' => '@vendor/floor12/yii2-module-pages/src/views/page/_form.php'
+                'view' => $this->formView
             ],
             'delete' => [
                 'class' => DeleteAction::class,
