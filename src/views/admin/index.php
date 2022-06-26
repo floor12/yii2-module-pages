@@ -10,7 +10,6 @@ use floor12\pages\assets\IconHelper;
 use floor12\pages\assets\PagesAsset;
 use floor12\pages\models\Page;
 use floor12\pages\models\PageFilter;
-use floor12\pages\models\PageStatus;
 use leandrogehlen\treegrid\TreeGrid;
 use yii\grid\GridView;
 use yii\helpers\Html;
@@ -25,7 +24,6 @@ $this->title = "Страницы";
 
 $columns = [
     [
-        'attribute' => 'title',
         'content' => function (Page $model) {
             $html = Html::tag('span', $model->id, ['class' => 'page-id']);
             $html .= Html::tag('span', $model->title_menu, ['class' => 'page-menu-title']);
@@ -37,7 +35,6 @@ $columns = [
         }
     ],
     [
-        'header' => 'Содрежание',
         'content' => function (Page $model) {
             $html = '';
 
