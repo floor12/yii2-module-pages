@@ -57,7 +57,7 @@ $columns = [
             $html = '';
 
             $html .= Html::button(IconHelper::PLUS, [
-                    'onclick' => EditModalHelper::showForm(['/pages/page/form'], ['id' => 0, 'parent_id' => $model->id]),
+                    'onclick' => EditModalHelper::showForm(['/pages/admin/form'], ['id' => 0, 'parent_id' => $model->id]),
                     'title' => 'Создать подраздел',
                     'class' => 'btn btn-default btn-sm'
                 ]) . ' ';
@@ -83,7 +83,7 @@ $columns = [
 ];
 
 echo Html::button(IconHelper::PLUS . "  Добавить страницу", [
-        'onclick' => EditModalHelper::showForm(['/pages/page/form'], 0),
+        'onclick' => EditModalHelper::showForm(['/pages/admin/form'], 0),
         'class' => 'btn btn-primary btn-sm pull-right'
     ]) . " ";
 

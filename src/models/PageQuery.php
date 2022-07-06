@@ -62,4 +62,13 @@ class PageQuery extends ActiveQuery
     {
         return parent::one($db);
     }
+
+    public function dropDown(): array
+    {
+        return $this
+            ->orderBy('title_menu')
+            ->select('title_menu')
+            ->indexBy('id')
+            ->column();
+    }
 }
