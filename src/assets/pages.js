@@ -2,7 +2,7 @@ f12pages = {
     move: function (id, mode, container) {
 
         $.ajax({
-            url: "/pages/page/move",
+            url: "/pages/admin/move",
             data: {id: id, mode: mode},
             method: 'POST',
             success: function () {
@@ -10,7 +10,7 @@ f12pages = {
 
                 if ($(container).length > 0)
                     $.pjax.reload({container: container});
-                
+
             },
             error: function (response) {
                 processError(response);

@@ -7,6 +7,7 @@ namespace floor12\pages\controllers;
 use floor12\editmodal\DeleteAction;
 use floor12\editmodal\EditModalAction;
 use floor12\editmodal\IndexAction;
+use floor12\pages\logic\PageOrderChanger;
 use floor12\pages\logic\PageUpdate;
 use floor12\pages\models\Page;
 use floor12\pages\models\PageFilter;
@@ -14,6 +15,7 @@ use Yii;
 use yii\filters\AccessControl;
 use yii\filters\VerbFilter;
 use yii\web\Controller;
+use yii\web\NotFoundHttpException;
 
 class AdminController extends Controller
 {
@@ -55,6 +57,21 @@ class AdminController extends Controller
         $this->formView = Yii::$app->getModule('pages')->viewForm;
         $this->pageModel = Yii::$app->getModule('pages')->pageModel;
         parent::init();
+    }
+
+    /**
+     * @throws NotFoundHttpException
+     * @throws \yii\base\InvalidConfigException
+     */
+    public function actionMove()
+    {
+        $model = $this->pageModel::findOne(\Yii::$app->request->post('id'));
+        if (!$model)
+            throw new NotFoundHttpException();
+
+        $mode = \Yii::$app->request->post('mode');
+
+        Yii::createObject(PageOrderChanger::class, [$model, $mode])->execute();
     }
 
     /**
