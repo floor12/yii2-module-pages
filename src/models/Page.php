@@ -177,7 +177,7 @@ class Page extends ActiveRecord
         if ($this->path == '/') {
             if (Yii::$app->urlManager::className() == UrlManager::class)
                 return '/';
-            if ($this->lang == 'ru')
+            if (isset(Yii::$app->urlManager->languages[0]) && Yii::$app->urlManager->languages[0] == $this->lang)
                 return '/';
 
             return '/' . $this->lang;
@@ -186,7 +186,7 @@ class Page extends ActiveRecord
         if (!strip_tags($this->content) && $this->child && !$this->index_controller)
             return $this->child[0]->url;
 
-        if (Yii::$app->urlManager::className() == UrlManager::class || $this->lang == 'ru')
+        if (Yii::$app->urlManager::className() == UrlManager::class || (isset(Yii::$app->urlManager->languages[0]) && Yii::$app->urlManager->languages[0] == $this->lang))
             return urldecode(Url::toRoute(['/pages/page/view', 'path' => $this->path]));
         else
             return urldecode(Url::toRoute(['/pages/page/view', 'path' => $this->path, 'language' => $this->lang]));
