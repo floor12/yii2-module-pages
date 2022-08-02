@@ -53,7 +53,8 @@ if (Yii::$app->request->get('parent_id'))
         <div role="tabpanel" class="tab-pane active" id="page-main">
             <br>
             <div class="row">
-                <div class="col-md-4">
+
+                <div class="col-md-7">
                     <?= $form->field($model, 'title')->textInput(['maxlength' => true]) ?>
                     <?= TextCounterWidget::widget([
                         'targetId' => 'page-title',
@@ -61,7 +62,8 @@ if (Yii::$app->request->get('parent_id'))
                         'max' => 70
                     ]) ?>
                 </div>
-                <div class="col-md-4">
+
+                <div class="col-md-5">
                     <?= $form->field($model, 'title_menu')->textInput(['maxlength' => true]) ?>
                     <?= TextCounterWidget::widget([
                         'targetId' => 'page-title_menu',
@@ -69,7 +71,8 @@ if (Yii::$app->request->get('parent_id'))
                         'max' => 30
                     ]) ?>
                 </div>
-                <div class="col-md-4">
+
+                <div class="col-md-12">
                     <?= $form->field($model, 'title_seo')->textInput(['maxlength' => true]) ?>
                     <?= TextCounterWidget::widget([
                         'targetId' => 'page-title_seo',
@@ -79,6 +82,10 @@ if (Yii::$app->request->get('parent_id'))
                 </div>
             </div>
             <div class="row">
+
+
+
+
                 <div class="col-md-6">
                     <?= $form->field($model, 'description_seo')->textarea(['style' => 'height: 108px;']) ?>
                     <?= TextCounterWidget::widget([
