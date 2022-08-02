@@ -24,6 +24,7 @@
     "floor12/yii2-editmodal": "dev-master",
     "floor12/yii2-metamaster": "dev-master",
     "floor12/yii2-summernote": "dev-master",
+    "floor12/yii2-text-counter-widget": "dev-main",
     "leandrogehlen/yii2-treegrid": "*"
   },
   "require-dev": {

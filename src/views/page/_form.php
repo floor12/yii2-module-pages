@@ -13,6 +13,7 @@ use floor12\editmodal\ModalWindow;
 use floor12\files\components\FileInputWidget;
 use floor12\pages\models\Page;
 use floor12\summernote\Summernote;
+use floor12\textcounter\TextCounterWidget;
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 
@@ -54,17 +55,37 @@ if (Yii::$app->request->get('parent_id'))
             <div class="row">
                 <div class="col-md-4">
                     <?= $form->field($model, 'title')->textInput(['maxlength' => true]) ?>
+                    <?= TextCounterWidget::widget([
+                        'targetId' => 'page-title',
+                        'min' => 10,
+                        'max' => 70
+                    ]) ?>
                 </div>
                 <div class="col-md-4">
                     <?= $form->field($model, 'title_menu')->textInput(['maxlength' => true]) ?>
+                    <?= TextCounterWidget::widget([
+                        'targetId' => 'page-title_menu',
+                        'min' => 5,
+                        'max' => 30
+                    ]) ?>
                 </div>
                 <div class="col-md-4">
                     <?= $form->field($model, 'title_seo')->textInput(['maxlength' => true]) ?>
+                    <?= TextCounterWidget::widget([
+                        'targetId' => 'page-title_seo',
+                        'min' => 10,
+                        'max' => 60
+                    ]) ?>
                 </div>
             </div>
             <div class="row">
                 <div class="col-md-6">
                     <?= $form->field($model, 'description_seo')->textarea(['style' => 'height: 108px;']) ?>
+                    <?= TextCounterWidget::widget([
+                        'targetId' => 'page-description_seo',
+                        'min' => 50,
+                        'max' => 160
+                    ]) ?>
                 </div>
                 <div class="col-md-3">
                     <?= $form->field($model, 'key')->textInput() ?>
