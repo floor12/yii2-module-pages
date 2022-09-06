@@ -20,10 +20,11 @@ use yii\widgets\Pjax;
 
 PagesAsset::register($this);
 
-$this->title = "Страницы";
+$this->title = Yii::t('app.f12.pages', 'Pages');
 
 $columns = [
     [
+        'attribute' => 'title',
         'content' => function (Page $model) {
             $html = Html::tag('span', $model->id, ['class' => 'page-id']);
             $html .= Html::tag('span', $model->title_menu, ['class' => 'page-menu-title']);
@@ -35,6 +36,7 @@ $columns = [
         }
     ],
     [
+        'header' => Yii::t('app.f12.pages', 'Content'),
         'content' => function (Page $model) {
             $html = '';
 
@@ -58,19 +60,19 @@ $columns = [
 
             $html .= Html::button(IconHelper::PLUS, [
                     'onclick' => EditModalHelper::showForm(['/pages/admin/form'], ['id' => 0, 'parent_id' => $model->id]),
-                    'title' => 'Создать подраздел',
+                    'title' => Yii::t('app.f12.pages', 'Create subpage'),
                     'class' => 'btn btn-default btn-sm'
                 ]) . ' ';
 
             $html .= Html::button(IconHelper::ARROW_UP, [
                     'onclick' => "f12pages.move({$model->id},0,'#pages')",
-                    'title' => 'Сдвинуть вверх',
+                    'title' => Yii::t('app.f12.pages', 'Move up'),
                     'class' => 'btn btn-default btn-sm'
                 ]) . ' ';
 
             $html .= Html::button(IconHelper::ARROW_DOWN, [
                     'onclick' => "f12pages.move({$model->id},1,'#pages')",
-                    'title' => 'Сдвинуть вниз',
+                    'title' => Yii::t('app.f12.pages', 'Move down'),
                     'class' => 'btn btn-default btn-sm'
                 ]) . ' ';
 
@@ -82,7 +84,7 @@ $columns = [
     ]
 ];
 
-echo Html::button(IconHelper::PLUS . "  Добавить страницу", [
+echo Html::button(IconHelper::PLUS . ' ' . Yii::t('app.f12.pages', 'Create page'), [
         'onclick' => EditModalHelper::showForm(['/pages/admin/form'], 0),
         'class' => 'btn btn-primary btn-sm pull-right'
     ]) . " ";
@@ -108,7 +110,7 @@ $form = ActiveForm::begin([
             <div class="col-md-10">
                 <?= $form->field($model, 'filter')
                     ->label(false)
-                    ->textInput(['placeholder' => 'Поиск...'])
+                    ->textInput(['placeholder' => Yii::t('app.f12.pages', 'Search')])
                 ?>
             </div>
             <div class="col-md-2">
