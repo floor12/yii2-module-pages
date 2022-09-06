@@ -100,7 +100,7 @@ if (Yii::$app->request->get('parent_id'))
                 </div>
                 <div class="col-md-3">
                     <?= $form->field($model, 'key')->textInput() ?>
-                    <?= $form->field($model, 'link')->label('...или внешняя ссылка')->textInput() ?>
+                    <?= $form->field($model, 'link')->label(Yii::t('app.f12.pages','...or external URL'))->textInput() ?>
 
                 </div>
                 <div class="col-md-3">
