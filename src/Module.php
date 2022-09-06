@@ -46,6 +46,7 @@ class Module extends \yii\base\Module
             ]
         ]);
 
+        $this->registerTranslations();
         parent::init();
     }
 
@@ -58,5 +59,19 @@ class Module extends \yii\base\Module
             return !\Yii::$app->user->isGuest;
         else
             return \Yii::$app->user->can($this->editRole);
+    }
+
+    /**
+     * Register some lang files
+     * @return void
+     */
+
+    public function registerTranslations()
+    {
+        Yii::$app->i18n->translations['app.f12.pages'] = [
+            'class' => 'yii\i18n\PhpMessageSource',
+            'basePath' => '@vendor/floor12/yii2-module-pages/src/messages',
+            'sourceLanguage' => 'en-US',
+        ];
     }
 }

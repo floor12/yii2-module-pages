@@ -31,7 +31,7 @@ if (Yii::$app->request->get('parent_id'))
         <?= ModalWindow::btnFullscreen() ?>
         <?= ModalWindow::btnClose() ?>
     </div>
-    <h2><?= $model->isNewRecord ? "Добавление страницы" : "Редактирование страницы"; ?></h2>
+    <h2><?= Yii::t('app.f12.pages', $model->isNewRecord ? "Create new page" : "Update page"); ?></h2>
 </div>
 <div class="modal-body">
 
@@ -40,10 +40,14 @@ if (Yii::$app->request->get('parent_id'))
     <!-- Nav tabs -->
     <ul class="nav nav-tabs" role="tablist">
         <li role="presentation" class="active">
-            <a href="#page-main" aria-controls="home" role="tab" data-toggle="tab">Основное</a>
+            <a href="#page-main" aria-controls="home" role="tab" data-toggle="tab">
+                <?= Yii::t('app.f12.pages', 'Main') ?>
+            </a>
         </li>
         <li role="presentation">
-            <a href="#page-params" aria-controls="profile" role="tab" data-toggle="tab">Дополнительно</a>
+            <a href="#page-params" aria-controls="profile" role="tab" data-toggle="tab">
+                <?= Yii::t('app.f12.pages', 'Params') ?>
+            </a>
         </li>
     </ul>
 
@@ -108,7 +112,7 @@ if (Yii::$app->request->get('parent_id'))
                     <?= $form->field($model, 'layout') ?>
                 </div>
                 <div class="col-md-6">
-                    <?= $form->field($model, 'parent_id')->dropDownList(Page::find()->select('title')->indexBy('id')->orderBy("parent_id, norder")->column(), ['prompt' => ['options' => ['value' => '0'], 'text' => 'Корень']]) ?>
+                    <?= $form->field($model, 'parent_id')->dropDownList(Page::find()->select('title')->indexBy('id')->orderBy("parent_id, norder")->column(), ['prompt' => ['options' => ['value' => '0'], 'text' => Yii::t('app.f12.pages', 'root')]]) ?>
                 </div>
             </div>
         </div>
@@ -132,8 +136,8 @@ if (Yii::$app->request->get('parent_id'))
 
     <div class=" modal-footer
     ">
-        <?= Html::button('Отмена', ['class' => 'btn btn-default modaledit-disable']) ?>
-        <?= Html::submitButton($model->isNewRecord ? 'Создать' : 'Сохранить', ['class' => 'btn btn-primary']) ?>
+        <?= Html::button(Yii::t('app.f12.pages', 'Cancel'), ['class' => 'btn btn-default modaledit-disable']) ?>
+        <?= Html::submitButton(Yii::t('app.f12.pages', $model->isNewRecord ? 'Create' : 'Save'), ['class' => 'btn btn-primary']) ?>
     </div>
 
     <?php ActiveForm::end(); ?>
