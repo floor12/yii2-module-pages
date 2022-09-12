@@ -19,10 +19,11 @@ class PurifyBehavior extends Behavior
         $this->config = function ($conf) {
             $conf->set('HTML.AllowedElements', ['p', 'div', 'a', 'br', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6',
                 'table', 'thead', 'tbody', 'tr', 'th', 'td', 'ul', 'ol', 'li', 'b', 'i', 'strike', 'img', 'hr']);
-            $conf->set('HTML.AllowedAttributes', ['id', 'class', 'target', 'href']);
+            $conf->set('HTML.AllowedAttributes', ['id', 'class', 'target', 'href', 'align']);
             $def = $conf->getHTMLDefinition(true);
             $def->addElement('mark', 'Inline', 'Inline', 'Common');
             $def->addAttribute('p', 'class', 'Text');
+            $def->addAttribute('p', 'align', 'Text');
             $def->addAttribute('p', 'justify', 'Text');
             $def->addAttribute('a', 'id', 'Text');
             $def->addAttribute('img', 'class', 'Text');
