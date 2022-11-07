@@ -70,6 +70,9 @@ class Module extends \yii\base\Module
     {
         Yii::$app->i18n->translations['app.f12.pages'] = [
             'class' => 'yii\i18n\PhpMessageSource',
+            'fileMap' => [
+                'app.f12.pages' => 'pages.php',
+            ],
             'basePath' => '@vendor/floor12/yii2-module-pages/src/messages',
             'sourceLanguage' => 'en-US',
         ];
