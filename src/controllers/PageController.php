@@ -142,8 +142,8 @@ class PageController extends \yii\web\Controller
                 if (substr($page->view_action, 0, 6) == 'action')
                     $page->view_action = substr($page->view_action, 6);
 
-                $name = strtolower(str_replace('Controller', '', (new \ReflectionClass($page->index_controller))->getShortName()));
-                $controller = new $page->index_controller($name, Yii::$app);
+                $name = strtolower(str_replace('Controller', '', (new \ReflectionClass($page->view_controller))->getShortName()));
+                $controller = new $page->view_controller($name, Yii::$app);
                 $this->getView()->params['breadcrumbs'] = Yii::createObject(PageBreadcrumbs::class, [$page])->makeBreadcrumbsItems();
                 $this->getView()->params['currentPage'] = $page;
                 Yii::$app->getModule('pages')->currentPageId = $page->id;
