@@ -15,7 +15,13 @@ use yii\web\BadRequestHttpException;
 class PageFilter extends Model
 {
     public $filter;
-    public $lang = 'ru';
+    public $lang;
+
+    public function init()
+    {
+        $this->lang = \Yii::$app->language;
+        parent::init();
+    }
 
     /**
      * @param int $number

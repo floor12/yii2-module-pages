@@ -88,8 +88,6 @@ if (Yii::$app->request->get('parent_id'))
             <div class="row">
 
 
-
-
                 <div class="col-md-6">
                     <?= $form->field($model, 'description_seo')->textarea(['style' => 'height: 108px;']) ?>
                     <?= TextCounterWidget::widget([
@@ -100,7 +98,7 @@ if (Yii::$app->request->get('parent_id'))
                 </div>
                 <div class="col-md-3">
                     <?= $form->field($model, 'key')->textInput() ?>
-                    <?= $form->field($model, 'link')->label(Yii::t('app.f12.pages','...or external URL'))->textInput() ?>
+                    <?= $form->field($model, 'link')->label(Yii::t('app.f12.pages', '...or external URL'))->textInput() ?>
 
                 </div>
                 <div class="col-md-3">
@@ -131,7 +129,9 @@ if (Yii::$app->request->get('parent_id'))
                     <?= $form->field($model, 'view_action')->textInput() ?>
                 </div>
                 <div class="col-md-3">
-                    <?= $form->field($model, 'lang')->textInput() ?>
+                    <?= $form->field($model, 'lang')->textInput([
+                        'value' => $model->lang ?: Yii::$app->language
+                    ]) ?>
                 </div>
             </div>
 
@@ -145,7 +145,33 @@ if (Yii::$app->request->get('parent_id'))
             </div>
         </div>
 
-        <?= $form->field($model, 'content')->widget(Summernote::className(), []) ?>
+        <!-- Nav tabs -->
+        <ul class="nav nav-tabs" role="tablist">
+            <li role="presentation" class="active">
+                <a href="#form-content" aria-controls="home" role="tab" data-toggle="tab">
+                    <?= Yii::t('app.f12.pages', 'Content') ?>
+                </a>
+            </li>
+            <li role="presentation">
+                <a href="#form-announce" aria-controls="profile" role="tab" data-toggle="tab">
+                    <?= Yii::t('app.f12.pages', 'Announce') ?>
+                </a>
+            </li>
+        </ul>
+
+        <!-- Tab panes -->
+        <div class="tab-content">
+            <div role="tabpanel" class="tab-pane active" id="form-content">
+                <?= $form->field($model, 'content')
+                    ->label(false)
+                    ->widget(Summernote::className(), []) ?>
+            </div>
+            <div role="tabpanel" class="tab-pane " id="form-announce">
+                <?= $form->field($model, 'announce')
+                    ->label(false)
+                    ->widget(Summernote::className(), []) ?>
+            </div>
+        </div>
 
 
         <div class="row">

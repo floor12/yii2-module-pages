@@ -42,6 +42,7 @@ use yii\web\UrlManager;
  * @property string $lang Язык страницы
  * @property string $link
  * @property boolean $use_purifier Очищать html
+ * @property string $announce Анонс
  *
  * @property User $creator
  * @property User $updator
@@ -88,7 +89,7 @@ class Page extends ActiveRecord
             [['title_seo', 'key', 'title_menu'], 'required', 'when' => function ($model) {
                 return $this->isLink() === false;
             }],
-            [['content', 'link'], 'string'],
+            [['content', 'link', 'announce'], 'string'],
             [['use_purifier'], 'boolean'],
             ['lang', 'string', 'max' => 3],
             [['title', 'title_seo', 'title_menu', 'path', 'index_params', 'view_action', 'view_controller', 'index_action', 'index_controller'], 'string', 'max' => 255],
