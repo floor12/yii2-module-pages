@@ -124,7 +124,6 @@ class PageController extends \yii\web\Controller
 
         if (!$page) {
 
-
             $page = $this->pageModel::findOne(['path' => $pathWithoutLastPart, 'lang' => Yii::$app->language]);
 
 

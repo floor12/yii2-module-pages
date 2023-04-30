@@ -53,6 +53,7 @@ class SitemapWidget extends Widget
 
             $pages = Page::find()
                 ->active()
+                ->andWhere(['=', 'link', ''])
                 ->orderBy('path')
                 ->all();
 
