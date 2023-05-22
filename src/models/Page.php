@@ -114,7 +114,7 @@ class Page extends ActiveRecord
         return [
             'purify' => [
                 'class' => PurifyBehavior::class,
-                'attributes' => ['content'],
+                'attributes' => ['content', 'announce'],
             ],
             'files' => [
                 'class' => FileBehaviour::class,
