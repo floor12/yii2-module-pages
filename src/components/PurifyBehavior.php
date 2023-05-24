@@ -3,7 +3,6 @@
 namespace floor12\pages\components;
 
 
-use DOMDocument;
 use yii\base\Behavior;
 use yii\db\ActiveRecord;
 use yii\helpers\HtmlPurifier;
@@ -41,18 +40,25 @@ class PurifyBehavior extends Behavior
                 $pattern = '/<[^\/>]*>(\s*| )*<\/[^>]*>/';
                 $this->owner->$attribute = preg_replace($pattern, '', $this->owner->$attribute);
                 $this->owner->$attribute = HtmlPurifier::process($this->owner->$attribute, $this->config);
-                $this->owner->$attribute = $this->formatCode($this->owner->$attribute);
+                try {
+                    $this->owner->$attribute = $this->formatCode($this->owner->$attribute);
+                } catch (\Throwable $e) {
+                    \Yii::$app->errorHandler->logException($e);
+                }
             }
     }
 
     public function formatCode($html)
     {
-        $dom = new DOMDocument('1.0', 'UTF-8');
-        $dom->encoding = 'UTF-8';
-        $dom->substituteEntities = true;
-        $dom->loadHTML('<?xml encoding="utf-8" ?>' . $html);
-        $dom->formatOutput = true;
-        return str_replace('<!--?xml encoding="utf-8" ?-->', '', $dom->saveHTML());
-
+        $config = array(
+            'indent' => true,
+            'output-xhtml' => true,
+            'wrap' => 200
+        );
+        $tidy = new \tidy;
+        $tidy->parseString($html, $config, 'utf8');
+        $tidy->cleanRepair();
+        preg_match('/<body[^>]*>(.*?)<\/body>/is', (string)$tidy->html(), $matches);
+        return trim(preg_replace('/^\s{4}/m', '', $matches[1]));
     }
 }
