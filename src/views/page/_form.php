@@ -38,6 +38,11 @@ if (Yii::$app->request->get('parent_id'))
 
     <?= $form->errorSummary($model); ?>
 
+
+    <div style="display: flex; float: right; justify-content: space-between; width: 210px; margin: 27px 0 -18px 0;">
+        <?= $form->field($model, 'status')->checkbox() ?>
+        <?= $form->field($model, 'menu')->checkbox() ?>
+    </div>
     <!-- Nav tabs -->
     <ul class="nav nav-tabs" role="tablist">
         <li role="presentation" class="active">
@@ -55,19 +60,40 @@ if (Yii::$app->request->get('parent_id'))
     <!-- Tab panes -->
     <div class="tab-content">
         <div role="tabpanel" class="tab-pane active" id="page-main">
-            <br>
             <div class="row">
-
                 <div class="col-md-7">
-                    <?= $form->field($model, 'title')->textInput(['maxlength' => true]) ?>
-                    <?= TextCounterWidget::widget([
-                        'targetId' => 'page-title',
-                        'min' => 10,
-                        'max' => 70
-                    ]) ?>
+                    <div style="position: relative">
+                        <?= $form->field($model, 'title')->textInput(['maxlength' => true]) ?>
+                        <?= TextCounterWidget::widget([
+                            'targetId' => 'page-title',
+                            'min' => 10,
+                            'max' => 70
+                        ]) ?>
+                    </div>
+                    <div style="position: relative">
+                        <?= $form->field($model, 'title_seo')->textInput(['maxlength' => true]) ?>
+                        <?= TextCounterWidget::widget([
+                            'targetId' => 'page-title_seo',
+                            'min' => 10,
+                            'max' => 60
+                        ]) ?>
+                    </div>
                 </div>
 
                 <div class="col-md-5">
+                    <?= $form->field($model, 'description_seo')->textarea(['style' => 'height: 132px;']) ?>
+                    <?= TextCounterWidget::widget([
+                        'targetId' => 'page-description_seo',
+                        'min' => 50,
+                        'max' => 160
+                    ]) ?>
+
+                </div>
+
+
+            </div>
+            <div class="row">
+                <div class="col-md-4">
                     <?= $form->field($model, 'title_menu')->textInput(['maxlength' => true]) ?>
                     <?= TextCounterWidget::widget([
                         'targetId' => 'page-title_menu',
@@ -75,46 +101,25 @@ if (Yii::$app->request->get('parent_id'))
                         'max' => 30
                     ]) ?>
                 </div>
-
-                <div class="col-md-12">
-                    <?= $form->field($model, 'title_seo')->textInput(['maxlength' => true]) ?>
-                    <?= TextCounterWidget::widget([
-                        'targetId' => 'page-title_seo',
-                        'min' => 10,
-                        'max' => 60
-                    ]) ?>
-                </div>
-            </div>
-            <div class="row">
-
-
-                <div class="col-md-6">
-                    <?= $form->field($model, 'description_seo')->textarea(['style' => 'height: 108px;']) ?>
-                    <?= TextCounterWidget::widget([
-                        'targetId' => 'page-description_seo',
-                        'min' => 50,
-                        'max' => 160
-                    ]) ?>
-                </div>
                 <div class="col-md-3">
                     <?= $form->field($model, 'key')->textInput() ?>
-                    <?= $form->field($model, 'link')->label(Yii::t('app.f12.pages', '...or external URL'))->textInput() ?>
 
                 </div>
-                <div class="col-md-3">
-                    <?= $form->field($model, 'status')->checkbox() ?>
-                    <?= $form->field($model, 'menu')->checkbox() ?>
-                    <?= $form->field($model, 'use_purifier')->checkbox() ?>
+                <div class="col-md-5">
+                    <?= $form->field($model, 'link')->label(Yii::t('app.f12.pages', '...or external URL'))->textInput() ?>
+
+
                 </div>
             </div>
+
+            <div style="float: right; margin: 28px 0 -10px 0;">
+                <?= $form->field($model, 'use_purifier')->checkbox() ?>
+            </div>
+
         </div>
         <div role="tabpanel" class="tab-pane" id="page-params">
-            <br>
             <div class="row">
-                <div class="col-md-6">
-                    <?= $form->field($model, 'index_controller')->textInput() ?>
-                </div>
-                <div class="col-md-3">
+                <div class="col-md-9">
                     <?= $form->field($model, 'index_action')->textInput() ?>
                 </div>
                 <div class="col-md-3">
@@ -122,10 +127,7 @@ if (Yii::$app->request->get('parent_id'))
                 </div>
             </div>
             <div class="row">
-                <div class="col-md-6">
-                    <?= $form->field($model, 'view_controller')->textInput() ?>
-                </div>
-                <div class="col-md-3">
+                <div class="col-md-9">
                     <?= $form->field($model, 'view_action')->textInput() ?>
                 </div>
                 <div class="col-md-3">

@@ -136,17 +136,17 @@ class PageController extends \yii\web\Controller
             if ($page->layout)
                 $this->layout = $page->layout;
 
-            if ($page->view_controller && $page->view_action) {
+            if ($page->view_action) {
+                list($viewController, $viewAction) = explode('::', $page->view_action);
+                if (substr($viewAction, 0, 6) == 'action')
+                    $viewAction = substr($viewAction, 6);
 
-                if (substr($page->view_action, 0, 6) == 'action')
-                    $page->view_action = substr($page->view_action, 6);
-
-                $name = strtolower(str_replace('Controller', '', (new \ReflectionClass($page->view_controller))->getShortName()));
-                $controller = new $page->view_controller($name, Yii::$app);
+                $name = strtolower(str_replace('Controller', '', (new \ReflectionClass($viewController))->getShortName()));
+                $controller = new $viewController($name, Yii::$app);
                 $this->getView()->params['breadcrumbs'] = Yii::createObject(PageBreadcrumbs::class, [$page])->makeBreadcrumbsItems();
                 $this->getView()->params['currentPage'] = $page;
                 Yii::$app->getModule('pages')->currentPageId = $page->id;
-                return $controller->runAction(strtolower($page->view_action), ['key' => $key, 'page' => $page]);
+                return $controller->runAction(strtolower($viewAction), ['key' => $key, 'page' => $page]);
             }
         }
 
@@ -168,12 +168,15 @@ class PageController extends \yii\web\Controller
             ->setDescription(strval($page->description_seo))
             ->register(Yii::$app->getView());
 
-        if ($page->index_controller && $page->index_action) {
-            $name = strtolower(str_replace('Controller', '', (new \ReflectionClass($page->index_controller))->getShortName()));
-            $controller = new $page->index_controller($name, Yii::$app);
+        if ($page->index_action) {
+            list($indexController, $indexAction) = $indexController = explode('::', $page->index_action);
+            if (!$indexAction || !$indexController)
+                throw new NotFoundHttpException('Controller or Action name parse error.');
+            $name = strtolower(str_replace('Controller', '', (new \ReflectionClass($indexController))->getShortName()));
+            $controller = new $indexController($name, Yii::$app);
 
-            if (substr($page->index_action, 0, 6) == 'action')
-                $page->index_action = substr($page->index_action, 6);
+            if (substr($indexAction, 0, 6) == 'action')
+                $indexAction = substr($indexAction, 6);
 
             $indexParams = [];
             if ($page->index_params) {
@@ -182,8 +185,9 @@ class PageController extends \yii\web\Controller
                     $indexParams[$explodedRow[0]] = $explodedRow[1];
                 };
             }
-
-            return $controller->runAction(strtolower($page->index_action), array_merge(['page' => $page], $indexParams));
+//            echo 1;
+//            die();
+            return $controller->runAction(strtolower($indexAction), array_merge(['page' => $page], $indexParams));
         }
 
         $this->parseWidgets($page);

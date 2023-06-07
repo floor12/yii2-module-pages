@@ -34,10 +34,8 @@ use yii\web\UrlManager;
  * @property string $url Url страницы
  * @property string $layout Шаблон
  * @property boolean $active Активна ли данная страницы
- * @property string $index_controller Контроллер индекса
  * @property string $index_action Экшн индекса
  * @property string $index_params Параметры экшена индекса
- * @property string $view_controller Контроллер просмотра объекта
  * @property string $view_action Экшн для просмотра объекта
  * @property string $lang Язык страницы
  * @property string $link
@@ -92,7 +90,7 @@ class Page extends ActiveRecord
             [['content', 'link', 'announce'], 'string'],
             [['use_purifier'], 'boolean'],
             ['lang', 'string', 'max' => 3],
-            [['title', 'title_seo', 'title_menu', 'path', 'index_params', 'view_action', 'view_controller', 'index_action', 'index_controller'], 'string', 'max' => 255],
+            [['title', 'title_seo', 'title_menu', 'path', 'index_params', 'view_action', 'index_action'], 'string', 'max' => 255],
             [['description_seo', 'keywords_seo', 'key'], 'string', 'max' => 400],
             [['layout'], 'string', 'max' => 255],
             ['status', 'in', 'range' => [PageStatus::ACTIVE, PageStatus::DISABLED]],
@@ -157,7 +155,6 @@ class Page extends ActiveRecord
             'view_controller' => 'View Controller',
             'index_action' => 'Index Action',
             'index_params' => 'Index Params',
-            'index_controller' => 'Index Controller',
             'lang' => Yii::t('app.f12.pages', 'Language'),
             'files' => Yii::t('app.f12.pages', 'Files'),
             'images' => Yii::t('app.f12.pages', 'Images'),
@@ -183,7 +180,7 @@ class Page extends ActiveRecord
             return '/' . $this->lang;
         }
 
-        if (!strip_tags($this->content) && $this->child && !$this->index_controller)
+        if (!strip_tags($this->content) && $this->child && !$this->index_action)
             return $this->child[0]->url;
 
         if (Yii::$app->urlManager::className() == UrlManager::class || (isset(Yii::$app->urlManager->languages[0]) && Yii::$app->urlManager->languages[0] == $this->lang))

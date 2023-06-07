@@ -43,11 +43,11 @@ $columns = [
             if ($model->content)
                 $html .= Html::tag('div', StringHelper::truncateWords(strip_tags($model->content), 10), ['class' => 'small']);
 
-            if ($model->index_controller)
-                $html .= Html::tag('div', "<b>{$model->index_controller}</b>::$model->index_action", ['class' => 'small']);
+            if ($model->index_action)
+                $html .= Html::tag('div', "$model->index_action", ['class' => 'small']);
 
-            if ($model->view_controller)
-                $html .= Html::tag('div', "<b>{$model->view_controller}</b>::$model->view_action", ['class' => 'small']);
+            if ($model->view_action)
+                $html .= Html::tag('div', "$model->view_action", ['class' => 'small']);
 
 
             return $html;
