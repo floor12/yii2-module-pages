@@ -76,14 +76,14 @@ class AdminController extends Controller
 
     public function actionSort()
     {
-        $data = json_decode(Yii::$app->request->getRawBody());
-        foreach ($data->pages as $row) {
-            if ($row->id ?? null) {
-                $page = Page::findOne($row->id);
+        $data = json_decode(Yii::$app->request->getRawBody(), true);
+
+        foreach ($data['pages'] as $row) {
+            if ($row['id'] ?? null) {
+                $page = Page::findOne($row['id']);
+                unset($row['id']);
                 if (!$page)
                     continue;
-                $page->norder = isset($row->sort) ? $row->sort : 0;
-                $page->parent_id = $row->parent_id ?? 0;
                 $logic = new PageUpdate($page, ['Page' => $row], Yii::$app->user->getIdentity());
                 $logic->execute();
             }
