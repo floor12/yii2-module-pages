@@ -2,6 +2,7 @@
 
 namespace floor12\pages\assets;
 
+use yii\jui\JuiAsset;
 use yii\web\AssetBundle;
 
 class PagesAsset extends AssetBundle
@@ -17,7 +18,8 @@ class PagesAsset extends AssetBundle
         'pages.js',
     ];
     public $depends = [
-        'floor12\editmodal\EditModalAsset'
+        'floor12\editmodal\EditModalAsset',
+        JuiAsset::class
     ];
 }
 

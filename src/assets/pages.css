@@ -66,11 +66,28 @@ span.page-id {
 .page-yellow {
   border-left: #e6d975 solid 5px; }
 
+.page-blue {
+  border-left: #75dbe6 solid 5px; }
+
 .page-disabled {
   opacity: 0.8;
   border-left: #c65e5e solid 5px; }
 
 .page-menu-url {
   margin-bottom: -8px; }
+
+.page-component-tag {
+  background: #c7d3e1;
+  font-size: 12px;
+  color: black;
+  display: inline-block;
+  margin: 0 10px 0 0;
+  border-radius: 5px;
+  padding: 0px 8px 1px; }
+
+.ui-sortable-helper > td {
+  display: none; }
+.ui-sortable-helper > td::first-child {
+  display: table-cell; }
 
 /*# sourceMappingURL=pages.css.map */

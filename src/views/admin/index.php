@@ -23,7 +23,7 @@ use yii\widgets\Pjax;
 
 
 PagesAsset::register($this);
-
+$this->registerJs('f12pages.initSorting()');
 $this->title = Yii::t('app.f12.pages', 'Pages');
 
 $columns = [
@@ -143,7 +143,8 @@ if ($model->filter)
 
 else
     echo TreeGrid::widget(['dataProvider' => $model->dataProvider(),
-        'options' => ['class' => 'table table-striped'],
+        'id' => 'pages-table',
+        'options' => ['class' => 'table table-striped', 'data-sorting-url' => \yii\helpers\Url::toRoute('/pages/admin/sort')],
         'rowOptions' => function (Page $model) {
             if ($model->isLink() && $model->status == \floor12\pages\models\PageStatus::ACTIVE) {
                 $class = 'page-blue';
@@ -154,7 +155,7 @@ else
             } else {
                 $class = 'page-disabled';
             }
-            return ['class' => $class];
+            return ['class' => $class, 'data-parent_id' => $model->parent_id];
         },
         'keyColumnName' => 'id',
         'parentColumnName' => 'parent_id',

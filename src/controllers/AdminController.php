@@ -74,6 +74,22 @@ class AdminController extends Controller
         Yii::createObject(PageOrderChanger::class, [$model, $mode])->execute();
     }
 
+    public function actionSort()
+    {
+        $data = json_decode(Yii::$app->request->getRawBody());
+        foreach ($data->pages as $row) {
+            if ($row->id ?? null) {
+                $page = Page::findOne($row->id);
+                if (!$page)
+                    continue;
+                $page->norder = isset($row->sort) ? $row->sort : 0;
+                $page->parent_id = $row->parent_id ?? 0;
+                $logic = new PageUpdate($page, ['Page' => $row], Yii::$app->user->getIdentity());
+                $logic->execute();
+            }
+        }
+    }
+
     /**
      * @return array
      */
