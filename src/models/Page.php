@@ -135,7 +135,7 @@ class Page extends ActiveRecord
     {
         return [
             'id' => 'ID',
-            'status' => Yii::t('app.f12.pages', 'Disabled'),
+            'status' => Yii::t('app.f12.pages', 'Disable page'),
             'created' => Yii::t('app.f12.pages', 'Created'),
             'updated' => Yii::t('app.f12.pages', 'Updated'),
             'create_user_id' => Yii::t('app.f12.pages', 'Create User ID'),
@@ -152,7 +152,6 @@ class Page extends ActiveRecord
             'layout' => Yii::t('app.f12.pages', 'Layout'),
             'menu' => Yii::t('app.f12.pages', 'Show in menu'),
             'view_action' => 'View Action',
-            'view_controller' => 'View Controller',
             'index_action' => 'Index Action',
             'index_params' => 'Index Params',
             'lang' => Yii::t('app.f12.pages', 'Language'),

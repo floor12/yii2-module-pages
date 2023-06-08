@@ -17,6 +17,8 @@ use floor12\textcounter\TextCounterWidget;
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 
+$this->registerJs("summernoteParams.height = 550");
+
 $form = ActiveForm::begin([
     'id' => 'page-form',
     'options' => ['class' => 'modaledit-form'],
@@ -39,20 +41,25 @@ if (Yii::$app->request->get('parent_id'))
     <?= $form->errorSummary($model); ?>
 
 
-    <div style="display: flex; float: right; justify-content: space-between; width: 210px; margin: 27px 0 -18px 0;">
-        <?= $form->field($model, 'status')->checkbox() ?>
+    <div style="display: flex; float: right; justify-content: space-between; width: 280px; margin: 27px 0 -18px 0;">
         <?= $form->field($model, 'menu')->checkbox() ?>
+        <?= $form->field($model, 'status')->checkbox() ?>
     </div>
     <!-- Nav tabs -->
     <ul class="nav nav-tabs" role="tablist">
         <li role="presentation" class="active">
-            <a href="#page-main" aria-controls="home" role="tab" data-toggle="tab">
+            <a href="#page-main" aria-controls="main" role="tab" data-toggle="tab">
                 <?= Yii::t('app.f12.pages', 'Main') ?>
             </a>
         </li>
         <li role="presentation">
-            <a href="#page-params" aria-controls="profile" role="tab" data-toggle="tab">
-                <?= Yii::t('app.f12.pages', 'Params') ?>
+            <a href="#page-params" aria-controls="params" role="tab" data-toggle="tab">
+                <?= Yii::t('app.f12.pages', 'Extra options') ?>
+            </a>
+        </li>
+        <li role="presentation">
+            <a href="#page-files" aria-controls="files" role="tab" data-toggle="tab">
+                <?= Yii::t('app.f12.pages', 'Images and files') ?>
             </a>
         </li>
     </ul>
@@ -120,7 +127,8 @@ if (Yii::$app->request->get('parent_id'))
         <div role="tabpanel" class="tab-pane" id="page-params">
             <div class="row">
                 <div class="col-md-9">
-                    <?= $form->field($model, 'index_action')->textInput() ?>
+                    <?= $form->field($model, 'index_action')
+                        ->dropDownList(Yii::$app->getModule('pages')->actionsIndex, ['prompt' => 'Простая страница']) ?>
                 </div>
                 <div class="col-md-3">
                     <?= $form->field($model, 'index_params')->textInput() ?>
@@ -128,7 +136,8 @@ if (Yii::$app->request->get('parent_id'))
             </div>
             <div class="row">
                 <div class="col-md-9">
-                    <?= $form->field($model, 'view_action')->textInput() ?>
+                    <?= $form->field($model, 'view_action')
+                        ->dropDownList(Yii::$app->getModule('pages')->actionsView, ['prompt' => 'Простая страница']) ?>
                 </div>
                 <div class="col-md-3">
                     <?= $form->field($model, 'lang')->textInput([
@@ -146,7 +155,19 @@ if (Yii::$app->request->get('parent_id'))
                 </div>
             </div>
         </div>
+        <div role="tabpanel" class="tab-pane" id="page-files">
+            <div class="row">
 
+                <div class="col-md-9">
+                    <?= $form->field($model, 'files')->widget(FileInputWidget::className(), []) ?>
+                    <?= $form->field($model, 'images')->widget(FileInputWidget::className(), []) ?>
+                </div>
+                <div class="col-md-3">
+                    <?= $form->field($model, 'banner')->widget(FileInputWidget::className(), []) ?>
+                </div>
+            </div>
+
+        </div>
         <!-- Nav tabs -->
         <ul class="nav nav-tabs" role="tablist">
             <li role="presentation" class="active">
@@ -172,18 +193,6 @@ if (Yii::$app->request->get('parent_id'))
                 <?= $form->field($model, 'announce')
                     ->label(false)
                     ->widget(Summernote::className(), []) ?>
-            </div>
-        </div>
-
-
-        <div class="row">
-
-            <div class="col-md-9">
-                <?= $form->field($model, 'files')->widget(FileInputWidget::className(), []) ?>
-                <?= $form->field($model, 'images')->widget(FileInputWidget::className(), []) ?>
-            </div>
-            <div class="col-md-3">
-                <?= $form->field($model, 'banner')->widget(FileInputWidget::className(), []) ?>
             </div>
         </div>
 

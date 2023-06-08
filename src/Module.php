@@ -23,6 +23,9 @@ class Module extends \yii\base\Module
 
     public $pageModel = Page::class;
 
+    public $actionsIndex = [];
+
+    public $actionsView = [];
     /**
      * @inheritdoc
      */

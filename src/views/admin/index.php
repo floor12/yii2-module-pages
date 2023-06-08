@@ -2,7 +2,10 @@
 /**
  * @var $this View
  * @var $model PageFilter
+ * @var $actionsIndex array
+ * @var $actionsView array
  */
+
 
 use common\src\enum\StatusEnum;
 use floor12\editmodal\EditModalHelper;
@@ -17,6 +20,7 @@ use yii\helpers\StringHelper;
 use yii\web\View;
 use yii\widgets\ActiveForm;
 use yii\widgets\Pjax;
+
 
 PagesAsset::register($this);
 
@@ -37,17 +41,17 @@ $columns = [
     ],
     [
         'header' => Yii::t('app.f12.pages', 'Content'),
-        'content' => function (Page $model) {
+        'content' => function (Page $page) use ($model) {
             $html = '';
 
-            if ($model->content)
-                $html .= Html::tag('div', StringHelper::truncateWords(strip_tags($model->content), 10), ['class' => 'small']);
+            if ($page->content)
+                $html .= Html::tag('div', StringHelper::truncateWords(strip_tags($page->content), 10), ['class' => 'small']);
 
-            if ($model->index_action)
-                $html .= Html::tag('div', "$model->index_action", ['class' => 'small']);
+            if ($page->index_action)
+                $html .= Html::tag('span', $model->getIndexActions()[$page->index_action], ['class' => 'page-component-tag']);
 
-            if ($model->view_action)
-                $html .= Html::tag('div', "$model->view_action", ['class' => 'small']);
+            if ($page->view_action)
+                $html .= Html::tag('span', $model->getViewActions()[$page->view_action], ['class' => 'page-component-tag']);
 
 
             return $html;

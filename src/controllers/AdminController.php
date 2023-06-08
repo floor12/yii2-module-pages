@@ -82,14 +82,14 @@ class AdminController extends Controller
         return [
             'index' => [
                 'class' => IndexAction::class,
-                'model' => PageFilter::class
+                'model' => PageFilter::class,
             ],
             'form' => [
                 'class' => EditModalAction::class,
                 'model' => Page::class,
                 'logic' => PageUpdate::class,
                 'container' => '#pages',
-                'view' => $this->formView
+                'view' => $this->formView,
             ],
             'delete' => [
                 'class' => DeleteAction::class,

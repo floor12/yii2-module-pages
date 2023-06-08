@@ -79,4 +79,16 @@ class PageFilter extends Model
             ->indexBy('lang')
             ->distinct()->column();
     }
+
+    public function getIndexActions()
+    {
+        return \Yii::$app->getModule('pages')->actionsIndex;
+    }
+
+    public function getViewActions()
+    {
+        return \Yii::$app->getModule('pages')->actionsView;
+    }
+
+
 }
