@@ -41,7 +41,7 @@ if (Yii::$app->request->get('parent_id'))
     <?= $form->errorSummary($model); ?>
 
 
-    <div style="display: flex; float: right; justify-content: space-between; width: 280px; margin: 27px 0 -18px 0;">
+    <div style="display: flex; float: right; justify-content: space-between; width: 280px; margin: 7px 0 -18px 0;">
         <?= $form->field($model, 'menu')->checkbox() ?>
         <?= $form->field($model, 'status')->checkbox() ?>
     </div>
@@ -67,6 +67,7 @@ if (Yii::$app->request->get('parent_id'))
     <!-- Tab panes -->
     <div class="tab-content">
         <div role="tabpanel" class="tab-pane active" id="page-main">
+            <br>
             <div class="row">
                 <div class="col-md-7">
                     <div style="position: relative">
@@ -125,6 +126,7 @@ if (Yii::$app->request->get('parent_id'))
 
         </div>
         <div role="tabpanel" class="tab-pane" id="page-params">
+            <br>
             <div class="row">
                 <div class="col-md-9">
                     <?= $form->field($model, 'index_action')
@@ -156,6 +158,7 @@ if (Yii::$app->request->get('parent_id'))
             </div>
         </div>
         <div role="tabpanel" class="tab-pane" id="page-files">
+            <br>
             <div class="row">
 
                 <div class="col-md-9">
