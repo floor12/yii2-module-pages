@@ -23,7 +23,10 @@ use yii\widgets\Pjax;
 
 
 PagesAsset::register($this);
-$this->registerJs('f12pages.initSorting()');
+if (Yii::$app->getModule('pages')->enableDragNDropSort) {
+    $this->registerJs('f12pages.initSorting()');
+}
+
 $this->title = Yii::t('app.f12.pages', 'Pages');
 
 $columns = [
