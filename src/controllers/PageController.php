@@ -234,7 +234,7 @@ class PageController extends \yii\web\Controller
             }
         }
 
-        if (preg_match_all('/{{image: ([\w\%]*), width: ([\d\%]*), alt: ([\d\w ]*)}}/', $page->content, $mapMatches)) {
+        if (preg_match_all('/{{image:\s([a-zA-Z0-9]+),\s*width:\s([0-9%]+),\s*alt:\s([^}]+)}}/', $page->content, $mapMatches)) {
             foreach ($mapMatches[1] as $resultKey => $hash) {
                 $widget = PictureWidget::widget([
                     'model' => File::findOne(['hash' => $hash]),
