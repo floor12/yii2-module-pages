@@ -23,6 +23,7 @@ use floor12\pages\models\Page;
 use floor12\pages\models\PageStatus;
 use floor12\pages\models\PageUrl;
 use floor12\summernote\Summernote;
+use floor12\youtube\YoutubeProcessor;
 use Yii;
 use yii\caching\TagDependency;
 use yii\filters\AccessControl;
@@ -245,6 +246,7 @@ class PageController extends \yii\web\Controller
             }
         }
 
+        $page->content = YoutubeProcessor::process($page->content);
     }
 
     /**
