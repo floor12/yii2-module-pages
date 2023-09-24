@@ -180,14 +180,11 @@ class PageController extends \yii\web\Controller
                 $indexAction = substr($indexAction, 6);
 
             $indexParams = [];
-            if ($page->index_params) {
-                foreach (explode(';', $page->index_params) as $paramRow) {
-                    $explodedRow = explode('=', $paramRow);
-                    $indexParams[$explodedRow[0]] = $explodedRow[1];
+            if ($params = $page->getPageParams()) {
+                foreach ($params as $pageParam) {
+                    $indexParams[$pageParam->name] = $pageParam->value;
                 };
             }
-//            echo 1;
-//            die();
             return $controller->runAction(strtolower($indexAction), array_merge(['page' => $page], $indexParams));
         }
 

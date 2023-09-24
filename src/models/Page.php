@@ -4,6 +4,7 @@ namespace floor12\pages\models;
 
 use floor12\files\components\FileBehaviour;
 use floor12\files\models\File;
+use floor12\pages\components\Annotations;
 use floor12\pages\components\PurifyBehavior;
 use Yii;
 use yii\base\ErrorException;
@@ -41,6 +42,7 @@ use yii\web\UrlManager;
  * @property string $link
  * @property boolean $use_purifier Очищать html
  * @property string $announce Анонс
+ * @property array $page_params
  *
  * @property User $creator
  * @property User $updator
@@ -101,6 +103,7 @@ class Page extends ActiveRecord
             ['images', 'file', 'maxFiles' => 10, 'extensions' => ['jpeg', 'png', 'jpg', 'svg']],
             ['files', 'file', 'maxFiles' => 10],
             ['banner', 'file', 'maxFiles' => 1],
+            ['page_params ', 'safe'],
         ];
     }
 
@@ -255,5 +258,36 @@ class Page extends ActiveRecord
     public function isLink()
     {
         return strlen($this->link) > 0;
+    }
+
+    /**
+     * @return PageParam[]
+     */
+    public function getPageParams()
+    {
+        try {
+            list($controller, $action) = explode('::', $this->index_action);
+        } catch (\Exception $e) {
+            return [];
+        }
+        $actionParts = explode('-', $action);
+        foreach ($actionParts as $key => $part) {
+            $actionParts[$key] = ucfirst($part);
+        }
+        $finalAction = 'action' . ucfirst(implode($actionParts));
+        $pageParams = Annotations::read($controller, $finalAction);
+        foreach ($pageParams as $param) {
+            foreach ((array)$this->page_params as $key => $value) {
+                if ($param->name == $key) {
+                    $param->value = $value;
+                }
+            }
+        }
+        return $pageParams;
+    }
+
+    public function __toString()
+    {
+        return $this->title_menu;
     }
 }

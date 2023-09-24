@@ -12,6 +12,7 @@
 use floor12\editmodal\ModalWindow;
 use floor12\files\components\FileInputWidget;
 use floor12\pages\models\Page;
+use floor12\pages\widgets\PageParamInputWidget;
 use floor12\summernote\Summernote;
 use floor12\textcounter\TextCounterWidget;
 use yii\helpers\Html;
@@ -128,32 +129,43 @@ if (Yii::$app->request->get('parent_id'))
         <div role="tabpanel" class="tab-pane" id="page-params">
             <br>
             <div class="row">
-                <div class="col-md-9">
+                <div class="col-md-6">
                     <?= $form->field($model, 'index_action')
                         ->dropDownList(Yii::$app->getModule('pages')->actionsIndex, ['prompt' => 'Простая страница']) ?>
                 </div>
-                <div class="col-md-3">
-                    <?= $form->field($model, 'index_params')->textInput() ?>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-md-9">
+                <div class="col-md-6">
                     <?= $form->field($model, 'view_action')
-                        ->dropDownList(Yii::$app->getModule('pages')->actionsView, ['prompt' => 'Простая страница']) ?>
-                </div>
-                <div class="col-md-3">
-                    <?= $form->field($model, 'lang')->textInput([
-                        'value' => $model->lang ?: Yii::$app->language
-                    ]) ?>
+                        ->dropDownList(Yii::$app->getModule('pages')->actionsView, ['prompt' => 'нет']) ?>
                 </div>
             </div>
 
+            <?php if ($params = $model->getPageParams()): ?>
+                <br>
+                <br>
+                <div class="row">
+                    <?php foreach ($params as $key => $pageParam): ?>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <?= PageParamInputWidget::widget(['model' => $pageParam]); ?>
+                            </div>
+                        </div>
+                    <?php endforeach; ?>
+                </div>
+                <br>
+                <br>
+            <?php endif; ?>
+
             <div class="row">
-                <div class="col-md-6">
+                <div class="col-md-5">
                     <?= $form->field($model, 'layout') ?>
                 </div>
-                <div class="col-md-6">
+                <div class="col-md-5">
                     <?= $form->field($model, 'parent_id')->dropDownList(Page::find()->select('title')->indexBy('id')->orderBy("parent_id, norder")->column(), ['prompt' => ['options' => ['value' => '0'], 'text' => Yii::t('app.f12.pages', 'root')]]) ?>
+                </div>
+                <div class="col-md-2">
+                    <?= $form->field($model, 'lang')->textInput([
+                        'value' => $model->lang ?: Yii::$app->language
+                    ]) ?>
                 </div>
             </div>
         </div>

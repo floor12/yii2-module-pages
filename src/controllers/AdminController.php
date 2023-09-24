@@ -102,14 +102,14 @@ class AdminController extends Controller
             ],
             'form' => [
                 'class' => EditModalAction::class,
-                'model' => Page::class,
+                'model' => $this->pageModel::className(),
                 'logic' => PageUpdate::class,
                 'container' => '#pages',
                 'view' => $this->formView,
             ],
             'delete' => [
                 'class' => DeleteAction::class,
-                'model' => Page::class,
+                'model' => $this->pageModel::className(),
                 'container' => '#pages',
                 'message' => 'Страница удалена',
             ]
