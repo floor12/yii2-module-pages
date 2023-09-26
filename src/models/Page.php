@@ -277,6 +277,9 @@ class Page extends ActiveRecord
         $finalAction = 'action' . ucfirst(implode($actionParts));
         $pageParams = Annotations::read($controller, $finalAction);
         foreach ($pageParams as $param) {
+            if ($param->name == 'page') {
+                continue;
+            }
             foreach ((array)$this->page_params as $key => $value) {
                 if ($param->name == $key) {
                     $param->value = $value;

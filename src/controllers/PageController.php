@@ -185,7 +185,8 @@ class PageController extends \yii\web\Controller
                     $indexParams[$pageParam->name] = $pageParam->value;
                 };
             }
-            return $controller->runAction(strtolower($indexAction), array_merge(['page' => $page], $indexParams));
+            $indexParams['page'] = $page;
+            return $controller->runAction(strtolower($indexAction), $indexParams);
         }
 
         $this->parseWidgets($page);
