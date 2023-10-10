@@ -26,7 +26,8 @@
     "floor12/yii2-summernote": "dev-master",
     "floor12/yii2-text-counter-widget": "dev-main",
     "floor12/yii2-youtube-async-widget": "dev-master",
-    "phpdocumentor/reflection-docblock": "*"
+    "phpdocumentor/reflection-docblock": "*",
+    "leandrogehlen/yii2-treegrid": "*"
   },
   "require-dev": {
     "phpunit/phpunit": "4.*"
