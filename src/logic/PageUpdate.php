@@ -40,9 +40,10 @@ class PageUpdate
 
     public function execute()
     {
+
         $this->_model->load($this->_data);
         $this->_model->path = $this->_model->key;
-
+        $this->_model->page_params = $this->_data['Page']['page_params']; // i don't know why its not binding
         if (!$this->_model->lang)
             $this->_model->lang = 'ru';
 
