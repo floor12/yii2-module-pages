@@ -48,7 +48,7 @@ $columns = [
             $html = '';
 
             if ($page->content)
-                $html .= Html::tag('div', StringHelper::truncateWords(strip_tags($page->content), 10), ['class' => 'small']);
+                $html .= Html::tag('div', StringHelper::truncate(strip_tags($page->content), 150), ['class' => 'small']);
 
             if ($page->index_action)
                 $html .= Html::tag('span', $model->getIndexActions()[$page->index_action], ['class' => 'page-component-tag']);
