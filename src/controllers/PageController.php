@@ -225,6 +225,13 @@ class PageController extends \yii\web\Controller
             }
         }
 
+        if (preg_match_all('/{{googlemap:((?:(?!}}).)*)}}/', $page->content, $mapMatches)) {
+            foreach ($mapMatches[1] as $key => $mapKey) {
+                $iframe = '<iframe src="' . $mapKey . '" width="100%" height="400" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>';
+                $page->content = str_replace($mapMatches[0][$key], $iframe, $page->content);
+            }
+        }
+
         if (preg_match_all('/{{openmap:([\w\%]*)}}/', $page->content, $mapMatches)) {
             foreach ($mapMatches[1] as $key => $mapId) {
                 $map = Map::findOne($mapId);
