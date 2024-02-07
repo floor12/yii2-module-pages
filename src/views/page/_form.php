@@ -202,12 +202,18 @@ if (Yii::$app->request->get('parent_id'))
             <div role="tabpanel" class="tab-pane active" id="form-content">
                 <?= $form->field($model, 'content')
                     ->label(false)
-                    ->widget(Summernote::className(), []) ?>
+                    ->widget(Summernote::class, [
+                        'fileField' => 'files',
+                        'fileModelClass' => Page::class,
+                    ]) ?>
             </div>
             <div role="tabpanel" class="tab-pane " id="form-announce">
                 <?= $form->field($model, 'announce')
                     ->label(false)
-                    ->widget(Summernote::className(), []) ?>
+                    ->widget(Summernote::class, [
+                        'fileField' => 'files',
+                        'fileModelClass' => Page::class,
+                    ]) ?>
             </div>
         </div>
 
