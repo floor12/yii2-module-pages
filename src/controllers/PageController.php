@@ -11,8 +11,6 @@ namespace floor12\pages\controllers;
 
 use floor12\editmodal\DeleteAction;
 use floor12\editmodal\EditModalAction;
-use floor12\files\components\PictureWidget;
-use floor12\files\models\File;
 use floor12\maps\models\Map;
 use floor12\maps\widgets\MapWidget;
 use floor12\pages\components\MapYandexWidget;
@@ -22,6 +20,7 @@ use floor12\pages\logic\PageUpdate;
 use floor12\pages\models\Page;
 use floor12\pages\models\PageStatus;
 use floor12\pages\models\PageUrl;
+use floor12\pages\widgets\ContentPicture;
 use floor12\summernote\Summernote;
 use floor12\youtube\YoutubeProcessor;
 use Yii;
@@ -240,19 +239,10 @@ class PageController extends \yii\web\Controller
             }
         }
 
-        if (preg_match_all('/{{image:\s([a-zA-Z0-9]+),\s*width:\s([0-9%]+),\s*alt:\s([^}]+)}}/', $page->content, $mapMatches)) {
-            foreach ($mapMatches[1] as $resultKey => $hash) {
-                $widget = PictureWidget::widget([
-                    'model' => File::findOne(['hash' => $hash]),
-                    'alt' => $mapMatches[3][$resultKey],
-                    'width' => $mapMatches[2][$resultKey],
-                ]);
-                $page->content = str_replace($mapMatches[0][$resultKey], $widget, $page->content);
-            }
-        }
-
+        $page->content = ContentPicture::run($page->content);
         $page->content = YoutubeProcessor::process($page->content);
     }
+
 
     /**
      * @return array
