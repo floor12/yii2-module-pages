@@ -160,7 +160,7 @@ class Page extends ActiveRecord
             'lang' => Yii::t('app.f12.pages', 'Language'),
             'files' => Yii::t('app.f12.pages', 'Files'),
             'images' => Yii::t('app.f12.pages', 'Images'),
-            'banner' => Yii::t('app.f12.pages', 'Banner'),
+            'banner' => Yii::t('app.f12.pages', 'Page cover'),
             'use_purifier' => Yii::t('app.f12.pages', 'Use Purifier'),
         ];
     }

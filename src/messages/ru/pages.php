@@ -42,4 +42,5 @@ return [
     '...or external URL' => '...или внешняя ссылка',
     'Extra options' => 'Дополнительные параметры',
     'Images and files' => 'Изображения и файлы',
+    'Page cover' => 'Обложка страницы',
 ];
