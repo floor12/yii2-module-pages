@@ -21,7 +21,7 @@ class Module extends \yii\base\Module
 
     public $userModel = 'app\models\User';
 
-    public $enableDragNDropSort = true;
+    public $enableDragNDropSort = false;
 
     public $pageModel = Page::class;
 
