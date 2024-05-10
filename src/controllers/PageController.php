@@ -155,6 +155,10 @@ class PageController extends \yii\web\Controller
         if (!$page || ($page->status == PageStatus::DISABLED && !Yii::$app->getModule('pages')->adminMode()))
             return $this->checkUrlLogOrThrow($path, $pathWithoutLastPart, $key);
 
+        if ($page->link) {
+            return $this->redirect($page->link, 302);
+        }
+
         if ($page->layout)
             $this->layout = $page->layout;
 
