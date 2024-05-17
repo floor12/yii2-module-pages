@@ -204,7 +204,7 @@ if (Yii::$app->request->get('parent_id'))
                     ->label(false)
                     ->widget(Summernote::class, [
                         'fileField' => 'files',
-                        'fileModelClass' => Page::class,
+                        'fileModelClass' => Yii::$app->getModule('pages')->pageModel,
                     ]) ?>
             </div>
             <div role="tabpanel" class="tab-pane " id="form-announce">
@@ -212,7 +212,7 @@ if (Yii::$app->request->get('parent_id'))
                     ->label(false)
                     ->widget(Summernote::class, [
                         'fileField' => 'files',
-                        'fileModelClass' => Page::class,
+                        'fileModelClass' => Yii::$app->getModule('pages')->pageModel,
                     ]) ?>
             </div>
         </div>
