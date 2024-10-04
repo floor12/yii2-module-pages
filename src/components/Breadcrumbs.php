@@ -27,6 +27,7 @@ class Breadcrumbs extends Widget
     public function run()
     {
         $counter = 1;
+        
         $breadcrumbs = "<ol itemscope itemtype='http://schema.org/BreadcrumbList' class='{$this->css}' id='breadcrumbs'>";
         $breadcrumbs .= "<li itemprop=\"itemListElement\" itemscope  itemtype=\"http://schema.org/ListItem\"><a data-pjax='0' itemprop=\"item\" href='/'><span itemprop=\"name\">{$this->indexPage}</span></a><meta itemprop=\"position\" content=\"{$counter}\" /></li>";
 
@@ -39,7 +40,6 @@ class Breadcrumbs extends Widget
         }
 
         $breadcrumbs .= "</ol>";
-
         return $breadcrumbs;
     }
 

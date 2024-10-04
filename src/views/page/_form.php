@@ -140,21 +140,13 @@ if (Yii::$app->request->get('parent_id'))
             </div>
 
             <?php if ($params = $model->getPageParams()): ?>
-                <br>
-                <br>
                 <div class="row">
                     <?php foreach ($params as $key => $pageParam): ?>
-                        <div class="col-md-3">
-                            <div class="form-group">
-                                <?= PageParamInputWidget::widget(['model' => $pageParam]); ?>
-                            </div>
-                        </div>
+                        <?= PageParamInputWidget::widget(['model' => $pageParam]); ?>
                     <?php endforeach; ?>
                 </div>
-                <br>
-                <br>
             <?php endif; ?>
-
+<br>
             <div class="row">
                 <div class="col-md-5">
                     <?= $form->field($model, 'layout') ?>
