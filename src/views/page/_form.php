@@ -131,11 +131,11 @@ if (Yii::$app->request->get('parent_id'))
             <div class="row">
                 <div class="col-md-6">
                     <?= $form->field($model, 'index_action')
-                        ->dropDownList(Yii::$app->getModule('pages')->actionsIndex, ['prompt' => 'Простая страница']) ?>
+                        ->dropDownList(Yii::$app->getModule('pages')->actionsIndex, ['prompt' =>Yii::t('app.f12.pages', 'Simple page')]) ?>
                 </div>
                 <div class="col-md-6">
                     <?= $form->field($model, 'view_action')
-                        ->dropDownList(Yii::$app->getModule('pages')->actionsView, ['prompt' => 'нет']) ?>
+                        ->dropDownList(Yii::$app->getModule('pages')->actionsView, ['prompt' => Yii::t('app.f12.pages', 'none')]) ?>
                 </div>
             </div>
 
@@ -146,7 +146,7 @@ if (Yii::$app->request->get('parent_id'))
                     <?php endforeach; ?>
                 </div>
             <?php endif; ?>
-<br>
+            <br>
             <div class="row">
                 <div class="col-md-5">
                     <?= $form->field($model, 'layout') ?>
