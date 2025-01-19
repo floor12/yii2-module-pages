@@ -131,7 +131,7 @@ if (Yii::$app->request->get('parent_id'))
             <div class="row">
                 <div class="col-md-6">
                     <?= $form->field($model, 'index_action')
-                        ->dropDownList(Yii::$app->getModule('pages')->actionsIndex, ['prompt' =>Yii::t('app.f12.pages', 'Simple page')]) ?>
+                        ->dropDownList(Yii::$app->getModule('pages')->actionsIndex, ['prompt' => Yii::t('app.f12.pages', 'Simple page')]) ?>
                 </div>
                 <div class="col-md-6">
                     <?= $form->field($model, 'view_action')
@@ -148,10 +148,13 @@ if (Yii::$app->request->get('parent_id'))
             <?php endif; ?>
             <br>
             <div class="row">
-                <div class="col-md-5">
+                <div class="col-md-3">
                     <?= $form->field($model, 'layout') ?>
                 </div>
-                <div class="col-md-5">
+                <div class="col-md-3">
+                    <?= $form->field($model, 'menu_css_class') ?>
+                </div>
+                <div class="col-md-4">
                     <?= $form->field($model, 'parent_id')->dropDownList(Page::find()->select('title')->indexBy('id')->orderBy("parent_id, norder")->column(), ['prompt' => ['options' => ['value' => '0'], 'text' => Yii::t('app.f12.pages', 'root')]]) ?>
                 </div>
                 <div class="col-md-2">

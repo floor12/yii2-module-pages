@@ -80,6 +80,9 @@ class PageNavigationRecursiveWidget extends Widget
                 $cssClass .= $this->activeElementCssClass;
             }
 
+            if ($page->menu_css_class)
+                $cssClass .= ' ' . $page->menu_css_class;
+
             $this->htmlListElements[] = Html::tag('li', $htmlLink, [
                 'class' => trim($cssClass),
                 'data-id' => $page->id,

@@ -34,6 +34,7 @@ use yii\web\UrlManager;
  * @property string $content Тело страницы
  * @property string $url Url страницы
  * @property string $layout Шаблон
+ * @property string $menu_css_class Шаблон
  * @property boolean $active Активна ли данная страницы
  * @property string $index_action Экшн индекса
  * @property string $index_params Параметры экшена индекса
@@ -94,7 +95,7 @@ class Page extends ActiveRecord
             ['lang', 'string', 'max' => 3],
             [['title', 'title_seo', 'title_menu', 'path', 'index_params', 'view_action', 'index_action'], 'string', 'max' => 255],
             [['description_seo', 'keywords_seo', 'key'], 'string', 'max' => 400],
-            [['layout'], 'string', 'max' => 255],
+            [['menu_css_class', 'layout'], 'string', 'max' => 255],
             ['status', 'in', 'range' => [PageStatus::ACTIVE, PageStatus::DISABLED]],
             ['menu', 'in', 'range' => [PageMenuVisibility::VISIBLE, PageMenuVisibility::HIDDEN]],
             [['create_user_id'], 'exist', 'skipOnError' => true, 'targetClass' => Yii::$app->getModule('pages')->userModel, 'targetAttribute' => ['create_user_id' => 'id']],
@@ -162,6 +163,7 @@ class Page extends ActiveRecord
             'images' => Yii::t('app.f12.pages', 'Images'),
             'banner' => Yii::t('app.f12.pages', 'Page cover'),
             'use_purifier' => Yii::t('app.f12.pages', 'Use Purifier'),
+            'menu_css_class' => Yii::t('app.f12.pages', 'Custom menu CSS class'),
         ];
     }
 

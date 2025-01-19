@@ -49,4 +49,5 @@ return [
     'Additional component' => 'Вспомогательный компонент',
     'Simple page' => 'Простая страница',
     'none' => 'нет',
+    'Custom menu CSS class' => 'Класс CSS для меню',
 ];
