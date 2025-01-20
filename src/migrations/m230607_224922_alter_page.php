@@ -16,14 +16,18 @@ class m230607_224922_alter_page extends Migration
         $pagesWithIndexAction = Page::find()
             ->andWhere(['is not', 'index_action', null])
             ->all();
-        foreach ($pagesWithIndexAction as $page) {
-            if ($page->index_action) {
-                $page->index_action = $page->index_controller . '::' . $page->index_action;
+        try {
+            foreach ($pagesWithIndexAction as $page) {
+                if ($page->index_action) {
+                    $page->index_action = $page->index_controller . '::' . $page->index_action;
+                }
+                if ($page->view_action) {
+                    $page->view_action = $page->view_controller . '::' . $page->view_action;
+                }
+                $page->save();
             }
-            if ($page->view_action) {
-                $page->view_action = $page->view_controller . '::' . $page->view_action;
-            }
-            $page->save();
+        } catch (Exception $e) {
+            echo $e->getMessage();
         }
         $this->dropColumn('page', 'index_controller');
         $this->dropColumn('page', 'view_controller');
