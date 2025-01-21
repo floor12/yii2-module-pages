@@ -24,7 +24,10 @@ class m230607_224922_alter_page extends Migration
                 if ($page->view_action) {
                     $page->view_action = $page->view_controller . '::' . $page->view_action;
                 }
-                $page->save();
+                Yii::$app->db->createCommand()->update('page', [
+                    'index_action' => $page->index_action,
+                    'view_action' => $page->view_action,
+                ], ['id' => $page->id])->execute();
             }
         } catch (Exception $e) {
             echo $e->getMessage();
