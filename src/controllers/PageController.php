@@ -243,6 +243,16 @@ class PageController extends \yii\web\Controller
             }
         }
 
+        if (preg_match_all('/{{fontawesome:([a-z-]*)}}/', $page->content, $mapMatches)) {
+            foreach ($mapMatches[1] as $key => $iconID) {
+                try {
+                    $page->content = str_replace($mapMatches[0][$key], Yii::$app->fontawesome->icon($iconID), $page->content);
+                } catch (\Exception $e) {
+                    Yii::$app->errorHandler->logException($e);
+                }
+            }
+        }
+
         $page->content = ContentPicture::run($page->content);
         $page->content = YoutubeProcessor::process($page->content);
     }
