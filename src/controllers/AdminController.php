@@ -7,6 +7,7 @@ namespace floor12\pages\controllers;
 use floor12\editmodal\DeleteAction;
 use floor12\editmodal\EditModalAction;
 use floor12\editmodal\IndexAction;
+use floor12\pages\components\GptHelper;
 use floor12\pages\logic\PageOrderChanger;
 use floor12\pages\logic\PageUpdate;
 use floor12\pages\models\Page;
@@ -88,6 +89,23 @@ class AdminController extends Controller
                 $logic->execute();
             }
         }
+    }
+
+    public function actionMakeMeta()
+    {
+        Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+        $content = Yii::$app->request->post('pageContent');
+        $resp = GptHelper::MakeMetaTags($content);
+        return json_decode($resp, true);
+    }
+
+    public function actionMakeContent()
+    {
+        $query = Yii::$app->request->post('query');
+        $lang = Yii::$app->request->post('lang');
+        $resp = GptHelper::MakeContent($query, $lang);
+        file_put_contents('/app/runtime/' . time() . '.html', $resp);
+        return $resp;
     }
 
     /**

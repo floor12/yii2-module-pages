@@ -131,7 +131,16 @@ span.page-id {
   > td {
     display: none;
   }
-  > td::first-child {
+
+  > td:first-child {
     display: table-cell;
   }
+}
+
+#ai-block {
+  display: none;
+  background: #e4e4e4;
+  border-radius: 5px;
+  padding: 12px 12px;
+  margin: 0 0 20px 0;
 }

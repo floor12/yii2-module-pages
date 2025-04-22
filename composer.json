@@ -26,6 +26,7 @@
     "floor12/yii2-summernote": "dev-master",
     "floor12/yii2-text-counter-widget": "dev-main",
     "floor12/yii2-youtube-async-widget": "dev-master",
+    "openai-php/client": "dev-main",
     "phpdocumentor/reflection-docblock": "*",
     "leandrogehlen/yii2-treegrid": "*"
   },

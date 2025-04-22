@@ -2,6 +2,78 @@ f12pages = {
     activeSoringPageId: null,
     prevParenId: 0,
     prevOpened: false,
+    initPageForm: () => {
+        $(document).on('keyup', '#ai-content-query', function () {
+            f12pages.processPageForm();
+        });
+    },
+    processPageForm() {
+        const queryLenght = $('#ai-content-query').val().length;
+        if (queryLenght > 10) {
+            $('#ai-content-btn').attr('disabled', false);
+        } else {
+            $('#ai-content-btn').attr('disabled', true);
+        }
+    },
+    makeContent: () => {
+        let query = $('#ai-content-query').val();
+        query = query.replace(/^\s+|\s+$/g, '');
+        const lang = $('#page-lang').val();
+        // if (query.length < 20) {
+        //     f12notification.error('ChatGPT query is too short. Please enter at least 20 characters.');
+        //     $('#ai-content-query').focus();
+        //     return;
+        // }
+        $('#ai-content-btn').attr('disabled', true);
+        $.ajax({
+            url: "/pages/admin/make-content",
+            data: {query, lang},
+            method: 'POST',
+            timeout: 60000,
+            success: function (response) {
+                console.log(response);
+                $('#page-content').summernote('pasteHTML', response);
+                $('#ai-content-btn').attr('disabled', false);
+            },
+            error: function (response, code) {
+                $('#ai-content-btn').attr('disabled', false);
+            }
+        })
+    },
+    makeMeta: (mode) => {
+        let pageContent = $('#page-announce').val() + $('#page-content').val();
+        const stripTagsAndTrim = (str) => {
+            return str.replace(/(<([^>]+)>)/gi, "").trim();
+        }
+        if (pageContent.length < 20) {
+            f12notification.error('Page content is too short. Please enter at least 20 characters.');
+            $('#page-content').focus();
+            return;
+        }
+        pageContent = stripTagsAndTrim(pageContent);
+        $('#ai-meta-btn').attr('disabled', true);
+        $.ajax({
+            url: "/pages/admin/make-meta",
+            data: {pageContent: pageContent},
+            method: 'POST',
+            success: function (response) {
+                if (mode == 'h1' || mode == 'all') {
+                    $('#page-title').val(response.h1);
+                }
+                if (mode == 'title' || mode == 'all') {
+                    $('#page-title_seo').val(response.title);
+                }
+                if (mode == 'descr' || mode == 'all') {
+                    $('#page-description_seo').html(response.description);
+                }
+                $('#ai-meta-btn').attr('disabled', false);
+            },
+            error: function (response) {
+                processError(response);
+                $('#ai-meta-btn').attr('disabled', false);
+            }
+        })
+    },
     initSorting: () => {
         const url = $('#pages-table').data('sorting-url');
         $("#pages-table > tbody").sortable({

@@ -87,7 +87,14 @@ span.page-id {
 
 .ui-sortable-helper > td {
   display: none; }
-.ui-sortable-helper > td::first-child {
+.ui-sortable-helper > td:first-child {
   display: table-cell; }
+
+#ai-block {
+  display: none;
+  background: #e4e4e4;
+  border-radius: 5px;
+  padding: 12px 12px;
+  margin: 0 0 20px 0; }
 
 /*# sourceMappingURL=pages.css.map */

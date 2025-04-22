@@ -19,6 +19,9 @@ use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 
 $this->registerJs("summernoteParams.height = 550");
+$this->registerJs("f12pages.initPageForm();");
+
+$hasOpenAI = getenv('OPENAI_API_KEY');
 
 $form = ActiveForm::begin([
     'id' => 'page-form',
@@ -120,6 +123,38 @@ if (Yii::$app->request->get('parent_id'))
 
                 </div>
             </div>
+
+            <?php if ($hasOpenAI) { ?>
+                <button onclick="$('#ai-block').show(); $(this).hide()" class="btn btn-xs btn-default" type="button">
+                    Show AI options
+                </button>
+                <div id="ai-block">
+                    <div id="id-block-controls" style="display: flex" class="form-group">
+                        <div class="dropdown" id="ai-meta-btn">
+                            <button class="btn btn-primary btn-xs dropdown-toggle" type="button" id="dropdownMenu1"
+                                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                                <?= Yii::t('app.f12.pages', 'Make AI-gen meta') ?>
+                                <span class="caret"></span>
+                            </button>
+                            <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+                                <li><a onclick="f12pages.makeMeta('h1')">H1</a></li>
+                                <li><a onclick="f12pages.makeMeta('title')">Page title</a></li>
+                                <li><a onclick="f12pages.makeMeta('descr')">Meta description</a></li>
+                                <li role="separator" class="divider"></li>
+                                <li><a onclick="f12pages.makeMeta('all')">All</a></li>
+                            </ul>
+                        </div>
+                        &nbsp;
+                        <button class="btn btn-primary btn-xs" id="ai-content-btn" type="button"
+                                onclick="f12pages.makeContent()" disabled>
+                            Make AI-gen content
+                        </button>
+                    </div>
+                    <textarea placeholder="<?= Yii::t('app.f12.pages', 'ChatGPT promt for content generation') ?>"
+                              class="form-control"
+                              id="ai-content-query"></textarea>
+                </div>
+            <?php } ?>
 
             <div style="float: right; margin: 28px 0 -10px 0;">
                 <?= $form->field($model, 'use_purifier')->checkbox() ?>
