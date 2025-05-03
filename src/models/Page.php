@@ -101,8 +101,8 @@ class Page extends ActiveRecord
             [['create_user_id'], 'exist', 'skipOnError' => true, 'targetClass' => Yii::$app->getModule('pages')->userModel, 'targetAttribute' => ['create_user_id' => 'id']],
             [['update_user_id'], 'exist', 'skipOnError' => true, 'targetClass' => Yii::$app->getModule('pages')->userModel, 'targetAttribute' => ['update_user_id' => 'id']],
             ['key', 'match', 'pattern' => '/^[-a-z0-9\/]*$/', 'message' => 'Ключ URL может состоять только из латинских букв в нижнем регистре, цифр и дефиса.'],
-            ['images', 'file', 'maxFiles' => 50, 'extensions' => ['jpeg', 'png', 'jpg', 'svg', 'webp']],
-            ['files', 'file', 'maxFiles' => 50],
+            ['images', 'file', 'maxFiles' => 150, 'extensions' => ['jpeg', 'png', 'jpg', 'svg', 'webp']],
+            ['files', 'file', 'maxFiles' => 150],
             ['banner', 'file', 'maxFiles' => 1],
             ['page_params ', 'safe'],
         ];
