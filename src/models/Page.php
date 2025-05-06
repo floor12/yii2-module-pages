@@ -173,7 +173,10 @@ class Page extends ActiveRecord
     public function getUrl()
     {
         if ($this->isLink()) {
-            return $this->link;
+            if (str_starts_with($this->link, 'http')) {
+                return $this->link;
+            }
+            return Yii::$app->urlManager->createAbsoluteUrl($this->link);
         }
         if ($this->path == '/') {
             if (Yii::$app->urlManager::className() == UrlManager::class)
