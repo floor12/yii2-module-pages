@@ -16,7 +16,11 @@ class Annotations
     public static function read(string $className, string $methodName): array
     {
         $factory = DocBlockFactory::createInstance();
-        $reflectionMethod = new ReflectionMethod($className, $methodName);
+        try {
+            $reflectionMethod = new ReflectionMethod($className, $methodName);
+        } catch (\ReflectionException $e) {
+            return [];
+        }
         $docComment = $reflectionMethod->getDocComment();
         if (!$docComment)
             return [];
