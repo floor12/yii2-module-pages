@@ -111,9 +111,6 @@ class PageController extends \yii\web\Controller
      */
     public function actionView($path)
     {
-        if (!str_starts_with($path, '/')) {
-            $path = '/' . $path;
-        }
 
         // этот интересный кусок кода нужен чтобы сначала обеспечить проверку может ли быть последняя часть урла ключом для подключаемого экшена
         $page = $this->pageModel::find()
