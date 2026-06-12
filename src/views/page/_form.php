@@ -217,12 +217,12 @@ if (Yii::$app->request->get('parent_id'))
         <ul class="nav nav-tabs" role="tablist">
             <li role="presentation" class="active">
                 <a href="#form-content" aria-controls="home" role="tab" data-toggle="tab">
-                    <?= Yii::t('app.f12.pages', 'Content') ?>
+                    <?= Yii::t('app.f12.pages', 'Content 1') ?>
                 </a>
             </li>
             <li role="presentation">
                 <a href="#form-announce" aria-controls="profile" role="tab" data-toggle="tab">
-                    <?= Yii::t('app.f12.pages', 'Announce') ?>
+                    <?= Yii::t('app.f12.pages', 'Content 2') ?>
                 </a>
             </li>
         </ul>
