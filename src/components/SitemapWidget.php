@@ -49,7 +49,7 @@ class SitemapWidget extends Widget
 
         if ($this->cachedData === false) {
 
-            $this->cachedData[] = ['url' => '/', 'priority' => 1];
+            $this->cachedData['/'] = ['url' => '/', 'priority' => 1];
 
             $pages = Page::find()
                 ->active()
@@ -63,9 +63,14 @@ class SitemapWidget extends Widget
                 $this->cachedData[$page->url] = ['url' => $page->url, 'priority' => 0.5, 'lastmod' => date("c", $page->updated)];
             }
 
-            $this->cachedData = array_merge($this->cachedData, $this->links);
+            foreach ($this->links as $link) {
+                if (!empty($link['url'])) {
+                    $this->cachedData[$link['url']] = $link;
+                }
+            }
 
-//            Сохраняем значение $data в кэше . Данные можно получить в следующий раз .
+            $this->cachedData = array_values($this->cachedData);
+
             Yii::$app->cache->set('sitemap', $this->cachedData, 300);
         }
     }
