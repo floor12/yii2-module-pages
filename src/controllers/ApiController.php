@@ -63,8 +63,14 @@ class ApiController extends Controller
 
     public function beforeAction($action)
     {
+        // parent::beforeAction() triggers EVENT_BEFORE_ACTION, which is what makes the
+        // ContentNegotiator behavior set the JSON response format - must run before checkToken()
+        // so that 401 error responses are JSON too, not the app's default HTML error page.
+        if (!parent::beforeAction($action)) {
+            return false;
+        }
         $this->checkToken();
-        return parent::beforeAction($action);
+        return true;
     }
 
     protected function checkToken()
@@ -258,6 +264,7 @@ class ApiController extends Controller
         $file = (new FileCreateFromInstance($uploadedFile, [
             'attribute' => $attribute,
             'modelClass' => get_class($model),
+            'count' => 1, // FileCreateFromInstance checks 'count' against the attribute's maxFiles validator
         ], $identity))->execute();
 
         $existingIds = File::find()
@@ -269,6 +276,10 @@ class ApiController extends Controller
         $model->{$attribute . '_ids'} = $existingIds;
         if (!$model->save())
             throw new BadRequestHttpException('Unable to attach file to page: ' . json_encode($model->errors));
+
+        // FileBehaviour::filesSave() updates object_id/ordering on a separate File instance
+        // fetched from the DB, so our in-memory $file is stale until refreshed.
+        $file->refresh();
 
         return ['file' => $this->fileToArray($file)];
     }
