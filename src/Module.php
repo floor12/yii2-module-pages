@@ -40,6 +40,20 @@ class Module extends \yii\base\Module
     public $editRole = '@';
 
     /**
+     * Список валидных Bearer-токенов для REST API (controllers/ApiController).
+     * Пустой массив полностью выключает API — любой запрос вернёт 401.
+     * @var string[]
+     */
+    public $apiTokens = [];
+
+    /**
+     * Id пользователя (в таблице userModel), который будет проставлен в create_user_id/update_user_id
+     * при изменении страниц через REST API. Null - оставить эти поля пустыми.
+     * @var int|null
+     */
+    public $apiUserId = null;
+
+    /**
      * @inheritdoc
      */
     public function init()
