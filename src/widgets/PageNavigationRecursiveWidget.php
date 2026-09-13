@@ -57,7 +57,9 @@ class PageNavigationRecursiveWidget extends Widget
                 'class' => in_array($page->id, $this->activePath) ? $this->activeElementCssClass : NULl
             ]);
 
-            if ($page->childVisible) {
+            $hasVisibleChildren = $page->getChildVisible()->exists();
+
+            if ($hasVisibleChildren) {
                 $htmlLink .= ' ';
                 $htmlLink .= $this->dropDownIcon;
                 $htmlLink .= self::widget([
@@ -72,7 +74,7 @@ class PageNavigationRecursiveWidget extends Widget
                 ]);
             }
 
-            $cssClass = $page->childVisible ? $this->childUlCssClass : '';
+            $cssClass = $hasVisibleChildren ? $this->childUlCssClass : '';
             $cssClass .= ' menu-link';
 
             if (in_array($page->id, $this->activePath)) {

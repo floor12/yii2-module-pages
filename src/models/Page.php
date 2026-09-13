@@ -8,6 +8,7 @@ use floor12\pages\components\Annotations;
 use floor12\pages\components\PurifyBehavior;
 use Yii;
 use yii\base\ErrorException;
+use yii\caching\TagDependency;
 use yii\db\ActiveRecord;
 use yii\helpers\Url;
 use yii\web\UrlManager;
@@ -188,8 +189,8 @@ class Page extends ActiveRecord
             return '/' . $this->lang;
         }
 
-        if (!strip_tags($this->content) && $this->child && !$this->index_action)
-            return $this->child[0]->url;
+        if (!$this->index_action && !strip_tags((string)$this->content) && ($childUrl = $this->getFirstChildUrl()))
+            return $childUrl;
 
         if (Yii::$app->urlManager::className() == UrlManager::class || (isset(Yii::$app->urlManager->languages[0]) && Yii::$app->urlManager->languages[0] == $this->lang))
             return urldecode(Url::toRoute(['/pages/page/view', 'path' => $this->path]));
@@ -197,10 +198,39 @@ class Page extends ActiveRecord
             return urldecode(Url::toRoute(['/pages/page/view', 'path' => $this->path, 'language' => $this->lang]));
     }
 
+    /**
+     * Url первой дочерней страницы — для раздела без собственного контента.
+     * Кэшируется по тегу страниц, чтобы не выбирать дочерние страницы (вместе с их content) на каждом запросе.
+     * @return string Пустая строка, если дочерних страниц нет.
+     */
+    public function getFirstChildUrl(): string
+    {
+        if ($this->isRelationPopulated('child')) {
+            return $this->child[0]->url ?? '';
+        }
+
+        return Yii::$app->cache->getOrSet(
+            [__METHOD__, $this->id, Yii::$app->language],
+            function () {
+                $child = $this->getChild()->limit(1)->one();
+                return $child ? $child->url : '';
+            },
+            60 * 60,
+            new TagDependency(['tags' => self::CACHE_TAG_NAME])
+        );
+    }
+
     public function afterSave($insert, $changedAttributes)
     {
         $this->updateUrlLog();
+        TagDependency::invalidate(Yii::$app->cache, self::CACHE_TAG_NAME);
         parent::afterSave($insert, $changedAttributes);
+    }
+
+    public function afterDelete()
+    {
+        TagDependency::invalidate(Yii::$app->cache, self::CACHE_TAG_NAME);
+        parent::afterDelete();
     }
 
     private function updateUrlLog()
