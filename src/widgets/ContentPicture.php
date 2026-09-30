@@ -17,11 +17,13 @@ class ContentPicture
      */
     public static function run($content)
     {
-        if (preg_match_all('/{{image:\s([a-zA-Z0-9]+),\s*width:\s([0-9%]+),\s*alt:\s([^}]+?)(?:,\s*mobile:\s*([a-zA-Z0-9]+))?\s*}}/', $content, $mapMatches)) {
+        // пробелы внутри тега — любые: HtmlPurifier при сохранении переносит длинные строки,
+        // и перенос с отступом может встать в любом месте тега
+        if (preg_match_all('/{{image:\s*([a-zA-Z0-9]+)\s*,\s*width:\s*([0-9%]+)\s*,\s*alt:\s*([^}]+?)(?:\s*,\s*mobile:\s*([a-zA-Z0-9]+))?\s*}}/', $content, $mapMatches)) {
             foreach ($mapMatches[1] as $resultKey => $hash) {
                 $model = File::findOne(['hash' => $hash]);
                 $mobile = $mapMatches[4][$resultKey] ? File::findOne(['hash' => $mapMatches[4][$resultKey]]) : null;
-                $alt = $mapMatches[3][$resultKey];
+                $alt = preg_replace('/\s+/', ' ', $mapMatches[3][$resultKey]);
                 $width = $mapMatches[2][$resultKey];
 
                 $widget = $model && $mobile && $model->isImage() && $mobile->isImage()
