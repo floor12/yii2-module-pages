@@ -209,6 +209,7 @@ if (Yii::$app->request->get('parent_id'))
                 </div>
                 <div class="col-md-3">
                     <?= $form->field($model, 'banner')->widget(FileInputWidget::className(), []) ?>
+                    <?= $form->field($model, 'banner_mobile')->widget(FileInputWidget::className(), []) ?>
                 </div>
             </div>
 

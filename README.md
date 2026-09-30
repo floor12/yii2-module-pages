@@ -115,8 +115,10 @@ REST API
 | DELETE | `/pages/api/page?id=` | удаление страницы |
 | POST | `/pages/api/page-move?id=&mode=0\|1` | изменение порядка (0 - вверх, 1 - вниз) |
 | GET | `/pages/api/files?page_id=` | список файлов, привязанных к странице |
-| POST | `/pages/api/file-upload?page_id=&attribute=banner\|images\|files` | загрузка файла (multipart, поле `file`) и привязка к странице |
+| POST | `/pages/api/file-upload?page_id=&attribute=banner\|banner_mobile\|images\|files` | загрузка файла (multipart, поле `file`) и привязка к странице |
 | DELETE | `/pages/api/file?id=` | удаление файла |
+
+Файловые поля страницы: `banner` — обложка, `banner_mobile` — отдельная обложка для узких экранов (необязательная; выводит её вёрстка приложения-хоста, например через `<picture>`), `images` — галерея, `files` — прочие файлы.
 
 ### Примеры
 

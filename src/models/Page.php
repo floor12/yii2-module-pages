@@ -53,6 +53,7 @@ use yii\web\UrlManager;
  * @property Page[] $childVisible
  * @property array $child_ids
  * @property File $banner
+ * @property File $banner_mobile
  * @property File[] $images
  * @property File[] $files
  */
@@ -105,6 +106,7 @@ class Page extends ActiveRecord
             ['images', 'file', 'maxFiles' => 150, 'extensions' => ['jpeg', 'png', 'jpg', 'svg', 'webp']],
             ['files', 'file', 'maxFiles' => 150],
             ['banner', 'file', 'maxFiles' => 1],
+            ['banner_mobile', 'file', 'maxFiles' => 1, 'extensions' => ['jpeg', 'png', 'jpg', 'webp']],
             ['page_params ', 'safe'],
         ];
     }
@@ -123,6 +125,7 @@ class Page extends ActiveRecord
                 'class' => FileBehaviour::class,
                 'attributes' => [
                     'banner',
+                    'banner_mobile',
                     'images' => [
                         'maxWidth' => 3800,
                         'maxHeight' => 3800,
@@ -164,6 +167,7 @@ class Page extends ActiveRecord
             'files' => Yii::t('app.f12.pages', 'Files'),
             'images' => Yii::t('app.f12.pages', 'Images'),
             'banner' => Yii::t('app.f12.pages', 'Page cover'),
+            'banner_mobile' => Yii::t('app.f12.pages', 'Page cover for mobile'),
             'use_purifier' => Yii::t('app.f12.pages', 'Use Purifier'),
             'menu_css_class' => Yii::t('app.f12.pages', 'Custom menu CSS class'),
         ];

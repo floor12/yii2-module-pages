@@ -230,7 +230,7 @@ class ApiController extends Controller
     }
 
     /**
-     * Список файлов, привязанных к странице (поля banner/images/files из FileBehaviour).
+     * Список файлов, привязанных к странице (поля banner/banner_mobile/images/files из FileBehaviour).
      */
     public function actionFiles()
     {
@@ -246,15 +246,15 @@ class ApiController extends Controller
 
     /**
      * Загрузка нового файла (multipart, поле "file") и привязка его к странице
-     * в один из файловых атрибутов: banner / images / files.
+     * в один из файловых атрибутов: banner / banner_mobile / images / files.
      */
     public function actionFileUpload()
     {
         $model = $this->findPageOr404(Yii::$app->request->get('page_id'));
         $attribute = Yii::$app->request->get('attribute');
 
-        if (!in_array($attribute, ['banner', 'images', 'files'], true))
-            throw new BadRequestHttpException('attribute must be one of: banner, images, files.');
+        if (!in_array($attribute, ['banner', 'banner_mobile', 'images', 'files'], true))
+            throw new BadRequestHttpException('attribute must be one of: banner, banner_mobile, images, files.');
 
         $uploadedFile = UploadedFile::getInstanceByName('file');
         if (!$uploadedFile)

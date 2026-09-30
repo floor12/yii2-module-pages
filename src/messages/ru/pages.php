@@ -46,6 +46,7 @@ return [
     'Extra options' => 'Дополнительные параметры',
     'Images and files' => 'Изображения и файлы',
     'Page cover' => 'Обложка страницы',
+    'Page cover for mobile' => 'Обложка для мобильных',
     'Create new page' => 'Создать новую страницу',
     'Update page' => 'Редактировать страницу',
     'Main component' => 'Основной компонент',
