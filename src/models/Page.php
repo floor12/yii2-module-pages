@@ -87,6 +87,7 @@ class Page extends ActiveRecord
     {
         return [
             ['key', 'trim'],
+            ['key', 'filter', 'filter' => [self::class, 'normalizePath']],
             [['status', 'created', 'updated', 'create_user_id', 'update_user_id', 'parent_id', 'norder', 'menu'], 'integer'],
             [['created', 'updated', 'title_menu'], 'required'],
             [['title_seo', 'key', 'title_menu'], 'required', 'when' => function ($model) {
@@ -102,7 +103,7 @@ class Page extends ActiveRecord
             ['menu', 'in', 'range' => [PageMenuVisibility::VISIBLE, PageMenuVisibility::HIDDEN]],
             [['create_user_id'], 'exist', 'skipOnError' => true, 'targetClass' => Yii::$app->getModule('pages')->userModel, 'targetAttribute' => ['create_user_id' => 'id']],
             [['update_user_id'], 'exist', 'skipOnError' => true, 'targetClass' => Yii::$app->getModule('pages')->userModel, 'targetAttribute' => ['update_user_id' => 'id']],
-            ['key', 'match', 'pattern' => '/^[-a-z0-9\/]*$/', 'message' => 'Ключ URL может состоять только из латинских букв в нижнем регистре, цифр и дефиса.'],
+            ['key', 'match', 'pattern' => '/^(\/|[-a-z0-9]+(\/[-a-z0-9]+)*)$/', 'message' => 'Ключ URL может состоять только из латинских букв в нижнем регистре, цифр и дефиса; слэш допускается только между частями ключа.'],
             ['images', 'file', 'maxFiles' => 150, 'extensions' => ['jpeg', 'png', 'jpg', 'svg', 'webp']],
             ['files', 'file', 'maxFiles' => 150],
             ['banner', 'file', 'maxFiles' => 1],
@@ -222,6 +223,19 @@ class Page extends ActiveRecord
             60 * 60,
             new TagDependency(['tags' => self::CACHE_TAG_NAME])
         );
+    }
+
+    /**
+     * Убирает слэши по краям и схлопывает повторяющиеся слэши. Корень сайта ("/") остаётся как есть.
+     * @param string|null $path
+     * @return string|null
+     */
+    public static function normalizePath($path)
+    {
+        if ($path === null || $path === '' || $path === '/')
+            return $path;
+        $normalized = trim(preg_replace('#/{2,}#', '/', $path), '/');
+        return $normalized === '' ? '/' : $normalized;
     }
 
     public function afterSave($insert, $changedAttributes)

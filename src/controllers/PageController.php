@@ -199,22 +199,53 @@ class PageController extends \yii\web\Controller
 
     private function checkUrlLogOrThrow($path, $pathWithoutLastPart, $key, $error = null)
     {
-        if ($oldFullPathUrl = PageUrl::find()
-            ->where(['url' => $path])
-            ->orderBy('created_at DESC')
-            ->one()) {
-            return $this->redirect('/' . $oldFullPathUrl->page->path, 301);
+        if ($page = $this->findPageByUrlLog($path)) {
+            $target = $page->getUrl();
+            if (!$this->isSameUrl($target, $path))
+                return $this->redirect($target, 301);
         }
 
-
-        if ($oldFullPathUrl = PageUrl::find()
-            ->where(['url' => $pathWithoutLastPart])
-            ->orderBy('created_at DESC')
-            ->one()) {
-            return $this->redirect('/' . $oldFullPathUrl->page->path . '/' . $key, 301);
+        if ($page = $this->findPageByUrlLog($pathWithoutLastPart)) {
+            $target = rtrim($page->getUrl(), '/') . '/' . $key;
+            if (!$this->isSameUrl($target, $path))
+                return $this->redirect($target, 301);
         }
 
         throw new NotFoundHttpException($error);
+    }
+
+    /**
+     * Ищет актуальную страницу, которая когда-то располагалась по указанному пути.
+     * @param string $url
+     * @return Page|null
+     */
+    private function findPageByUrlLog($url)
+    {
+        $pageUrl = PageUrl::find()
+            ->innerJoinWith('page', false)
+            ->where(['page_url.url' => $url, 'page.lang' => Yii::$app->language])
+            ->orderBy('page_url.created_at DESC')
+            ->one();
+
+        if (!$pageUrl || !$pageUrl->page || $pageUrl->page->status == PageStatus::DISABLED)
+            return null;
+
+        return $pageUrl->page;
+    }
+
+    /**
+     * Защита от редиректа на самого себя: сравнивает путь цели редиректа с текущим запросом
+     * без учёта повторяющихся и крайних слэшей (их схлопывает веб-сервер).
+     * @param string $target
+     * @param string $path
+     * @return bool
+     */
+    private function isSameUrl($target, $path)
+    {
+        $targetPath = urldecode((string)parse_url($target, PHP_URL_PATH));
+        $currentPath = urldecode((string)parse_url(Yii::$app->request->url, PHP_URL_PATH));
+        return Page::normalizePath($targetPath) === Page::normalizePath($currentPath)
+            || Page::normalizePath($targetPath) === Page::normalizePath($path);
     }
 
     /**
